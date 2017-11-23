@@ -1,5 +1,5 @@
-#ifndef LLVM_CLANG_TOOLS_EXTRA_CRULET_SIDE_EFFECT_H
-#define LLVM_CLANG_TOOLS_EXTRA_CRULET_SIDE_EFFECT_H
+#ifndef CRULET_GJB_RULE_4_3_1_4_H
+#define CRULET_GJB_RULE_4_3_1_4_H
 
 #include "../../CruletChecker.h"
 
