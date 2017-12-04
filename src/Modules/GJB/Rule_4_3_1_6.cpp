@@ -19,16 +19,18 @@ void Rule_4_3_1_6::registerMatchers(MatchFinder *Finder) {
 void Rule_4_3_1_6::run(const MatchFinder::MatchResult &Result) {
   if(const SwitchStmt *SS = Result.Nodes.getNodeAs<SwitchStmt>("switch")){
     const SwitchCase* SC = SS->getSwitchCaseList();
-    bool OK = false;
+    bool HasCaseStmt = false, HasDefaultStmt = false;
     while(SC){
       if(isa<CaseStmt>(SC)){
-        OK = true;
+        HasCaseStmt = true;
         break;
+      }else if(isa<DefaultStmt>(SC)){
+        HasDefaultStmt = true;
       }
       SC = SC->getNextSwitchCase();
     }
 
-    if(!OK){
+    if(!HasCaseStmt && HasDefaultStmt){
       DiagnosticsEngine &DE = Result.Context->getDiagnostics();
       std::string msg = "[" + CheckerName + "] " + "禁止switch语句中只包含default语句";
       unsigned DiagID = DE.getDiagnosticIDs()->getCustomDiagID(DiagnosticIDs::Warning, msg);
