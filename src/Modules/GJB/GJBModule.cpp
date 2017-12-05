@@ -1,6 +1,9 @@
 #include "clang/ASTMatchers/ASTMatchFinder.h"
 #include "GJBModule.h"
 #include "../../CruletChecker.h"
+#include "Rule_4_3_1_1.h"
+#include "Rule_4_3_1_2.h"
+#include "Rule_4_3_1_3.h"
 #include "Rule_4_3_1_4.h"
 #include "Rule_4_3_1_5.h"
 #include "Rule_4_3_1_6.h"
@@ -18,6 +21,9 @@ namespace crulet {
 namespace GJB {
 
 void GJBModule::registerCheckers(MatchFinder *Finder){
+  this->registerChecker<Rule_4_3_1_1>("GJB-Rule-4.3.1.1")->registerMatchers(Finder);
+  this->registerChecker<Rule_4_3_1_2>("GJB-Rule-4.3.1.2")->registerMatchers(Finder);
+  this->registerChecker<Rule_4_3_1_3>("GJB-Rule-4.3.1.3")->registerMatchers(Finder);
   this->registerChecker<Rule_4_3_1_4>("GJB-Rule-4.3.1.4")->registerMatchers(Finder);
   this->registerChecker<Rule_4_3_1_5>("GJB-Rule-4.3.1.5")->registerMatchers(Finder);
   this->registerChecker<Rule_4_3_1_6>("GJB-Rule-4.3.1.6")->registerMatchers(Finder);
