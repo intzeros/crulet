@@ -12,6 +12,7 @@
 #include "Rule_4_4_1_2.h"
 #include "Rule_4_5_1_1.h"
 #include "Rule_4_5_1_2.h"
+#include "Rule_4_6_1_1.h"
 #include "Rule_4_6_1_3.h"
 
 using namespace clang;
@@ -35,7 +36,8 @@ void GJBModule::registerCheckers(MatchFinder *Finder){
 
   this->registerChecker<Rule_4_5_1_1>("GJB-Rule-4.5.1.1")->registerMatchers(Finder);
   this->registerChecker<Rule_4_5_1_2>("GJB-Rule-4.5.1.2")->registerMatchers(Finder);
-  
+
+  this->registerChecker<Rule_4_6_1_1>("GJB-Rule-4.6.1.1")->registerMatchers(Finder);
   this->registerChecker<Rule_4_6_1_3>("GJB-Rule-4.6.1.3")->registerMatchers(Finder);
 }
 
