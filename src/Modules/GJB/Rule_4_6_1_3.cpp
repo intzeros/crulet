@@ -12,21 +12,22 @@ namespace crulet {
 namespace GJB {
 
 void Rule_4_6_1_3::registerMatchers(MatchFinder *Finder) {
-  StatementMatcher Matcher = binaryOperator(allOf( \
-    eachOf(hasOperatorName("<<"), hasOperatorName(">>"), hasOperatorName("<<="), hasOperatorName(">>=")) \
-    , eachOf(hasLHS(expr().bind("gjb4613")), hasRHS(expr().bind("gjb4613")))));
+  StatementMatcher Matcher = binaryOperator(anyOf(
+    hasOperatorName("<<"), hasOperatorName(">>"), hasOperatorName("<<="), hasOperatorName(">>="))
+  ).bind("shift_op");
   Finder->addMatcher(Matcher, this);
 }
 
 void Rule_4_6_1_3::run(const MatchFinder::MatchResult &Result) {
-  if(const Expr *EXP = Result.Nodes.getNodeAs<Expr>("gjb4613")){
-    const Type* TP = EXP->getType().getTypePtr();
+  if(const BinaryOperator *Op = Result.Nodes.getNodeAs<BinaryOperator>("shift_op")){
+    Expr* LHS = Op->getLHS();
+    const Type* TP = LHS->getType().getTypePtr();
     
     if(TP->isSignedIntegerType()){
       DiagnosticsEngine &DE = Result.Context->getDiagnostics();
       std::string msg = "[" + CheckerName + "] " + "禁止对有符号类型进行移位操作";
       unsigned DiagID = DE.getDiagnosticIDs()->getCustomDiagID(DiagnosticIDs::Warning, msg);
-      DE.Report(EXP->getLocStart(), DiagID);
+      DE.Report(LHS->getLocStart(), DiagID);
     }
   }
 }
