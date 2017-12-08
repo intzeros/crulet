@@ -15,5 +15,6 @@ add_clang_library(cruletGJBModule
   Rule_4_5_1_2.cpp
   Rule_4_6_1_1.cpp
   Rule_4_6_1_3.cpp
+  Rule_4_6_1_4.cpp
  )
 
