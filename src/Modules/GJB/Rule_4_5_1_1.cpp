@@ -18,11 +18,13 @@ void Rule_4_5_1_1::registerMatchers(MatchFinder *Finder) {
 
 void Rule_4_5_1_1::run(const MatchFinder::MatchResult &Result) {
   if(const CallExpr *CE = Result.Nodes.getNodeAs<CallExpr>("call_expr")){
-    if(CE->getDirectCallee()->getNameInfo().getAsString() == "longjump"){
-      DiagnosticsEngine &DE = Result.Context->getDiagnostics();
-      std::string msg = "[" + CheckerName + "] " + "禁止直接从过程中跳出";
-      unsigned DiagID = DE.getDiagnosticIDs()->getCustomDiagID(DiagnosticIDs::Warning, msg);
-      DE.Report(CE->getLocStart(), DiagID);
+    if(CE->getDirectCallee()){
+      if(CE->getDirectCallee()->getNameInfo().getAsString() == "longjump"){
+        DiagnosticsEngine &DE = Result.Context->getDiagnostics();
+        std::string msg = "[" + CheckerName + "] " + "禁止直接从过程中跳出";
+        unsigned DiagID = DE.getDiagnosticIDs()->getCustomDiagID(DiagnosticIDs::Warning, msg);
+        DE.Report(CE->getLocStart(), DiagID);
+      }
     }
   }
 }
