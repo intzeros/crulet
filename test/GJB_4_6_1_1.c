@@ -19,4 +19,8 @@ void static_p(void){
     for(i = 0; i = 12; i++){
 
     }
+
+    while((i = 10) < 20){
+
+    }
 }

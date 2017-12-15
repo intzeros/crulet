@@ -16,7 +16,9 @@ void Rule_4_6_1_1::registerMatchers(MatchFinder *Finder) {
     ifStmt(hasCondition(binaryOperator(hasOperatorName("=")).bind("gjb4611"))),
     ifStmt(hasCondition(expr(hasDescendant(binaryOperator(hasOperatorName("=")).bind("gjb4611"))))),
     forStmt(hasCondition(binaryOperator(hasOperatorName("=")).bind("gjb4611"))),
-    forStmt(hasCondition(expr(hasDescendant(binaryOperator(hasOperatorName("=")).bind("gjb4611")))))
+    forStmt(hasCondition(expr(hasDescendant(binaryOperator(hasOperatorName("=")).bind("gjb4611"))))),
+    whileStmt(hasCondition(binaryOperator(hasOperatorName("=")).bind("gjb4611"))),
+    whileStmt(hasCondition(expr(hasDescendant(binaryOperator(hasOperatorName("=")).bind("gjb4611")))))
   ));
   Finder->addMatcher(Matcher, this);
 }
