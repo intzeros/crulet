@@ -12,7 +12,7 @@ namespace crulet {
 namespace GJB {
 
 void Rule_4_6_1_6::registerMatchers(MatchFinder *Finder) {
-  DeclarationMatcher Matcher = fieldDecl(hasType(isSignedInteger()), has(integerLiteral(equals(1)))).bind("gjb_4616");
+  DeclarationMatcher Matcher = fieldDecl(isBitField(), hasType(isSignedInteger()), has(integerLiteral(equals(1)))).bind("gjb_4616");
   Finder->addMatcher(Matcher, this);
 }
 
