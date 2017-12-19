@@ -12,26 +12,26 @@ $ ./crulet test.c --
 1. [Obtaining LLVM and Clang](http://clang.llvm.org/get_started.html).
 
 ```shell
-$ cd ~
-$ git clone http://llvm.org/git/llvm.git
-$ cd llvm/tools
-$ git clone http://llvm.org/git/clang.git
-$ cd clang/tools
-$ git clone http://llvm.org/git/clang-tools-extra.git extra
-$ cd ~/llvm
-$ mkdir build && cd build
-$ cmake -G "Unix Makefiles" ../
-$ make
+cd ~
+git clone http://llvm.org/git/llvm.git
+cd llvm/tools
+git clone http://llvm.org/git/clang.git
+cd clang/tools
+git clone http://llvm.org/git/clang-tools-extra.git extra
+cd ~/llvm
+mkdir build && cd build
+cmake -G "Unix Makefiles" ../
+make
 ```
 
 2. Building Crulet.
 
 ```shell
-$ cd ~/llvm/tools/clang/tools/extra
-$ git clone https://github.com/lszero/crulet.git
-$ echo 'add_subdirectory(crulet)' >> tools/extra/CMakeLists.txt
-$ cd ~/llvm/build
-$ cmake -G "Unix Makefiles" ../
-$ make crulet
+cd ~/llvm/tools/clang/tools/extra
+git clone https://github.com/lszero/crulet.git
+echo 'add_subdirectory(crulet)' >> tools/extra/CMakeLists.txt
+cd ~/llvm/build
+cmake -G "Unix Makefiles" ../
+make crulet
 ```
 
