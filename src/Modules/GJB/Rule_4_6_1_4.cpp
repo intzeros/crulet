@@ -30,7 +30,10 @@ void Rule_4_6_1_4::run(const MatchFinder::MatchResult &Result) {
         DiagnosticsEngine &DE = Result.Context->getDiagnostics();
         std::string msg = "[" + CheckerName + "] " + "对变量进行移位运算必须保证不会产生溢出";
         unsigned DiagID = DE.getDiagnosticIDs()->getCustomDiagID(DiagnosticIDs::Warning, msg);
-        DE.Report(Op->getExprLoc(), DiagID);
+        DiagnosticBuilder DB = DE.Report(Op->getExprLoc(), DiagID);
+        // DB.AddSourceRange(clang::CharSourceRange::getCharRange(Op->getRHS()->getSourceRange()));
+        const auto FixIt = clang::FixItHint::CreateReplacement(RHS->getSourceRange(), "< " + std::to_string(TPLHSInfo.Width));
+        DB.AddFixItHint(FixIt);
       }
     }
   }
