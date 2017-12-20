@@ -19,6 +19,7 @@
 #include "Rule_4_6_1_5.h"
 #include "Rule_4_6_1_6.h"
 #include "Rule_4_6_1_7.h"
+#include "Rule_4_6_1_16.h"
 #include "Rule_4_6_1_17.h"
 #include "Rule_4_6_1_18.h"
 
@@ -51,6 +52,7 @@ void GJBModule::registerCheckers(MatchFinder *Finder){
   this->registerChecker<Rule_4_6_1_5>("GJB-Rule-4.6.1.5")->registerMatchers(Finder);
   this->registerChecker<Rule_4_6_1_6>("GJB-Rule-4.6.1.6")->registerMatchers(Finder);
   this->registerChecker<Rule_4_6_1_7>("GJB-Rule-4.6.1.7")->registerMatchers(Finder);
+  this->registerChecker<Rule_4_6_1_16>("GJB-Rule-4.6.1.16")->registerMatchers(Finder);
   this->registerChecker<Rule_4_6_1_17>("GJB-Rule-4.6.1.17")->registerMatchers(Finder);
   this->registerChecker<Rule_4_6_1_18>("GJB-Rule-4.6.1.18")->registerMatchers(Finder);
 }
