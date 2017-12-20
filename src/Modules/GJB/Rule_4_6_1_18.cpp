@@ -21,16 +21,16 @@ void Rule_4_6_1_18::run(const MatchFinder::MatchResult &Result) {
     Expr* LHS = Op->getLHS();
     Expr* RHS = Op->getRHS();
     if(LHS->isKnownToHaveBooleanValue() || RHS->isKnownToHaveBooleanValue()){
-        DiagnosticsEngine &DE = Result.Context->getDiagnostics();
-        std::string msg = "[" + CheckerName + "] " + "禁止位操作符作用于布尔值";
-        unsigned DiagID = DE.getDiagnosticIDs()->getCustomDiagID(DiagnosticIDs::Warning, msg);
-        DiagnosticBuilder DB = DE.Report(Op->getExprLoc(), DiagID);
+      DiagnosticsEngine &DE = Result.Context->getDiagnostics();
+      std::string msg = "[" + CheckerName + "] " + "禁止位操作符作用于布尔值";
+      unsigned DiagID = DE.getDiagnosticIDs()->getCustomDiagID(DiagnosticIDs::Warning, msg);
+      DiagnosticBuilder DB = DE.Report(Op->getExprLoc(), DiagID);
 
-        const auto Start = Op->getOperatorLoc();
-        const auto End = Start.getLocWithOffset(+1);
-        const auto SourceRange = clang::CharSourceRange::getCharRange(Start, End);
-        const auto FixIt = clang::FixItHint::CreateReplacement(SourceRange, "&&");
-        DB.AddFixItHint(FixIt);
+      const auto Start = Op->getOperatorLoc();
+      const auto End = Start.getLocWithOffset(+1);
+      const auto SourceRange = clang::CharSourceRange::getCharRange(Start, End);
+      const auto FixIt = clang::FixItHint::CreateReplacement(SourceRange, "&&");
+      DB.AddFixItHint(FixIt);
     }
   }
 }
