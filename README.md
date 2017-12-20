@@ -27,9 +27,11 @@ make
 2. Building Crulet.
 
 ```
-cd ~/llvm/tools/clang/tools/extra
+cd ~
 git clone https://github.com/lszero/crulet.git
-echo 'add_subdirectory(crulet)' >> tools/extra/CMakeLists.txt
+cd ~/llvm/tools/clang/tools/extra
+mkdir crulet && cp -r ~/crulet/src/* ./crulet
+echo 'add_subdirectory(crulet)' >> CMakeLists.txt
 cd ~/llvm/build
 cmake -G "Unix Makefiles" ../
 make crulet
