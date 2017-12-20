@@ -12,12 +12,12 @@ namespace crulet {
 namespace GJB {
 
 void Rule_4_6_1_17::registerMatchers(MatchFinder *Finder) {
-  StatementMatcher Matcher = binaryOperator(hasOperatorName("|")).bind("gjb_46118");
+  StatementMatcher Matcher = binaryOperator(hasOperatorName("|")).bind("gjb_46117");
   Finder->addMatcher(Matcher, this);
 }
 
 void Rule_4_6_1_17::run(const MatchFinder::MatchResult &Result) {
-  if(const BinaryOperator *Op = Result.Nodes.getNodeAs<BinaryOperator>("gjb_46118")){
+  if(const BinaryOperator *Op = Result.Nodes.getNodeAs<BinaryOperator>("gjb_46117")){
     Expr* LHS = Op->getLHS();
     Expr* RHS = Op->getRHS();
     if(LHS->isKnownToHaveBooleanValue() || RHS->isKnownToHaveBooleanValue()){
