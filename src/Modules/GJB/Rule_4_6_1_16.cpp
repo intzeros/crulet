@@ -23,7 +23,7 @@ void Rule_4_6_1_16::run(const MatchFinder::MatchResult &Result) {
     DiagnosticsEngine &DE = Result.Context->getDiagnostics();
     std::string msg = "[" + CheckerName + "] " + "禁止赋值操作符与\"&&\"或\"||\"连用";
     unsigned DiagID = DE.getDiagnosticIDs()->getCustomDiagID(DiagnosticIDs::Warning, msg);
-    DE.Report(Op->getExprLoc(), DiagID);
+    DE.Report(Op->getOperatorLoc(), DiagID);
   }
 }
 

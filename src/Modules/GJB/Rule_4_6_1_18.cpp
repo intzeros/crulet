@@ -24,7 +24,7 @@ void Rule_4_6_1_18::run(const MatchFinder::MatchResult &Result) {
       DiagnosticsEngine &DE = Result.Context->getDiagnostics();
       std::string msg = "[" + CheckerName + "] " + "禁止位操作符作用于布尔值";
       unsigned DiagID = DE.getDiagnosticIDs()->getCustomDiagID(DiagnosticIDs::Warning, msg);
-      DiagnosticBuilder DB = DE.Report(Op->getExprLoc(), DiagID);
+      DiagnosticBuilder DB = DE.Report(Op->getOperatorLoc(), DiagID);
 
       const auto Start = Op->getOperatorLoc();
       const auto End = Start.getLocWithOffset(+1);
