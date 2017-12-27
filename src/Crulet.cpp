@@ -1,34 +1,48 @@
-#include "clang/Tooling/CommonOptionsParser.h"
-#include "clang/Tooling/Tooling.h"
-#include "llvm/Support/CommandLine.h"
+#include "Crulet.h"
+#include "modules/gjb/GJBModule.h"
 
-#include "clang/ASTMatchers/ASTMatchFinder.h"
-#include "Modules/GJB/GJBModule.h"
+namespace clang {
+namespace crulet {
 
-using namespace llvm;
-using namespace clang;
-using namespace clang::tooling;
-using namespace clang::ast_matchers;
-
-// Apply a custom category to all command-line options so that they are the only ones displayed.
-static llvm::cl::OptionCategory CruletCategory("crulet options");
-
-// CommonOptionsParser declares HelpMessage with a description of the common
-// command-line options related to the compilation database and input files.
-// It's nice to have this help message in all tools.
-static cl::extrahelp CommonHelp(CommonOptionsParser::HelpMessage);
-
-// A help message for this specific tool can be added afterwards.
-static cl::extrahelp MoreHelp("\nMore help text...");
-
-int main(int argc, const char **argv){
-  CommonOptionsParser OptionsParser(argc, argv, CruletCategory);
-  ClangTool Tool(OptionsParser.getCompilations(),
-                 OptionsParser.getSourcePathList());
-
-  MatchFinder Finder;
-  crulet::GJB::GJBModule GJBModule("GJB Module");
-  GJBModule.registerCheckers(&Finder);
-
-  return Tool.run(newFrontendActionFactory(&Finder).get());
+bool CruletContext::isCheckerEnabled(StringRef ModuleName, StringRef CheckerName){
+  return Options.isCheckerEnabled(ModuleName, CheckerName);
 }
+
+CruletOptions &CruletContext::getOptions() {
+  return Options;
+}
+
+CruletManager::CruletManager(CruletContext *Context) {
+  this->Context = Context;
+}
+
+CruletManager::~CruletManager(){
+  for(const auto& kvp : ModuleMap){
+    if(kvp.second != nullptr){
+      delete kvp.second;
+    }
+  }
+}
+
+void CruletManager::registerModules(ast_matchers::MatchFinder *Finder){
+  this->registerModule<clang::crulet::GJB::GJBModule>("GJB")->registerCheckers(Finder);
+}
+
+std::vector<std::string> CruletManager::getCheckerNames(StringRef ModuleName){
+  if(ModuleMap.find(ModuleName) != ModuleMap.end()){
+    return ModuleMap[ModuleName]->getCheckerNames();
+  }else{
+    return std::vector<std::string>();
+  }
+}
+
+std::vector<std::string> CruletManager::getModuleNames(){
+  std::vector<std::string> rst;
+  for(const auto &kvp : ModuleMap){
+    rst.push_back(kvp.first);
+  }
+  return rst;
+}
+
+} // namespace crulet
+} // namespace clang

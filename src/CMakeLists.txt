@@ -1,14 +1,19 @@
 set(LLVM_LINK_COMPONENTS support)
 
-add_clang_executable(crulet
+add_clang_library(Crulet
   Crulet.cpp
-  )
+  CruletModule.cpp
+  CruletChecker.cpp
+  CruletOptions.cpp
 
-target_link_libraries(crulet
-  clangTooling
-  clangBasic
+  LINK_LIBS
+  clangAST
   clangASTMatchers
-  cruletGJBModule
+  clangBasic
+  clangFrontend
+  clangTooling
+  clangToolingCore
   )
 
-add_subdirectory(Modules)
+add_subdirectory(modules)
+add_subdirectory(tool)

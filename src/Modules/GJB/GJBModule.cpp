@@ -34,34 +34,64 @@ namespace crulet {
 namespace GJB {
 
 void GJBModule::registerCheckers(MatchFinder *Finder){
-  this->registerChecker<Rule_4_3_1_1>("GJB-Rule-4.3.1.1")->registerMatchers(Finder);
-  this->registerChecker<Rule_4_3_1_2>("GJB-Rule-4.3.1.2")->registerMatchers(Finder);
-  this->registerChecker<Rule_4_3_1_3>("GJB-Rule-4.3.1.3")->registerMatchers(Finder);
-  this->registerChecker<Rule_4_3_1_4>("GJB-Rule-4.3.1.4")->registerMatchers(Finder);
-  this->registerChecker<Rule_4_3_1_5>("GJB-Rule-4.3.1.5")->registerMatchers(Finder);
-  this->registerChecker<Rule_4_3_1_6>("GJB-Rule-4.3.1.6")->registerMatchers(Finder);
-  this->registerChecker<Rule_4_3_1_7>("GJB-Rule-4.3.1.7")->registerMatchers(Finder);
-  this->registerChecker<Rule_4_3_1_8>("GJB-Rule-4.3.1.8")->registerMatchers(Finder);
+  this->registerChecker<Rule_4_3_1_1>("GJB-Rule-4.3.1.1", Finder);
+  this->registerChecker<Rule_4_3_1_2>("GJB-Rule-4.3.1.2", Finder);
+  this->registerChecker<Rule_4_3_1_3>("GJB-Rule-4.3.1.3", Finder);
+  this->registerChecker<Rule_4_3_1_4>("GJB-Rule-4.3.1.4", Finder);
+  this->registerChecker<Rule_4_3_1_5>("GJB-Rule-4.3.1.5", Finder);
+  this->registerChecker<Rule_4_3_1_6>("GJB-Rule-4.3.1.6", Finder);
+  this->registerChecker<Rule_4_3_1_7>("GJB-Rule-4.3.1.7", Finder);
+  this->registerChecker<Rule_4_3_1_8>("GJB-Rule-4.3.1.8", Finder);
 
-  this->registerChecker<Rule_4_4_1_2>("GJB-Rule-4.4.1.2")->registerMatchers(Finder);
-  this->registerChecker<Rule_4_4_1_3>("GJB-Rule-4.4.1.3")->registerMatchers(Finder);
+  this->registerChecker<Rule_4_4_1_2>("GJB-Rule-4.4.1.2", Finder);
+  this->registerChecker<Rule_4_4_1_3>("GJB-Rule-4.4.1.3", Finder);
 
-  this->registerChecker<Rule_4_5_1_1>("GJB-Rule-4.5.1.1")->registerMatchers(Finder);
-  this->registerChecker<Rule_4_5_1_2>("GJB-Rule-4.5.1.2")->registerMatchers(Finder);
+  this->registerChecker<Rule_4_5_1_1>("GJB-Rule-4.5.1.1", Finder);
+  this->registerChecker<Rule_4_5_1_2>("GJB-Rule-4.5.1.2", Finder);
 
-  this->registerChecker<Rule_4_6_1_1>("GJB-Rule-4.6.1.1")->registerMatchers(Finder);
-  this->registerChecker<Rule_4_6_1_3>("GJB-Rule-4.6.1.3")->registerMatchers(Finder);
-  this->registerChecker<Rule_4_6_1_4>("GJB-Rule-4.6.1.4")->registerMatchers(Finder);
-  this->registerChecker<Rule_4_6_1_5>("GJB-Rule-4.6.1.5")->registerMatchers(Finder);
-  this->registerChecker<Rule_4_6_1_6>("GJB-Rule-4.6.1.6")->registerMatchers(Finder);
-  this->registerChecker<Rule_4_6_1_7>("GJB-Rule-4.6.1.7")->registerMatchers(Finder);
-  this->registerChecker<Rule_4_6_1_11>("GJB-Rule-4.6.1.11")->registerMatchers(Finder);
-  this->registerChecker<Rule_4_6_1_12>("GJB-Rule-4.6.1.12")->registerMatchers(Finder);
-  this->registerChecker<Rule_4_6_1_15>("GJB-Rule-4.6.1.15")->registerMatchers(Finder);
-  this->registerChecker<Rule_4_6_1_16>("GJB-Rule-4.6.1.16")->registerMatchers(Finder);
-  this->registerChecker<Rule_4_6_1_17>("GJB-Rule-4.6.1.17")->registerMatchers(Finder);
-  this->registerChecker<Rule_4_6_1_18>("GJB-Rule-4.6.1.18")->registerMatchers(Finder);
+  this->registerChecker<Rule_4_6_1_1>("GJB-Rule-4.6.1.1", Finder);
+  this->registerChecker<Rule_4_6_1_3>("GJB-Rule-4.6.1.3", Finder);
+  this->registerChecker<Rule_4_6_1_4>("GJB-Rule-4.6.1.4", Finder);
+  this->registerChecker<Rule_4_6_1_5>("GJB-Rule-4.6.1.5", Finder);
+  this->registerChecker<Rule_4_6_1_6>("GJB-Rule-4.6.1.6", Finder);
+  this->registerChecker<Rule_4_6_1_7>("GJB-Rule-4.6.1.7", Finder);
+  this->registerChecker<Rule_4_6_1_11>("GJB-Rule-4.6.1.11", Finder);
+  this->registerChecker<Rule_4_6_1_12>("GJB-Rule-4.6.1.12", Finder);
+  this->registerChecker<Rule_4_6_1_15>("GJB-Rule-4.6.1.15", Finder);
+  this->registerChecker<Rule_4_6_1_16>("GJB-Rule-4.6.1.16", Finder);
+  this->registerChecker<Rule_4_6_1_17>("GJB-Rule-4.6.1.17", Finder);
+  this->registerChecker<Rule_4_6_1_18>("GJB-Rule-4.6.1.18", Finder);
 }
+
+// void GJBModule::registerCheckers(MatchFinder *Finder){
+//   this->registerChecker<Rule_4_3_1_1>("GJB-Rule-4.3.1.1")->registerMatchers(Finder);
+//   this->registerChecker<Rule_4_3_1_2>("GJB-Rule-4.3.1.2")->registerMatchers(Finder);
+//   this->registerChecker<Rule_4_3_1_3>("GJB-Rule-4.3.1.3")->registerMatchers(Finder);
+//   this->registerChecker<Rule_4_3_1_4>("GJB-Rule-4.3.1.4")->registerMatchers(Finder);
+//   this->registerChecker<Rule_4_3_1_5>("GJB-Rule-4.3.1.5")->registerMatchers(Finder);
+//   this->registerChecker<Rule_4_3_1_6>("GJB-Rule-4.3.1.6")->registerMatchers(Finder);
+//   this->registerChecker<Rule_4_3_1_7>("GJB-Rule-4.3.1.7")->registerMatchers(Finder);
+//   this->registerChecker<Rule_4_3_1_8>("GJB-Rule-4.3.1.8")->registerMatchers(Finder);
+
+//   this->registerChecker<Rule_4_4_1_2>("GJB-Rule-4.4.1.2")->registerMatchers(Finder);
+//   this->registerChecker<Rule_4_4_1_3>("GJB-Rule-4.4.1.3")->registerMatchers(Finder);
+
+//   this->registerChecker<Rule_4_5_1_1>("GJB-Rule-4.5.1.1")->registerMatchers(Finder);
+//   this->registerChecker<Rule_4_5_1_2>("GJB-Rule-4.5.1.2")->registerMatchers(Finder);
+
+//   this->registerChecker<Rule_4_6_1_1>("GJB-Rule-4.6.1.1")->registerMatchers(Finder);
+//   this->registerChecker<Rule_4_6_1_3>("GJB-Rule-4.6.1.3")->registerMatchers(Finder);
+//   this->registerChecker<Rule_4_6_1_4>("GJB-Rule-4.6.1.4")->registerMatchers(Finder);
+//   this->registerChecker<Rule_4_6_1_5>("GJB-Rule-4.6.1.5")->registerMatchers(Finder);
+//   this->registerChecker<Rule_4_6_1_6>("GJB-Rule-4.6.1.6")->registerMatchers(Finder);
+//   this->registerChecker<Rule_4_6_1_7>("GJB-Rule-4.6.1.7")->registerMatchers(Finder);
+//   this->registerChecker<Rule_4_6_1_11>("GJB-Rule-4.6.1.11")->registerMatchers(Finder);
+//   this->registerChecker<Rule_4_6_1_12>("GJB-Rule-4.6.1.12")->registerMatchers(Finder);
+//   this->registerChecker<Rule_4_6_1_15>("GJB-Rule-4.6.1.15")->registerMatchers(Finder);
+//   this->registerChecker<Rule_4_6_1_16>("GJB-Rule-4.6.1.16")->registerMatchers(Finder);
+//   this->registerChecker<Rule_4_6_1_17>("GJB-Rule-4.6.1.17")->registerMatchers(Finder);
+//   this->registerChecker<Rule_4_6_1_18>("GJB-Rule-4.6.1.18")->registerMatchers(Finder);
+// }
 
 } // namespace GJB
 } // namespace crulet
