@@ -24,6 +24,7 @@
 #include "Rule_4_6_1_16.h"
 #include "Rule_4_6_1_17.h"
 #include "Rule_4_6_1_18.h"
+#include "Rule_4_8_1_1.h"
 
 using namespace clang;
 using namespace clang::ast_matchers;
@@ -60,6 +61,8 @@ void GJBModule::registerCheckers(MatchFinder *Finder){
   this->registerChecker<Rule_4_6_1_16>("GJB-rule-4.6.1.16", Finder);
   this->registerChecker<Rule_4_6_1_17>("GJB-rule-4.6.1.17", Finder);
   this->registerChecker<Rule_4_6_1_18>("GJB-rule-4.6.1.18", Finder);
+
+  this->registerChecker<Rule_4_8_1_1>("GJB-rule-4.8.1.1", Finder);
 }
 
 } // namespace GJB
