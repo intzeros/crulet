@@ -26,7 +26,7 @@ CruletModule::~CruletModule() {
 vector<string> CruletModule::getCheckerNames(){
   vector<string> rst;
   for(const auto &kvp : CheckerMap){
-    rst.push_back(ModuleName + "-" + kvp.first);
+    rst.push_back(kvp.first);
   }
   return rst;
 }

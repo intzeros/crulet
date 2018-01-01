@@ -14,7 +14,7 @@ public:
   ~CruletOptions() {}
 
   void parseCheckOptions(std::string OptStr);
-  bool isCheckerEnabled(std::string ModuleName, std::string CheckerName);
+  bool isCheckerEnabled(std::string CheckerName);
 
 private:
   std::map<std::string, bool> EnabledCheckerMap;

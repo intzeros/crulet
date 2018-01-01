@@ -11,7 +11,7 @@ public:
   CruletContext(){}
   ~CruletContext(){}
 
-  bool isCheckerEnabled(StringRef ModuleName, StringRef CheckerName);
+  bool isCheckerEnabled(StringRef CheckerName);
   CruletOptions &getOptions();
 
 private:

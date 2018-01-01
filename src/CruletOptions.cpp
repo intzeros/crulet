@@ -25,12 +25,15 @@ void CruletOptions::parseCheckOptions(std::string OptStr){
   }
 }
 
-bool CruletOptions::isCheckerEnabled(std::string ModuleName, std::string CheckerName){
-  std::string Name = ModuleName + "-" + CheckerName;
-  if(EnabledCheckerMap.find(Name) != EnabledCheckerMap.end()){
-    return EnabledCheckerMap[Name];
+bool CruletOptions::isCheckerEnabled(std::string CheckerName){
+  std::string ModuleName = CheckerName.substr(0, CheckerName.find("-"));
+
+  if(EnabledCheckerMap.find(CheckerName) != EnabledCheckerMap.end()){
+    return EnabledCheckerMap[CheckerName];
   }else if(EnabledCheckerMap.find(ModuleName + "-*") != EnabledCheckerMap.end()){
     return EnabledCheckerMap[ModuleName + "-*"];
+  }else if(EnabledCheckerMap.find("-" + ModuleName + "-*") != EnabledCheckerMap.end()){
+    return false;
   }else if(EnabledCheckerMap.find("*") != EnabledCheckerMap.end()){
     return true;
   }

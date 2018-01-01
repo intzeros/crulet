@@ -3,8 +3,8 @@
 namespace clang {
 namespace crulet {
 
-bool CruletContext::isCheckerEnabled(StringRef ModuleName, StringRef CheckerName){
-  return Options.isCheckerEnabled(ModuleName, CheckerName);
+bool CruletContext::isCheckerEnabled(StringRef CheckerName){
+  return Options.isCheckerEnabled(CheckerName);
 }
 
 CruletOptions &CruletContext::getOptions() {

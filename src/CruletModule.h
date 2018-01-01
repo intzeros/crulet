@@ -21,7 +21,7 @@ public:
 
   template <typename CheckerType>
   void registerChecker(StringRef CheckerName, ast_matchers::MatchFinder *Finder){
-    if(Context->isCheckerEnabled(ModuleName, CheckerName)){
+    if(Context->isCheckerEnabled(CheckerName)){
       createChecker<CheckerType>(CheckerName)->registerMatchers(Finder);
     }
   }
