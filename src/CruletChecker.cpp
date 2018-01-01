@@ -4,8 +4,10 @@
 namespace clang {
 namespace crulet {
 
-CruletChecker::CruletChecker(StringRef CheckerName){
+CruletChecker::CruletChecker(CruletContext *Context, StringRef CheckerName, StringRef ReportMsg){
+  this->Context = Context;
   this->CheckerName = CheckerName;
+  this->ReportMsg = ReportMsg;
 }
 
 CruletChecker::~CruletChecker(){

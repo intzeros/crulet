@@ -19,9 +19,7 @@ void Rule_4_8_1_1::registerMatchers(MatchFinder *Finder) {
 void Rule_4_8_1_1::run(const MatchFinder::MatchResult &Result) {
   if(const NamedDecl *ND = Result.Nodes.getNodeAs<NamedDecl>("gjb_4811")){
     DiagnosticsEngine &DE = Result.Context->getDiagnostics();
-    std::string msg = "[" + CheckerName + "] " + "禁止单独使用小写字母\"l\"或大写字母\"O\"作为变量名";
-    unsigned DiagID = DE.getDiagnosticIDs()->getCustomDiagID(DiagnosticIDs::Warning, msg);
-    DE.Report(ND->getLocation(), DiagID);
+    Context->report(this->CheckerName, this->ReportMsg, DE, ND->getLocation(), DiagnosticIDs::Warning);
   }
 }
 

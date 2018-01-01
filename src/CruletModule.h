@@ -20,17 +20,17 @@ public:
   StringRef getName();
 
   template <typename CheckerType>
-  void registerChecker(StringRef CheckerName, ast_matchers::MatchFinder *Finder){
+  void registerChecker(StringRef CheckerName, StringRef ReportMsg, ast_matchers::MatchFinder *Finder){
     if(Context->isCheckerEnabled(CheckerName)){
-      createChecker<CheckerType>(CheckerName)->registerMatchers(Finder);
+      createChecker<CheckerType>(CheckerName, ReportMsg)->registerMatchers(Finder);
     }
   }
   
 protected:
   template <typename CheckerType>
-  CruletChecker* createChecker(StringRef CheckerName){
+  CruletChecker* createChecker(StringRef CheckerName, StringRef ReportMsg){
     if(CheckerMap.find(CheckerName) == CheckerMap.end()){
-      CheckerMap[CheckerName] = new CheckerType(CheckerName);
+      CheckerMap[CheckerName] = new CheckerType(Context, CheckerName, ReportMsg);
     }
     return CheckerMap[CheckerName];
   }

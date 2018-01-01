@@ -2,13 +2,14 @@
 #define LLVM_CLANG_TOOLS_EXTRA_CRULET_CHECKER_H
 
 #include "clang/ASTMatchers/ASTMatchFinder.h"
+#include "CruletContext.h"
 
 namespace clang {
 namespace crulet {
 
 class CruletChecker : public ast_matchers::MatchFinder::MatchCallback {
 public:
-  CruletChecker(StringRef CheckerName);
+  CruletChecker(CruletContext *Context, StringRef CheckerName, StringRef ReportMsg);
   virtual ~CruletChecker();
   
   virtual void registerMatchers(ast_matchers::MatchFinder *Finder) = 0;
@@ -18,6 +19,8 @@ public:
 
 protected:
   std::string CheckerName;
+  std::string ReportMsg;
+  CruletContext *Context;
 };
 
 } // namespace crulet
