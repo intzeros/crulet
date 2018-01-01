@@ -1,9 +1,8 @@
+#include "clang/ASTMatchers/ASTMatchFinder.h"
 #include "CruletModule.h"
 #include "CruletChecker.h"
 #include <map>
 #include <vector>
-#include "clang/ASTMatchers/ASTMatchFinder.h"
-#include "CruletChecker.h"
 
 using namespace clang;
 using namespace std;
@@ -24,17 +23,10 @@ CruletModule::~CruletModule() {
   }
 }
 
-// template <typename CheckerType>
-// void CruletModule::registerChecker(StringRef CheckerName, ast_matchers::MatchFinder *Finder){
-//   if(Context->isCheckerEnabled(ModuleName, CheckerName)){
-//     createChecker<CheckerType>(CheckerName)->registerMatchers(Finder);
-//   }
-// }
-
 vector<string> CruletModule::getCheckerNames(){
   vector<string> rst;
   for(const auto &kvp : CheckerMap){
-    rst.push_back(kvp.first);
+    rst.push_back(ModuleName + "-" + kvp.first);
   }
   return rst;
 }

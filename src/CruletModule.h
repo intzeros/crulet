@@ -1,11 +1,11 @@
 #ifndef LLVM_CLANG_TOOLS_EXTRA_CRULET_MODULE_H
 #define LLVM_CLANG_TOOLS_EXTRA_CRULET_MODULE_H
 
+#include "clang/ASTMatchers/ASTMatchFinder.h"
 #include "CruletContext.h"
 #include "CruletChecker.h"
 #include <map>
 #include <vector>
-#include "clang/ASTMatchers/ASTMatchFinder.h"
 
 namespace clang {
 namespace crulet {
@@ -25,9 +25,7 @@ public:
       createChecker<CheckerType>(CheckerName)->registerMatchers(Finder);
     }
   }
-  // template <typename CheckerType>
-  // void registerChecker(StringRef CheckerName, ast_matchers::MatchFinder *Finder);
-
+  
 protected:
   template <typename CheckerType>
   CruletChecker* createChecker(StringRef CheckerName){

@@ -1,9 +1,9 @@
 #ifndef LLVM_CLANG_TOOLS_EXTRA_CRULET_GJB_MODULE_H
 #define LLVM_CLANG_TOOLS_EXTRA_CRULET_GJB_MODULE_H
 
-#include "../../Crulet.h"
-#include "../../CruletModule.h"
 #include "clang/ASTMatchers/ASTMatchFinder.h"
+#include "../../CruletContext.h"
+#include "../../CruletModule.h"
 
 namespace clang {
 namespace crulet {

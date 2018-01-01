@@ -1,5 +1,5 @@
-#include "CruletChecker.h"
 #include "clang/ASTMatchers/ASTMatchFinder.h"
+#include "CruletChecker.h"
 
 namespace clang {
 namespace crulet {

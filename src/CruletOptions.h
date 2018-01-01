@@ -1,9 +1,9 @@
 #ifndef LLVM_CLANG_TOOLS_EXTRA_CRULET_OPTIONS_H
 #define LLVM_CLANG_TOOLS_EXTRA_CRULET_OPTIONS_H
 
+#include "clang/ASTMatchers/ASTMatchFinder.h"
 #include <map>
 #include <vector>
-#include "clang/ASTMatchers/ASTMatchFinder.h"
 
 namespace clang {
 namespace crulet {

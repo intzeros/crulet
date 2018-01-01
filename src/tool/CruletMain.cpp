@@ -5,6 +5,7 @@
 
 #include "../Crulet.h"
 #include "../CruletOptions.h"
+#include "../CruletContext.h"
 
 using namespace llvm;
 using namespace clang;
@@ -28,26 +29,26 @@ static cl::extrahelp CommonHelp(CommonOptionsParser::HelpMessage);
 static cl::opt<bool> ListModulesOpt("list-modules", cl::desc("List all modules."), 
     cl::init(false), cl::cat(CruletCategory));
 
-static cl::opt<bool> ListEnabledModulesOpt("list-enabled-modules", cl::desc("List all enabled modules."), 
-    cl::init(false), cl::cat(CruletCategory));
+// static cl::opt<bool> ListEnabledModulesOpt("list-enabled-modules", cl::desc("List all enabled modules."), 
+//     cl::init(false), cl::cat(CruletCategory));
 
-static cl::opt<std::string> EnableModuleOpt("enable-module", cl::desc("Enable module."), 
+// static cl::opt<std::string> EnableModuleOpt("enable-module", cl::desc("Enable module."), 
+//     cl::init("none"), cl::cat(CruletCategory));
+
+// static cl::opt<std::string> DisableModuleOpt("disable-module", cl::desc("Disable module."), 
+//     cl::init("none"), cl::cat(CruletCategory));
+
+static cl::opt<std::string> ListCheckersOpt("list-checkers", cl::desc("List checkers for the given module."), 
     cl::init("none"), cl::cat(CruletCategory));
 
-static cl::opt<std::string> DisableModuleOpt("disable-module", cl::desc("Disable module."), 
-    cl::init("none"), cl::cat(CruletCategory));
+// static cl::opt<std::string> ListEnabledCheckersOpt("list-enabled-checkers", cl::desc("List all enabled checkers."), 
+//     cl::init("none"), cl::cat(CruletCategory));
 
-static cl::opt<std::string> ListCheckersOpt("list-checkers", cl::desc("List all checkers."), 
-    cl::init("none"), cl::cat(CruletCategory));
+// static cl::opt<std::string> EnableCheckersOpt("enable-checker", cl::desc("Enable checker."), 
+//     cl::init("none"), cl::cat(CruletCategory));
 
-static cl::opt<std::string> ListEnabledCheckersOpt("list-enabled-checkers", cl::desc("List all enabled checkers."), 
-    cl::init("none"), cl::cat(CruletCategory));
-
-static cl::opt<std::string> EnableCheckersOpt("enable-checker", cl::desc("Enable checker."), 
-    cl::init("none"), cl::cat(CruletCategory));
-
-static cl::opt<std::string> DisableCheckersOpt("disable-checker", cl::desc("Disable checker."), 
-    cl::init("none"), cl::cat(CruletCategory));
+// static cl::opt<std::string> DisableCheckersOpt("disable-checker", cl::desc("Disable checker."), 
+//     cl::init("none"), cl::cat(CruletCategory));
 
 static cl::opt<std::string> CheckOpt("check", cl::desc("Run the given checkers."), 
     cl::init("*"), cl::cat(CruletCategory));
@@ -74,7 +75,7 @@ static void PrintVersion() {
 int main(int argc, const char **argv){
   cl::SetVersionPrinter(PrintVersion);
   CommonOptionsParser OptionsParser(argc, argv, CruletCategory, cl::ZeroOrMore);
-  
+
   CruletContext Context;
   CruletOptions &Options = Context.getOptions();
   Options.parseCheckOptions(CheckOpt);
@@ -113,8 +114,11 @@ int main(int argc, const char **argv){
     return 0;
   }
 
-  if(CheckOpt != "none"){
-
+  auto PathList = OptionsParser.getSourcePathList();
+  if(PathList.empty()){
+    llvm::errs() << "Error: no input files.\n\n";
+    llvm::cl::PrintHelpMessage(false, true);
+    return 1;
   }
 
   ClangTool Tool(OptionsParser.getCompilations(),
