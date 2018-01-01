@@ -6,6 +6,9 @@ Crulet is a static analysis tool aimed at analysing C code based on rule checkin
 ```shell
 $ ./crulet -help
 $ ./crulet test.c --
+
+# enable or disable checkers
+$ ./crulet -check="*,-GJB-Rule-4.3.1.3" test.c --
 ```
 
 ### Building from Sources
