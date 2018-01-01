@@ -8,7 +8,7 @@ $ ./crulet -help
 $ ./crulet test.c --
 
 # enable or disable checkers
-$ ./crulet -check="*,-GJB-Rule-4.3.1.3" test.c --
+$ ./crulet -check="*,-GJB-rule-4.3.1.3" test.c --
 ```
 
 ### Building from Sources
