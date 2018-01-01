@@ -4,6 +4,7 @@ Crulet is a static analysis tool aimed at analysing C code based on rule checkin
 ### Usage
 
 ```shell
+$ ./crulet -help
 $ ./crulet test.c --
 ```
 
