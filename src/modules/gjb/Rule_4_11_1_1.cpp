@@ -18,9 +18,9 @@ void Rule_4_11_1_1::registerMatchers(MatchFinder *Finder) {
                                   hasOperatorName("=="), hasOperatorName("!=")),
                                 anyOf(
                                   hasLHS(ignoringParenImpCasts(declRefExpr(
-                                    to(varDecl(hasType(realFloatingPointType())))).bind("condVarName"))),
+                                    to(varDecl(hasType(realFloatingPointType())))).bind("for_loop_condVar"))),
                                   hasRHS(ignoringParenImpCasts(declRefExpr(
-                                    to(varDecl(hasType(realFloatingPointType())))).bind("condVarName"))))
+                                    to(varDecl(hasType(realFloatingPointType())))).bind("for_loop_condVar"))))
                               )));
   StatementMatcher Matcher2 = forStmt(hasCondition(forEachDescendant(binaryOperator(
                                 anyOf(hasOperatorName("<"), hasOperatorName(">"), 
@@ -28,16 +28,16 @@ void Rule_4_11_1_1::registerMatchers(MatchFinder *Finder) {
                                   hasOperatorName("=="), hasOperatorName("!=")),
                                 eachOf(
                                   hasLHS(ignoringParenImpCasts(declRefExpr(
-                                    to(varDecl(hasType(realFloatingPointType())))).bind("condVarName"))),
+                                    to(varDecl(hasType(realFloatingPointType())))).bind("for_loop_condVar"))),
                                   hasRHS(ignoringParenImpCasts(declRefExpr(
-                                    to(varDecl(hasType(realFloatingPointType())))).bind("condVarName"))))
+                                    to(varDecl(hasType(realFloatingPointType())))).bind("for_loop_condVar"))))
                               ))));
   Finder->addMatcher(Matcher1, this);
   Finder->addMatcher(Matcher2, this);
 }
 
 void Rule_4_11_1_1::run(const MatchFinder::MatchResult &Result) {
-  if(const DeclRefExpr *DRE = Result.Nodes.getNodeAs<DeclRefExpr>("condVarName")){
+  if(const DeclRefExpr *DRE = Result.Nodes.getNodeAs<DeclRefExpr>("for_loop_condVar")){
     DiagnosticsEngine &DE = Result.Context->getDiagnostics();
     Context->report(this->CheckerName, this->ReportMsg, DE, DRE->getLocation(), DiagnosticIDs::Warning);
   }
