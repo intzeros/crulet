@@ -25,6 +25,7 @@
 #include "Rule_4_6_1_17.h"
 #include "Rule_4_6_1_18.h"
 #include "Rule_4_8_1_1.h"
+#include "Rule_4_11_1_1.h"
 
 using namespace clang;
 using namespace clang::ast_matchers;
@@ -63,6 +64,8 @@ void GJBModule::registerCheckers(MatchFinder *Finder){
   this->registerChecker<Rule_4_6_1_18>("GJB-rule-4.6.1.18", "禁止位操作符作用于布尔值", Finder);
 
   this->registerChecker<Rule_4_8_1_1>("GJB-rule-4.8.1.1", "禁止单独使用小写字母\"l\"或大写字母\"O\"作为变量名", Finder);
+
+  this->registerChecker<Rule_4_11_1_1>("GJB-rule-4.11.1.1", "禁止使用不合适的循环变量类型", Finder);
 }
 
 } // namespace GJB
