@@ -27,6 +27,7 @@
 #include "Rule_4_8_1_1.h"
 #include "Rule_4_11_1_1.h"
 #include "Rule_4_11_1_2.h"
+#include "Rule_4_12_1_1.h"
 
 using namespace clang;
 using namespace clang::ast_matchers;
@@ -68,6 +69,8 @@ void GJBModule::registerCheckers(MatchFinder *Finder){
 
   this->registerChecker<Rule_4_11_1_1>("GJB-rule-4.11.1.1", "禁止使用不合适的循环变量类型", Finder);
   this->registerChecker<Rule_4_11_1_2>("GJB-rule-4.11.1.2", "循环变量必须是局部声明的", Finder);
+
+  this->registerChecker<Rule_4_12_1_1>("GJB-rule-4.12.1.1", "禁止对指针变量使用强制类型转换赋值", Finder);
 }
 
 } // namespace GJB
