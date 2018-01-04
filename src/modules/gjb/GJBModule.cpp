@@ -30,6 +30,8 @@
 #include "Rule_4_12_1_1.h"
 #include "Rule_4_13_1_1.h"
 #include "Rule_4_13_1_2.h"
+#include "Rule_4_13_1_4.h"
+#include "Rule_4_14_1_1.h"
 
 using namespace clang;
 using namespace clang::ast_matchers;
@@ -76,6 +78,9 @@ void GJBModule::registerCheckers(MatchFinder *Finder){
 
   this->registerChecker<Rule_4_13_1_1>("GJB-rule-4.13.1.1", "枚举元素的初始化必须完整", Finder);
   this->registerChecker<Rule_4_13_1_2>("GJB-rule-4.13.1.2", "结构体变量初始化的类型必须一致", Finder);
+  // this->registerChecker<Rule_4_13_1_4>("GJB-rule-4.13.1.4", "变量使用前必须被赋过值", Finder);
+
+  this->registerChecker<Rule_4_14_1_1>("GJB-rule-4.14.1.1", "禁止对实数类型的量做是否相等的比较", Finder);
 }
 
 } // namespace GJB
