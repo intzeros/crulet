@@ -17,12 +17,16 @@ $ ./crulet -check="*,-GJB-rule-3.1.3" test.c --
 
 ```
 cd ~
-git clone http://llvm.org/git/llvm.git
-cd llvm/tools
-git clone http://llvm.org/git/clang.git
-cd clang/tools
-git clone http://llvm.org/git/clang-tools-extra.git extra
-cd ~/llvm
+wget http://releases.llvm.org/5.0.0/llvm-5.0.0.src.tar.xz
+tar -xJf llvm-5.0.0.src.tar.xz
+mv llvm-5.0.0.src llvm-5.0.0
+wget http://releases.llvm.org/5.0.0/cfe-5.0.0.src.tar.xz
+tar -xJf cfe-5.0.0.src.tar.xz -C llvm-5.0.0/tools/
+mv llvm-5.0.0/tools/cfe-5.0.0.src/ llvm-5.0.0/tools/clang
+wget http://releases.llvm.org/5.0.0/clang-tools-extra-5.0.0.src.tar.xz
+tar -xJf clang-tools-extra-5.0.0.src.tar.xz -C llvm-5.0.0/tools/clang/tools/
+mv llvm-5.0.0/tools/clang/tools/clang-tools-extra-5.0.0.src/ llvm-5.0.0/tools/clang/tools/extra
+cd ~/llvm-5.0.0
 mkdir build && cd build
 cmake -G "Unix Makefiles" ../
 make
@@ -33,10 +37,10 @@ make
 ```
 cd ~
 git clone https://github.com/lszero/crulet.git
-cd ~/llvm/tools/clang/tools/extra
+cd ~/llvm-5.0.0/tools/clang/tools/extra
 mkdir crulet && cp -r ~/crulet/src/* ./crulet
 echo 'add_subdirectory(crulet)' >> CMakeLists.txt
-cd ~/llvm/build
+cd ~/llvm-5.0.0/build
 cmake -G "Unix Makefiles" ../
 make crulet
 ```
