@@ -13,26 +13,43 @@ $ ./crulet -check="*,-GJB-rule-3.1.3" test.c --
 
 ### Building from Sources
 
-1. [Obtaining LLVM and Clang](http://clang.llvm.org/get_started.html).
+1. [Obtain LLVM and Clang](http://clang.llvm.org/get_started.html).
+
+(a) Check out LLVM:
 
 ```
 cd ~
 wget http://releases.llvm.org/5.0.0/llvm-5.0.0.src.tar.xz
 tar -xJf llvm-5.0.0.src.tar.xz
 mv llvm-5.0.0.src llvm-5.0.0
+```
+
+(b) Check out Clang:
+
+```
 wget http://releases.llvm.org/5.0.0/cfe-5.0.0.src.tar.xz
 tar -xJf cfe-5.0.0.src.tar.xz -C llvm-5.0.0/tools/
 mv llvm-5.0.0/tools/cfe-5.0.0.src/ llvm-5.0.0/tools/clang
+```
+
+(c) Check out Extra Clang Tools:
+
+```
 wget http://releases.llvm.org/5.0.0/clang-tools-extra-5.0.0.src.tar.xz
 tar -xJf clang-tools-extra-5.0.0.src.tar.xz -C llvm-5.0.0/tools/clang/tools/
 mv llvm-5.0.0/tools/clang/tools/clang-tools-extra-5.0.0.src/ llvm-5.0.0/tools/clang/tools/extra
+```
+
+(d) Build LLVM and Clang:
+
+```
 cd ~/llvm-5.0.0
 mkdir build && cd build
 cmake -G "Unix Makefiles" ../
 make
 ```
 
-2. Building Crulet.
+2. Build Crulet.
 
 ```
 cd ~
