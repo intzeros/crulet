@@ -32,6 +32,7 @@
 #include "Rule_4_13_1_2.h"
 #include "Rule_4_13_1_4.h"
 #include "Rule_4_14_1_1.h"
+#include "Rule_4_14_1_2.h"
 
 using namespace clang;
 using namespace clang::ast_matchers;
@@ -81,6 +82,7 @@ void GJBModule::registerCheckers(MatchFinder *Finder){
   // this->registerChecker<Rule_4_13_1_4>("GJB-rule-4.13.1.4", "变量使用前必须被赋过值", Finder);
 
   this->registerChecker<Rule_4_14_1_1>("GJB-rule-4.14.1.1", "禁止对实数类型的量做是否相等的比较", Finder);
+  this->registerChecker<Rule_4_14_1_2>("GJB-rule-4.14.1.2", "禁止逻辑判别的表达式不是逻辑表达式", Finder);
 }
 
 } // namespace GJB
