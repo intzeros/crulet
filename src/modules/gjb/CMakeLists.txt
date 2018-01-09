@@ -2,6 +2,7 @@ set(LLVM_LINK_COMPONENTS support)
 
 add_clang_library(cruletGJBModule
   GJBModule.cpp
+  Rule_1_1_1.cpp
   Rule_3_1_1.cpp
   Rule_3_1_2.cpp
   Rule_3_1_3.cpp
