@@ -9,8 +9,9 @@ namespace crulet {
 
 class CruletChecker : public ast_matchers::MatchFinder::MatchCallback {
 public:
-  CruletChecker(CruletContext *Context, StringRef CheckerName, StringRef ReportMsg);
-  virtual ~CruletChecker();
+  CruletChecker(CruletContext *Context, StringRef CheckerName, StringRef ReportMsg)
+      : Context(Context), CheckerName(CheckerName), ReportMsg(ReportMsg) {}
+  virtual ~CruletChecker() {}
   
   virtual void registerMatchers(ast_matchers::MatchFinder *Finder) = 0;
   virtual void run(const ast_matchers::MatchFinder::MatchResult &Result) = 0;
@@ -18,9 +19,9 @@ public:
   StringRef getName();
 
 protected:
+  CruletContext *Context;
   std::string CheckerName;
   std::string ReportMsg;
-  CruletContext *Context;
 };
 
 } // namespace crulet
