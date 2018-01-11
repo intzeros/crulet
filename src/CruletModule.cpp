@@ -10,11 +10,6 @@ using namespace std;
 namespace clang {
 namespace crulet {
 
-CruletModule::CruletModule(CruletContext *Context, StringRef ModuleName){
-  this->Context = Context;
-  this->ModuleName = ModuleName;
-}
-
 CruletModule::~CruletModule() {
   for(auto &kvp : CheckerMap){
     if(kvp.second != nullptr){

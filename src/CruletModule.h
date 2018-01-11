@@ -12,7 +12,8 @@ namespace crulet {
 
 class CruletModule {
 public:
-  CruletModule(CruletContext *Context, StringRef ModuleName);
+  CruletModule(CruletContext *Context, StringRef ModuleName)
+      : Context(Context), ModuleName(ModuleName) {}
   virtual ~CruletModule();
 
   virtual void registerCheckers(ast_matchers::MatchFinder *Finder) = 0;
@@ -36,9 +37,9 @@ protected:
   }
 
 protected:
+  CruletContext *Context;
   std::string ModuleName;
   std::map<std::string, CruletChecker*> CheckerMap;
-  CruletContext *Context;
 };
 
 } // namespace crulet
