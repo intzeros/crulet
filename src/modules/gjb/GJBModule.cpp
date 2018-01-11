@@ -3,6 +3,7 @@
 #include "Rule_1_1_1.h"
 #include "Rule_1_1_2.h"
 #include "Rule_1_1_4.h"
+#include "Rule_1_1_6.h"
 #include "Rule_3_1_1.h"
 #include "Rule_3_1_2.h"
 #include "Rule_3_1_3.h"
@@ -49,6 +50,8 @@ void GJBModule::registerCheckers(MatchFinder *Finder){
   this->registerChecker<Rule_1_1_1>("GJB-rule-1.1.1", "过程名禁止被重用", Finder);
   // this->registerChecker<Rule_1_1_2>("GJB-rule-1.1.2", "标号名禁止被重用", Finder);
   this->registerChecker<Rule_1_1_4>("GJB-rule-1.1.4", "禁止声明多重标号", Finder);
+  this->registerChecker<Rule_1_1_6>("GJB-rule-1.1.6", "在过程声明中必须对参数说明", Finder);
+
 
   this->registerChecker<Rule_3_1_1>("GJB-rule-3.1.1", "禁止条件判别成立时相应分支无执行语句", Finder);
   this->registerChecker<Rule_3_1_2>("GJB-rule-3.1.2", "在if...else if语句中必须使用else分支", Finder);
