@@ -1,11 +1,11 @@
 set(LLVM_LINK_COMPONENTS support)
 
-add_clang_library(Crulet
+add_clang_library(cruletCore
+  Crulet.cpp
   CruletOptions.cpp
   CruletContext.cpp
   CruletChecker.cpp
   CruletModule.cpp
-  Crulet.cpp
 
   LINK_LIBS
   clangAST

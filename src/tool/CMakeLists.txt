@@ -9,10 +9,10 @@ target_link_libraries(crulet
   clangASTMatchers
   clangBasic
   clangFrontend
+  cruletCore
+  cruletGJBModule
   clangTooling
   clangToolingCore
-  cruletGJBModule
-  Crulet
   )
 
 install(TARGETS crulet
