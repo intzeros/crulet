@@ -18,8 +18,11 @@ void Rule_1_1_6::registerMatchers(MatchFinder *Finder) {
 
 void Rule_1_1_6::run(const MatchFinder::MatchResult &Result) {
   if(const FunctionDecl *FD = Result.Nodes.getNodeAs<FunctionDecl>("functionDecl_nobody")){
-    DiagnosticsEngine &DE = Result.Context->getDiagnostics();
-    Context->report(this->CheckerName, this->ReportMsg, DE, FD->getLocStart(), DiagnosticIDs::Warning);
+    const FunctionDecl *OrgFD = FD->getDefinition();
+    if(OrgFD && FD->param_size() == 0 && OrgFD->param_size() != 0){
+      DiagnosticsEngine &DE = Result.Context->getDiagnostics();
+      Context->report(this->CheckerName, this->ReportMsg, DE, FD->getLocStart(), DiagnosticIDs::Warning);
+    }
   }
 }
 
