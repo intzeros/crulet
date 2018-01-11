@@ -4,5 +4,4 @@ void static_p(void){
     /*...*/
 value_x:
     y = 1u;
-    /*...*/
-}
+} 
