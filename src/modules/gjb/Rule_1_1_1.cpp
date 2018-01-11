@@ -20,10 +20,12 @@ void Rule_1_1_1::run(const MatchFinder::MatchResult &Result) {
   if(const NamedDecl *CurND = Result.Nodes.getNodeAs<NamedDecl>("namedDecl")){
     TranslationUnitDecl *TUD = Result.Context->getTranslationUnitDecl();
     for(const auto D : TUD->decls()){
-      if(const auto *ND = dyn_cast<FunctionDecl>(D)){
-        if(CurND != ND && CurND->getName() == ND->getName()){
-          DiagnosticsEngine &DE = Result.Context->getDiagnostics();
-          Context->report(this->CheckerName, this->ReportMsg, DE, CurND->getLocation(), DiagnosticIDs::Warning);
+      if(const auto *FD = dyn_cast<FunctionDecl>(D)){
+        if(CurND != FD && CurND->getName() == FD->getName()){
+          if(!isa<FunctionDecl>(CurND)){
+            DiagnosticsEngine &DE = Result.Context->getDiagnostics();
+            Context->report(this->CheckerName, this->ReportMsg, DE, CurND->getLocation(), DiagnosticIDs::Warning);
+          }
         }
       }
     }
