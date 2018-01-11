@@ -58,7 +58,6 @@ cd ~/llvm-5.0.0/tools/clang/tools/extra
 mkdir crulet && cp -r ~/crulet/src/* ./crulet
 echo 'add_subdirectory(crulet)' >> CMakeLists.txt
 cd ~/llvm-5.0.0/build
-cmake -G "Unix Makefiles" ../
 make crulet
 ```
 
