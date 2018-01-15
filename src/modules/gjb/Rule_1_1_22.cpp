@@ -18,7 +18,7 @@ void Rule_1_1_22::registerMatchers(MatchFinder *Finder) {
 
 void Rule_1_1_22::run(const MatchFinder::MatchResult &Result) {
   if(const FunctionDecl *FD = Result.Nodes.getNodeAs<FunctionDecl>("functionDecl")){
-    if(!FD->hasBody()){
+    if(!FD->isThisDeclarationADefinition()){
       size_t Count1 = 0, Count2 = 0;
       for(auto it = FD->param_begin(); it != FD->param_end(); ++it){
         if((*it)->getName() == ""){
