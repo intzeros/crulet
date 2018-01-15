@@ -8,6 +8,7 @@
 #include "Rule_1_1_8.h"
 #include "Rule_1_1_9.h"
 #include "Rule_1_1_10.h"
+#include "Rule_1_1_16.h"
 #include "Rule_1_1_17.h"
 #include "Rule_1_1_21.h"
 #include "Rule_1_1_22.h"
@@ -62,6 +63,7 @@ void GJBModule::registerCheckers(MatchFinder *Finder){
   this->registerChecker<Rule_1_1_8>("GJB-rule-1.1.8", "禁止在过程参数中使用省略号", Finder);
   this->registerChecker<Rule_1_1_9>("GJB-rule-1.1.9", "禁止重新定义使用C或C++的关键字", Finder);
   this->registerChecker<Rule_1_1_10>("GJB-rule-1.1.10", "禁止过程或函数中的参数表为空", Finder);
+  this->registerChecker<Rule_1_1_16>("GJB-rule-1.1.16", "禁止对一个名字重新定义", Finder);
   this->registerChecker<Rule_1_1_17>("GJB-rule-1.1.17", "用typedef自定义的类型禁止被重新定义", Finder);
   this->registerChecker<Rule_1_1_21>("GJB-rule-1.1.21", "禁止结构体声明不完整", Finder);
   this->registerChecker<Rule_1_1_22>("GJB-rule-1.1.22", "禁止参数的声明形式上不一致", Finder);
