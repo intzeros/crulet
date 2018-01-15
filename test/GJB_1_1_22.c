@@ -1,0 +1,1 @@
+float static_p(unsigned int, unsigned short p_2);
