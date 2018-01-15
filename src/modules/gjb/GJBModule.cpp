@@ -8,6 +8,7 @@
 #include "Rule_1_1_8.h"
 #include "Rule_1_1_9.h"
 #include "Rule_1_1_10.h"
+#include "Rule_1_1_17.h"
 #include "Rule_3_1_1.h"
 #include "Rule_3_1_2.h"
 #include "Rule_3_1_3.h"
@@ -59,6 +60,7 @@ void GJBModule::registerCheckers(MatchFinder *Finder){
   this->registerChecker<Rule_1_1_8>("GJB-rule-1.1.8", "禁止在过程参数中使用省略号", Finder);
   this->registerChecker<Rule_1_1_9>("GJB-rule-1.1.9", "禁止重新定义使用C或C++的关键字", Finder);
   this->registerChecker<Rule_1_1_10>("GJB-rule-1.1.10", "禁止过程或函数中的参数表为空", Finder);
+  this->registerChecker<Rule_1_1_17>("GJB-rule-1.1.17", "用typedef自定义的类型禁止被重新定义", Finder);
 
   this->registerChecker<Rule_3_1_1>("GJB-rule-3.1.1", "禁止条件判别成立时相应分支无执行语句", Finder);
   this->registerChecker<Rule_3_1_2>("GJB-rule-3.1.2", "在if...else if语句中必须使用else分支", Finder);
