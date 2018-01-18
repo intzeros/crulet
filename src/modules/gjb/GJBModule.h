@@ -15,7 +15,7 @@ public:
       : CruletModule(Context, ModuleName) {}
   ~GJBModule() {}
 
-  void registerCheckers(ast_matchers::MatchFinder *Finder) override;
+  void registerCheckers() override;
 };
 
 } // namespace GJB

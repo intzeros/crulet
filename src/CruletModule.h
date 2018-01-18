@@ -4,7 +4,7 @@
 #include "clang/ASTMatchers/ASTMatchFinder.h"
 #include "CruletContext.h"
 #include "CruletChecker.h"
-#include <map>
+#include <unordered_map>
 #include <vector>
 
 namespace clang {
@@ -16,14 +16,16 @@ public:
       : Context(Context), ModuleName(ModuleName) {}
   virtual ~CruletModule();
 
-  virtual void registerCheckers(ast_matchers::MatchFinder *Finder) = 0;
+  virtual void registerCheckers() = 0;
   std::vector<std::string> getCheckerNames();
   StringRef getName();
 
+  void addCheckerActions(CompilerInstance &CI, ast_matchers::MatchFinder *Finder);
+
   template <typename CheckerType>
-  void registerChecker(StringRef CheckerName, StringRef ReportMsg, ast_matchers::MatchFinder *Finder){
+  void registerChecker(StringRef CheckerName, StringRef ReportMsg){
     if(Context->isCheckerEnabled(CheckerName)){
-      createChecker<CheckerType>(CheckerName, ReportMsg)->registerMatchers(Finder);
+      createChecker<CheckerType>(CheckerName, ReportMsg);
     }
   }
   
@@ -39,7 +41,7 @@ protected:
 protected:
   CruletContext *Context;
   std::string ModuleName;
-  std::map<std::string, CruletChecker*> CheckerMap;
+  std::unordered_map<std::string, CruletChecker*> CheckerMap;
 };
 
 } // namespace crulet

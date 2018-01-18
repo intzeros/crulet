@@ -4,10 +4,6 @@
 namespace clang {
 namespace crulet {
 
-CruletManager::CruletManager(CruletContext *Context) {
-  this->Context = Context;
-}
-
 CruletManager::~CruletManager(){
   for(const auto& kvp : ModuleMap){
     if(kvp.second != nullptr){
@@ -16,8 +12,14 @@ CruletManager::~CruletManager(){
   }
 }
 
-void CruletManager::registerModules(ast_matchers::MatchFinder *Finder){
-  this->registerModule<clang::crulet::GJB::GJBModule>("GJB")->registerCheckers(Finder);
+void CruletManager::registerModules(){
+  this->registerModule<clang::crulet::GJB::GJBModule>("GJB")->registerCheckers();
+}
+
+void CruletManager::addCheckerActions(CompilerInstance &CI, ast_matchers::MatchFinder *Finder){
+  for(auto &kvp : ModuleMap){
+    kvp.second->addCheckerActions(CI, Finder);
+  }
 }
 
 std::vector<std::string> CruletManager::getCheckerNames(StringRef ModuleName){
@@ -34,6 +36,10 @@ std::vector<std::string> CruletManager::getModuleNames(){
     rst.push_back(kvp.first);
   }
   return rst;
+}
+
+ast_matchers::MatchFinder &CruletManager::getMatchFinder(){
+  return Finder;
 }
 
 } // namespace crulet
