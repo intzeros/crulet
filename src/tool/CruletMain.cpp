@@ -1,7 +1,6 @@
 #include "clang/Tooling/CommonOptionsParser.h"
 #include "clang/Tooling/Tooling.h"
 #include "llvm/Support/CommandLine.h"
-#include "clang/ASTMatchers/ASTMatchFinder.h"
 
 #include "../Crulet.h"
 #include "../CruletOptions.h"
@@ -59,19 +58,6 @@ static void PrintVersion() {
   OS << "Crulet version " << crulet_version << "\n";
 }
 
-// int runCruletTool(){
-  // CommonOptionsParser OptionsParser(argc, argv, CruletCategory);
-  // ClangTool Tool(OptionsParser.getCompilations(),
-  //                OptionsParser.getSourcePathList());
-
-  // MatchFinder Finder;
-  // crulet::CruletManager Manager;
-  // Manager.registerModules(&Finder);
-
-  // return Tool.run(newFrontendActionFactory(&Finder).get());
-// }
-
-
 int main(int argc, const char **argv){
   cl::SetVersionPrinter(PrintVersion);
   CommonOptionsParser OptionsParser(argc, argv, CruletCategory, cl::ZeroOrMore);
@@ -80,9 +66,8 @@ int main(int argc, const char **argv){
   CruletOptions &Options = Context.getOptions();
   Options.parseCheckOptions(CheckOpt);
 
-  MatchFinder Finder;
   CruletManager Manager(&Context);
-  Manager.registerModules(&Finder);
+  Manager.registerModules();
 
   if(ListModulesOpt){
     std::vector<std::string> ModuleNames = Manager.getModuleNames();
@@ -123,6 +108,8 @@ int main(int argc, const char **argv){
 
   ClangTool Tool(OptionsParser.getCompilations(),
                  OptionsParser.getSourcePathList());
-  return Tool.run(newFrontendActionFactory(&Finder).get());
+  // return Tool.run(newFrontendActionFactory(&Finder).get());
+  CruletFrontendActionFactory FAFactory(&Manager);
+  return Tool.run(&FAFactory);
   // return runCruletTool();
 }

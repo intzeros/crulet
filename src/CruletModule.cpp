@@ -18,6 +18,13 @@ CruletModule::~CruletModule() {
   }
 }
 
+void CruletModule::addCheckerActions(CompilerInstance &CI, ast_matchers::MatchFinder *Finder){
+  for(auto &kvp : CheckerMap){
+    kvp.second->registerPPCallbacks(CI);
+    kvp.second->registerMatchers(Finder);
+  }
+}
+
 vector<string> CruletModule::getCheckerNames(){
   vector<string> rst;
   for(const auto &kvp : CheckerMap){
