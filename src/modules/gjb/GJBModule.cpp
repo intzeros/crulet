@@ -13,6 +13,7 @@
 #include "Rule_1_1_17.h"
 #include "Rule_1_1_21.h"
 #include "Rule_1_1_22.h"
+#include "Rule_1_2_1.h"
 #include "Rule_3_1_1.h"
 #include "Rule_3_1_2.h"
 #include "Rule_3_1_3.h"
@@ -69,6 +70,8 @@ void GJBModule::registerCheckers(MatchFinder *Finder){
   this->registerChecker<Rule_1_1_17>("GJB-rule-1.1.17", "用typedef自定义的类型禁止被重新定义", Finder);
   this->registerChecker<Rule_1_1_21>("GJB-rule-1.1.21", "禁止结构体声明不完整", Finder);
   this->registerChecker<Rule_1_1_22>("GJB-rule-1.1.22", "禁止参数的声明形式上不一致", Finder);
+
+  this->registerChecker<Rule_1_2_1>("GJB-rule-1.2.1", "推荐对基本类型进行typedef", Finder);
 
   this->registerChecker<Rule_3_1_1>("GJB-rule-3.1.1", "禁止条件判别成立时相应分支无执行语句", Finder);
   this->registerChecker<Rule_3_1_2>("GJB-rule-3.1.2", "在if...else if语句中必须使用else分支", Finder);
