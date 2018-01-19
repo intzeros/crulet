@@ -12,6 +12,8 @@
 #include "Rule_1_1_17.h"
 #include "Rule_1_1_21.h"
 #include "Rule_1_1_22.h"
+#include "Rule_1_2_1.h"
+#include "Rule_1_2_2.h"
 #include "Rule_3_1_1.h"
 #include "Rule_3_1_2.h"
 #include "Rule_3_1_3.h"
@@ -68,14 +70,17 @@ void GJBModule::registerCheckers(){
   this->registerChecker<Rule_1_1_21>("GJB-rule-1.1.21", "禁止结构体声明不完整");
   this->registerChecker<Rule_1_1_22>("GJB-rule-1.1.22", "禁止参数的声明形式上不一致");
 
-  this->registerChecker<Rule_3_1_1>("GJB-rule-3.1.1", "禁止条件判别成立时相应分支无执行语句", Finder);
-  this->registerChecker<Rule_3_1_2>("GJB-rule-3.1.2", "在if...else if语句中必须使用else分支", Finder);
-  this->registerChecker<Rule_3_1_3>("GJB-rule-3.1.3", "禁止条件判别的else分支无可执行语句", Finder);
-  this->registerChecker<Rule_3_1_4>("GJB-rule-3.1.4", "在switch语句中必须有default语句", Finder);
-  this->registerChecker<Rule_3_1_5>("GJB-rule-3.1.5", "禁止使用空switch语句", Finder);
-  this->registerChecker<Rule_3_1_6>("GJB-rule-3.1.6", "禁止switch语句中只包含default语句", Finder);
-  this->registerChecker<Rule_3_1_7>("GJB-rule-3.1.7", "禁止switch的case语句不是由break终止", Finder);
-  this->registerChecker<Rule_3_1_8>("GJB-rule-3.1.8", "禁止switch的case语句中无任何可执行的语句", Finder);
+  this->registerChecker<Rule_1_2_1>("GJB-rule-1.2.1", "推荐对基本类型进行typedef");
+  this->registerChecker<Rule_1_2_2>("GJB-rule-1.2.2", "建议不使用函数类型作为参数");
+
+  this->registerChecker<Rule_3_1_1>("GJB-rule-3.1.1", "禁止条件判别成立时相应分支无执行语句");
+  this->registerChecker<Rule_3_1_2>("GJB-rule-3.1.2", "在if...else if语句中必须使用else分支");
+  this->registerChecker<Rule_3_1_3>("GJB-rule-3.1.3", "禁止条件判别的else分支无可执行语句");
+  this->registerChecker<Rule_3_1_4>("GJB-rule-3.1.4", "在switch语句中必须有default语句");
+  this->registerChecker<Rule_3_1_5>("GJB-rule-3.1.5", "禁止使用空switch语句");
+  this->registerChecker<Rule_3_1_6>("GJB-rule-3.1.6", "禁止switch语句中只包含default语句");
+  this->registerChecker<Rule_3_1_7>("GJB-rule-3.1.7", "禁止switch的case语句不是由break终止");
+  this->registerChecker<Rule_3_1_8>("GJB-rule-3.1.8", "禁止switch的case语句中无任何可执行的语句");
   this->registerChecker<Rule_3_1_1>("GJB-rule-3.1.1", "禁止条件判别成立时相应分支无执行语句");
   this->registerChecker<Rule_3_1_2>("GJB-rule-3.1.2", "在if...else if语句中必须使用else分支");
   this->registerChecker<Rule_3_1_3>("GJB-rule-3.1.3", "禁止条件判别的else分支无可执行语句");
