@@ -81,14 +81,6 @@ void GJBModule::registerCheckers(){
   this->registerChecker<Rule_3_1_6>("GJB-rule-3.1.6", "禁止switch语句中只包含default语句");
   this->registerChecker<Rule_3_1_7>("GJB-rule-3.1.7", "禁止switch的case语句不是由break终止");
   this->registerChecker<Rule_3_1_8>("GJB-rule-3.1.8", "禁止switch的case语句中无任何可执行的语句");
-  this->registerChecker<Rule_3_1_1>("GJB-rule-3.1.1", "禁止条件判别成立时相应分支无执行语句");
-  this->registerChecker<Rule_3_1_2>("GJB-rule-3.1.2", "在if...else if语句中必须使用else分支");
-  this->registerChecker<Rule_3_1_3>("GJB-rule-3.1.3", "禁止条件判别的else分支无可执行语句");
-  this->registerChecker<Rule_3_1_4>("GJB-rule-3.1.4", "在switch语句中必须有default语句");
-  this->registerChecker<Rule_3_1_5>("GJB-rule-3.1.5", "禁止使用空switch语句");
-  this->registerChecker<Rule_3_1_6>("GJB-rule-3.1.6", "禁止switch语句中只包含default语句");
-  this->registerChecker<Rule_3_1_7>("GJB-rule-3.1.7", "禁止switch的case语句不是由break终止");
-  this->registerChecker<Rule_3_1_8>("GJB-rule-3.1.8", "禁止switch的case语句中无任何可执行的语句");
 
   this->registerChecker<Rule_4_1_2>("GJB-rule-4.1.2", "禁止指针的指针超过两级");
   this->registerChecker<Rule_4_1_3>("GJB-rule-4.1.3", "禁止将过程声明为指针类型");
