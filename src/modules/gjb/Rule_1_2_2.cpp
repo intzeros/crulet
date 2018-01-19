@@ -20,11 +20,11 @@ void Rule_1_2_2::registerMatchers(MatchFinder *Finder)
 }
 
 void Rule_1_2_2::run(const MatchFinder::MatchResult &Result)
-{//!!!need verify 4 + 4 * 9
+{
     if (const FunctionDecl *decl = Result.Nodes.getNodeAs<FunctionDecl>("function-decl-non-func-para")) {
         for (auto p : decl->parameters()) {
             auto type = p->getType().getTypePtr();
-            if (type && type->isFunctionType()) {
+            if (type && type->isFunctionPointerType()) {
                 DiagnosticsEngine &DE = Result.Context->getDiagnostics();
                 Context->report(this->CheckerName, this->ReportMsg, DE, decl->getLocStart(), DiagnosticIDs::Note);
                 break;
