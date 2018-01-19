@@ -6,6 +6,7 @@ add_clang_library(cruletCore
   CruletContext.cpp
   CruletChecker.cpp
   CruletModule.cpp
+  CruletDiagnosticConsumer.cpp
 
   LINK_LIBS
   clangAST

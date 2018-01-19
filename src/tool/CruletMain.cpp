@@ -5,6 +5,7 @@
 #include "../Crulet.h"
 #include "../CruletOptions.h"
 #include "../CruletContext.h"
+#include "../CruletDiagnosticConsumer.h"
 
 using namespace llvm;
 using namespace clang;

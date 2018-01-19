@@ -39,8 +39,13 @@ std::vector<std::string> CruletManager::getModuleNames(){
 }
 
 ast_matchers::MatchFinder &CruletManager::getMatchFinder(){
-  return Finder;
+  return this->Finder;
 }
+
+CruletContext *CruletManager::getCruletContext(){
+  return this->Context;
+}
+
 
 } // namespace crulet
 } // namespace clang
