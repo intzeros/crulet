@@ -11,7 +11,7 @@
 #include "CruletModule.h"
 #include "CruletChecker.h"
 #include "CruletContext.h"
-#include <unordered_map>
+#include <map>
 #include <vector>
 
 namespace clang {
@@ -43,7 +43,7 @@ private:
 private:
   CruletContext *Context;
   ast_matchers::MatchFinder Finder;
-  std::unordered_map<std::string, CruletModule*> ModuleMap;
+  std::map<std::string, CruletModule*> ModuleMap;
 };
 
 
@@ -57,7 +57,7 @@ public:
     DiagnosticsEngine &DE = CI.getDiagnostics();
     auto *DiagOpts = new DiagnosticOptions();
     DiagOpts->ShowColors = llvm::sys::Process::StandardOutHasColors();
-    auto *DiagPrinter = new CruletDiagnosticConsumer(llvm::outs(), DiagOpts);
+    auto *DiagPrinter = new CruletDiagnosticConsumer(Manager->getCruletContext(), llvm::outs(), DiagOpts);
     DE.setClient(DiagPrinter, /*ShouldOwnClient=*/true);
     DiagPrinter->BeginSourceFile(CI.getLangOpts(), &CI.getPreprocessor());
     return Finder.newASTConsumer();

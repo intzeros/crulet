@@ -62,7 +62,7 @@ void GJBModule::registerCheckers(){
   // this->registerChecker<Rule_1_1_2>("GJB-rule-1.1.2", "标号名禁止被重用");
   this->registerChecker<Rule_1_1_4>("GJB-rule-1.1.4", "禁止声明多重标号");
   this->registerChecker<Rule_1_1_6>("GJB-rule-1.1.6", "在过程声明中必须对参数说明");
-  // this->registerChecker<Rule_1_1_7>("GJB-rule-1.1.7", "禁止过程参数只有类型没有标识符");
+  this->registerChecker<Rule_1_1_7>("GJB-rule-1.1.7", "禁止过程参数只有类型没有标识符");
   this->registerChecker<Rule_1_1_8>("GJB-rule-1.1.8", "禁止在过程参数中使用省略号");
   this->registerChecker<Rule_1_1_9>("GJB-rule-1.1.9", "禁止重新定义使用C或C++的关键字");
   this->registerChecker<Rule_1_1_10>("GJB-rule-1.1.10", "禁止过程或函数中的参数表为空");

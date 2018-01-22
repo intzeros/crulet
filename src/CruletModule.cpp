@@ -1,8 +1,6 @@
 #include "clang/ASTMatchers/ASTMatchFinder.h"
 #include "CruletModule.h"
 #include "CruletChecker.h"
-#include <map>
-#include <vector>
 
 using namespace clang;
 using namespace std;
@@ -36,6 +34,6 @@ vector<string> CruletModule::getCheckerNames(){
 StringRef CruletModule::getName(){
   return ModuleName;
 }
-
+ 
 } // namespace crulet
 } // namespace clang
