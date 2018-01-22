@@ -11,7 +11,7 @@
 #include "CruletModule.h"
 #include "CruletChecker.h"
 #include "CruletContext.h"
-#include <unordered_map>
+#include <map>
 #include <vector>
 
 namespace clang {
@@ -43,7 +43,7 @@ private:
 private:
   CruletContext *Context;
   ast_matchers::MatchFinder Finder;
-  std::unordered_map<std::string, CruletModule*> ModuleMap;
+  std::map<std::string, CruletModule*> ModuleMap;
 };
 
 
