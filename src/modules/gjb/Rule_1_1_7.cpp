@@ -11,19 +11,6 @@ namespace clang {
 namespace crulet {
 namespace GJB {
 
-void Rule_1_1_7::registerMatchers(MatchFinder *Finder) {
-  DeclarationMatcher Matcher = parmVarDecl().bind("parmVarDecl");
-  Finder->addMatcher(Matcher, this);
-}
-
-void Rule_1_1_7::run(const MatchFinder::MatchResult &Result) {
-  if(const ParmVarDecl *PD = Result.Nodes.getNodeAs<ParmVarDecl>("parmVarDecl")){
-    if(PD->getName() == ""){
-      DiagnosticsEngine &DE = Result.Context->getDiagnostics();
-      Context->report(this->CheckerName, this->ReportMsg, DE, PD->getLocStart(), DiagnosticIDs::Warning);
-    }
-  }
-}
 
 } // namespace GJB
 } // namespace crulet
