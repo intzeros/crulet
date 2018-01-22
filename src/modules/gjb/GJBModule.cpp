@@ -14,6 +14,8 @@
 #include "Rule_1_1_22.h"
 #include "Rule_1_2_1.h"
 #include "Rule_1_2_2.h"
+#include "Rule_1_2_3.h"
+#include "Rule_1_2_4.h"
 #include "Rule_3_1_1.h"
 #include "Rule_3_1_2.h"
 #include "Rule_3_1_3.h"
@@ -72,6 +74,8 @@ void GJBModule::registerCheckers(){
 
   this->registerChecker<Rule_1_2_1>("GJB-rule-1.2.1", "推荐对基本类型进行typedef");
   this->registerChecker<Rule_1_2_2>("GJB-rule-1.2.2", "建议不使用函数类型作为参数");
+  this->registerChecker<Rule_1_2_3>("GJB-rule-1.2.3", "建议函数参数不超过20个");
+  this->registerChecker<Rule_1_2_4>("GJB-rule-1.2.4", "建议谨慎使用位域");
 
   this->registerChecker<Rule_3_1_1>("GJB-rule-3.1.1", "禁止条件判别成立时相应分支无执行语句");
   this->registerChecker<Rule_3_1_2>("GJB-rule-3.1.2", "在if...else if语句中必须使用else分支");
