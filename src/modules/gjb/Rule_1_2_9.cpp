@@ -16,15 +16,17 @@ namespace GJB {
 void Rule_1_2_9::registerMatchers(MatchFinder *Finder)
 {
     DeclarationMatcher Matcher = recordDecl(allOf(
-        has(fieldDecl().bind("field-uname-bit-field")), isStruct()));
+        has(fieldDecl(isBitField()).bind("field-non-unnamed-bit-field")), isStruct()));
     Finder->addMatcher(Matcher, this);
 }
 
 void Rule_1_2_9::run(const MatchFinder::MatchResult &Result)
 {
-    if (const FieldDecl *decl = Result.Nodes.getNodeAs<FieldDecl>("field-uname-bit-field")) {
-        DiagnosticsEngine &DE = Result.Context->getDiagnostics();
-        Context->report(this->CheckerName, this->ReportMsg, DE, decl->getLocStart(), DiagnosticIDs::Remark);
+    if (const FieldDecl *decl = Result.Nodes.getNodeAs<FieldDecl>("field-non-unnamed-bit-field")) {
+        if (decl->isUnnamedBitfield()) {
+            DiagnosticsEngine &DE = Result.Context->getDiagnostics();
+            Context->report(this->CheckerName, this->ReportMsg, DE, decl->getLocStart(), DiagnosticIDs::Remark);
+        }
     }
 }
 

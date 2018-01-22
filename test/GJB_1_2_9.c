@@ -1,4 +1,4 @@
 struct foo {
-    unsigned bar : 2, : 2;
-    unsigned xxx : 4;
+    unsigned : 2;
+    unsigned bar : 2;
 };
