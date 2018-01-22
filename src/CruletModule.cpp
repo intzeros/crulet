@@ -34,6 +34,6 @@ vector<string> CruletModule::getCheckerNames(){
 StringRef CruletModule::getName(){
   return ModuleName;
 }
-
+ 
 } // namespace crulet
 } // namespace clang
