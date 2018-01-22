@@ -57,7 +57,7 @@ public:
     DiagnosticsEngine &DE = CI.getDiagnostics();
     auto *DiagOpts = new DiagnosticOptions();
     DiagOpts->ShowColors = llvm::sys::Process::StandardOutHasColors();
-    auto *DiagPrinter = new CruletDiagnosticConsumer(llvm::outs(), DiagOpts);
+    auto *DiagPrinter = new CruletDiagnosticConsumer(Manager->getCruletContext(), llvm::outs(), DiagOpts);
     DE.setClient(DiagPrinter, /*ShouldOwnClient=*/true);
     DiagPrinter->BeginSourceFile(CI.getLangOpts(), &CI.getPreprocessor());
     return Finder.newASTConsumer();

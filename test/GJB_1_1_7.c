@@ -3,6 +3,6 @@ struct s_type_b {
 };
 
 void static_p_a(unsigned int p_1, struct s_type_b *);
-void static_p_a(unsigned int p_1, struct s_type_b *p_2){
+void static_p_a(unsigned int p_1, struct s_type_b *){
     /*...*/
 }
