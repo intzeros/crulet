@@ -40,24 +40,16 @@ tar -xJf clang-tools-extra-5.0.0.src.tar.xz -C llvm-5.0.0/tools/clang/tools/
 mv llvm-5.0.0/tools/clang/tools/clang-tools-extra-5.0.0.src/ llvm-5.0.0/tools/clang/tools/extra
 ```
 
-(d) Build LLVM and Clang:
+2. Obtain and build Crulet.
 
 ```
-cd ~/llvm-5.0.0
-mkdir build && cd build
-cmake -G "Unix Makefiles" ../
-make
-```
-
-2. Build Crulet.
-
-```
-cd ~
 git clone https://github.com/lszero/crulet.git
 cd ~/llvm-5.0.0/tools/clang/tools/extra
 mkdir crulet && cp -r ~/crulet/src/* ./crulet
 echo 'add_subdirectory(crulet)' >> CMakeLists.txt
-cd ~/llvm-5.0.0/build
+cd ~/llvm-5.0.0
+mkdir build && cd build
+cmake -G "Unix Makefiles" ../
 make crulet
 ```
 
