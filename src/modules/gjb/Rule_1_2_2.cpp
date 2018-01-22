@@ -26,7 +26,7 @@ void Rule_1_2_2::run(const MatchFinder::MatchResult &Result)
             auto type = p->getType().getTypePtr();
             if (type && type->isFunctionPointerType()) {
                 DiagnosticsEngine &DE = Result.Context->getDiagnostics();
-                Context->report(this->CheckerName, this->ReportMsg, DE, decl->getLocStart(), DiagnosticIDs::Note);
+                Context->report(this->CheckerName, this->ReportMsg, DE, decl->getLocStart(), DiagnosticIDs::Remark);
                 break;
             }
         }

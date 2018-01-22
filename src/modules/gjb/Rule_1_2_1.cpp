@@ -33,7 +33,7 @@ void Rule_1_2_1::run(const MatchFinder::MatchResult &Result)
         if (!type || !type->isBuiltinType() || type->isVoidType() || type->getAs<TypedefType>())
             return;
         DiagnosticsEngine &DE = Result.Context->getDiagnostics();
-        Context->report(this->CheckerName, this->ReportMsg, DE, decl->getLocStart(), DiagnosticIDs::Note);
+        Context->report(this->CheckerName, this->ReportMsg, DE, decl->getLocStart(), DiagnosticIDs::Remark);
     }
 }
 
