@@ -18,6 +18,8 @@
 #include "Rule_1_2_4.h"
 #include "Rule_1_2_8.h"
 #include "Rule_1_2_9.h"
+#include "Rule_2_2_1.h"
+#include "Rule_2_2_2.h"
 #include "Rule_3_1_1.h"
 #include "Rule_3_1_2.h"
 #include "Rule_3_1_3.h"
@@ -80,6 +82,9 @@ void GJBModule::registerCheckers(){
   this->registerChecker<Rule_1_2_4>("GJB-rule-1.2.4", "建议在结构体中谨慎使用位域");
   this->registerChecker<Rule_1_2_8>("GJB-rule-1.2.8", "建议谨慎使用union类型");
   this->registerChecker<Rule_1_2_9>("GJB-rule-1.2.9", "建议在结构体中谨慎使用无名位域");
+
+  this->registerChecker<Rule_2_2_1>("GJB-rule-2.2.1", "建议一个文件中程序的总行数不超过2000行");
+  this->registerChecker<Rule_2_2_2>("GJB-rule-2.2.2", "建议一个过程或函数中的程序总行不超过200行");
 
   this->registerChecker<Rule_3_1_1>("GJB-rule-3.1.1", "禁止条件判别成立时相应分支无执行语句");
   this->registerChecker<Rule_3_1_2>("GJB-rule-3.1.2", "在if...else if语句中必须使用else分支");

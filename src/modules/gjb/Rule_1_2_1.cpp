@@ -15,7 +15,7 @@ namespace GJB {
 
 void Rule_1_2_1::registerMatchers(MatchFinder *Finder)
 {
-    DeclarationMatcher Matcher = declaratorDecl().bind("declarator-decl");
+    static DeclarationMatcher Matcher = declaratorDecl().bind("declarator-decl");
     Finder->addMatcher(Matcher, this);
 }
 
