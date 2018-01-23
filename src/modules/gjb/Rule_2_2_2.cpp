@@ -20,6 +20,8 @@ void Rule_2_2_2::run(const MatchFinder::MatchResult &Result)
 {
     if (const FunctionDecl *decl =
         Result.Nodes.getNodeAs<FunctionDecl>(RemarkFunctionDeclMatcher().second)) {
+        if (decl->getBody() == nullptr)
+            return;
         auto b = Result.SourceManager->getSpellingLineNumber(decl->getBody()->getLocStart());
         auto e = Result.SourceManager->getSpellingLineNumber(decl->getBody()->getLocEnd());
         if (e - b < 200)

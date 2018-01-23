@@ -19,6 +19,8 @@ void Rule_2_2_1::registerMatchers(MatchFinder *Finder)
 void Rule_2_2_1::run(const MatchFinder::MatchResult &Result)
 {
     if (const FunctionDecl *decl = Result.Nodes.getNodeAs<FunctionDecl>(RemarkFunctionDeclMatcher().second)) {
+        if (decl->getBody() == nullptr)
+            return;
         auto b = Result.SourceManager->getSpellingLineNumber(decl->getBody()->getLocStart());
         auto e = Result.SourceManager->getSpellingLineNumber(decl->getBody()->getLocEnd());
         if ((program_line += e - b) < 2000)
