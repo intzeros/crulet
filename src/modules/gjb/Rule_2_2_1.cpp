@@ -1,5 +1,7 @@
 #include "Rule_2_2_1.h"
-#include "RulesRemarkMatcherCommon.h"
+#include "clang/AST/Expr.h"
+#include "clang/AST/ASTContext.h"
+#include "clang/ASTMatchers/ASTMatchers.h"
 #include "clang/ASTMatchers/ASTMatchFinder.h"
 #include "clang/Basic/Diagnostic.h"
 
@@ -13,12 +15,14 @@ namespace GJB {
 
 void Rule_2_2_1::registerMatchers(MatchFinder *Finder)
 {
-    Finder->addMatcher(RemarkFunctionDeclMatcher().first, this);
+    DeclarationMatcher Matcher = functionDecl().bind("function-total-more-than-2000-decl");
+    Finder->addMatcher(Matcher, this);
 }
 
 void Rule_2_2_1::run(const MatchFinder::MatchResult &Result)
 {
-    if (const FunctionDecl *decl = Result.Nodes.getNodeAs<FunctionDecl>(RemarkFunctionDeclMatcher().second)) {
+    if (const FunctionDecl *decl =
+        Result.Nodes.getNodeAs<FunctionDecl>("function-total-more-than-2000-decl")) {
         if (decl->getBody() == nullptr)
             return;
         auto b = Result.SourceManager->getSpellingLineNumber(decl->getBody()->getLocStart());

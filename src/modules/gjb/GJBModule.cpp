@@ -30,6 +30,8 @@
 #include "Rule_3_1_8.h"
 #include "Rule_4_1_2.h"
 #include "Rule_4_1_3.h"
+#include "Rule_4_2_1.h"
+#include "Rule_4_2_2.h"
 #include "Rule_5_1_1.h"
 #include "Rule_5_1_2.h"
 #include "Rule_6_1_1.h"
@@ -97,6 +99,9 @@ void GJBModule::registerCheckers(){
 
   this->registerChecker<Rule_4_1_2>("GJB-rule-4.1.2", "禁止指针的指针超过两级");
   this->registerChecker<Rule_4_1_3>("GJB-rule-4.1.3", "禁止将过程声明为指针类型");
+
+  this->registerChecker<Rule_4_2_1>("GJB-rule-4.2.1", "建议谨慎使用指针的逻辑比较");
+  this->registerChecker<Rule_4_2_2>("GJB-rule-4.2.2", "建议谨慎使用指针的代数运算");
 
   this->registerChecker<Rule_5_1_1>("GJB-rule-5.1.1", "禁止直接从过程中跳出");
   this->registerChecker<Rule_5_1_2>("GJB-rule-5.1.2", "禁止使用goto语句");

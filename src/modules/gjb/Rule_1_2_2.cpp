@@ -1,5 +1,7 @@
 #include "Rule_1_2_2.h"
-#include "RulesRemarkMatcherCommon.h"
+#include "clang/AST/Expr.h"
+#include "clang/AST/ASTContext.h"
+#include "clang/ASTMatchers/ASTMatchers.h"
 #include "clang/ASTMatchers/ASTMatchFinder.h"
 #include "clang/Basic/Diagnostic.h"
 
@@ -13,18 +15,18 @@ namespace GJB {
 
 void Rule_1_2_2::registerMatchers(MatchFinder *Finder)
 {
-    Finder->addMatcher(RemarkFunctionDeclMatcher().first, this);
+    DeclarationMatcher Matcher = functionDecl().bind("function-param-has-fp-decl");
+    Finder->addMatcher(Matcher, this);
 }
 
 void Rule_1_2_2::run(const MatchFinder::MatchResult &Result)
 {
-    if (const FunctionDecl *decl =
-        Result.Nodes.getNodeAs<FunctionDecl>(RemarkFunctionDeclMatcher().second)) {
+    if (const FunctionDecl *decl = Result.Nodes.getNodeAs<FunctionDecl>("function-param-has-fp-decl")) {
         for (auto p : decl->parameters()) {
             auto type = p->getType().getTypePtr();
             if (type && type->isFunctionPointerType()) {
                 DiagnosticsEngine &DE = Result.Context->getDiagnostics();
-                Context->report(this->CheckerName, this->ReportMsg, DE, decl->getLocStart(), DiagnosticIDs::Remark);
+                Context->report(this->CheckerName, this->ReportMsg, DE, p->getLocStart(), DiagnosticIDs::Remark);
                 break;
             }
         }
