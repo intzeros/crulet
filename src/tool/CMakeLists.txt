@@ -11,6 +11,7 @@ target_link_libraries(crulet
   clangFrontend
   cruletCore
   cruletGJBModule
+  cruletUtils
   clangTooling
   clangToolingCore
   )
