@@ -18,7 +18,9 @@ public:
   virtual void registerMatchers(ast_matchers::MatchFinder *Finder) {}
   virtual void run(const ast_matchers::MatchFinder::MatchResult &Result) {}
 
+  CruletContext* getCruletContext();
   StringRef getName();
+  StringRef getReportMsg();
 
 protected:
   CruletContext *Context;

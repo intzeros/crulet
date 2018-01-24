@@ -4,6 +4,14 @@
 namespace clang {
 namespace crulet {
 
+CruletContext* CruletChecker::getCruletContext(){
+  return Context;
+}
+
+StringRef CruletChecker::getReportMsg(){
+  return ReportMsg;
+}
+
 StringRef CruletChecker::getName(){
   return CheckerName;
 }
