@@ -16,6 +16,8 @@ public:
 
     virtual void registerMatchers(ast_matchers::MatchFinder *Finder) override;
     virtual void run(const ast_matchers::MatchFinder::MatchResult &Result) override;
+private:
+    bool remarked = false;
 };
 
 } // namespace GJB

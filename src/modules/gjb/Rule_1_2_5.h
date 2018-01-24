@@ -1,5 +1,5 @@
-#ifndef CRULET_GJB_RULE_2_2_2_H
-#define CRULET_GJB_RULE_2_2_2_H
+#ifndef CRULET_GJB_RULE_1_2_5_H
+#define CRULET_GJB_RULE_1_2_5_H
 
 #include "../../CruletChecker.h"
 
@@ -9,11 +9,12 @@ namespace crulet {
 
 namespace GJB {
 
-class Rule_2_2_2: public CruletChecker {
+class Rule_1_2_5: public CruletChecker {
 public:
-    Rule_2_2_2(CruletContext *Context, StringRef CheckerName, StringRef ReportMsg):
+    Rule_1_2_5(CruletContext *Context, StringRef CheckerName, StringRef ReportMsg):
         CruletChecker(Context, CheckerName, ReportMsg) {}
 
+    virtual void registerPPCallbacks(CompilerInstance &CI) override;
     virtual void registerMatchers(ast_matchers::MatchFinder *Finder) override;
     virtual void run(const ast_matchers::MatchFinder::MatchResult &Result) override;
 private:

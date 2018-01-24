@@ -21,6 +21,8 @@ void Rule_1_2_1::registerMatchers(MatchFinder *Finder)
 
 void Rule_1_2_1::run(const MatchFinder::MatchResult &Result)
 {
+    if (remarked)
+        return;
     if (const DeclaratorDecl *decl = Result.Nodes.getNodeAs<DeclaratorDecl>("declarator-decl")) {
         auto qt = decl->getType();
         auto type = qt.getTypePtr();
@@ -32,6 +34,7 @@ void Rule_1_2_1::run(const MatchFinder::MatchResult &Result)
         }
         if (!type || !type->isBuiltinType() || type->isVoidType() || type->getAs<TypedefType>())
             return;
+        remarked = true;
         DiagnosticsEngine &DE = Result.Context->getDiagnostics();
         Context->report(this->CheckerName, this->ReportMsg, DE, decl->getLocStart(), DiagnosticIDs::Remark);
     }

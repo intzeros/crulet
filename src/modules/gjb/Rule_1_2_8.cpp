@@ -21,7 +21,10 @@ void Rule_1_2_8::registerMatchers(MatchFinder *Finder)
 
 void Rule_1_2_8::run(const MatchFinder::MatchResult &Result)
 {
+    if (remarked)
+        return;
     if (const RecordDecl *decl = Result.Nodes.getNodeAs<RecordDecl>("exclude-union-record")) {
+        remarked = true;
         DiagnosticsEngine &DE = Result.Context->getDiagnostics();
         Context->report(this->CheckerName, this->ReportMsg, DE, decl->getLocStart(), DiagnosticIDs::Remark);
     }

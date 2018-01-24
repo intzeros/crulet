@@ -8,7 +8,7 @@ struct foo2 {
 
 typedef union {} foo3;
 
-void foo4()
+void foo4(void)
 {
     union {} foo5;
 }

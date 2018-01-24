@@ -24,9 +24,12 @@ void Rule_4_2_1::registerMatchers(MatchFinder *Finder)
 
 void Rule_4_2_1::run(const MatchFinder::MatchResult &Result)
 {
+    if (remarked)
+        return;
     if (const BinaryOperator *stmt = Result.Nodes.getNodeAs<BinaryOperator>("remark-pointer-compare-stmt")) {
         if (!stmt->isComparisonOp())
             return;
+        remarked = true;
         DiagnosticsEngine &DE = Result.Context->getDiagnostics();
         Context->report(this->CheckerName, this->ReportMsg, DE, stmt->getLocStart(), DiagnosticIDs::Remark);
     }

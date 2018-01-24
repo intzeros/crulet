@@ -24,10 +24,13 @@ void Rule_4_2_2::registerMatchers(MatchFinder *Finder)
 
 void Rule_4_2_2::run(const MatchFinder::MatchResult &Result)
 {
+    if (remarked)
+        return;
     if (const BinaryOperator *stmt =
         Result.Nodes.getNodeAs<BinaryOperator>("remark-pointer-arithmetic-stmt")) {
         if (!(stmt->isAdditiveOp()))
             return;
+        remarked = true;
         DiagnosticsEngine &DE = Result.Context->getDiagnostics();
         Context->report(this->CheckerName, this->ReportMsg, DE, stmt->getLocStart(), DiagnosticIDs::Remark);
     }

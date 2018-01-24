@@ -22,12 +22,15 @@ void Rule_1_2_9::registerMatchers(MatchFinder *Finder)
 
 void Rule_1_2_9::run(const MatchFinder::MatchResult &Result)
 {
+    if (remarked)
+        return;
     if (const RecordDecl *decl = Result.Nodes.getNodeAs<RecordDecl>("field-non-unnamed-bit-field")) {
         for (auto f : decl->fields()) {
             if (!(f->isUnnamedBitfield()))
                 continue;
+            remarked = true;
             DiagnosticsEngine &DE = Result.Context->getDiagnostics();
-            Context->report(this->CheckerName, this->ReportMsg, DE, f->getLocStart(), DiagnosticIDs::Remark);
+            Context->report(this->CheckerName, this->ReportMsg, DE, f->getLocStart(), DiagnosticIDs::Note);
         }
     }
 }

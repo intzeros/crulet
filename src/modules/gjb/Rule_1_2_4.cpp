@@ -22,7 +22,10 @@ void Rule_1_2_4::registerMatchers(MatchFinder *Finder)
 
 void Rule_1_2_4::run(const MatchFinder::MatchResult &Result)
 {
+    if (remarked)
+        return;
     if (const FieldDecl *decl = Result.Nodes.getNodeAs<FieldDecl>("field-non-bit-field")) {
+        remarked = true;
         DiagnosticsEngine &DE = Result.Context->getDiagnostics();
         Context->report(this->CheckerName, this->ReportMsg, DE, decl->getLocStart(), DiagnosticIDs::Remark);
     }
