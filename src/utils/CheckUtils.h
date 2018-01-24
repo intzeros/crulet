@@ -8,7 +8,7 @@ namespace clang {
 namespace crulet {
 namespace check_utils {
 
-std::unordered_set<std::string> Keywords({"alignas", "alignof", "and", "and_eq", "ams", 
+std::unordered_set<std::string> CPPKeywords({"alignas", "alignof", "and", "and_eq", "ams", 
       "auto", "bitand", "bitor", "bool", "break", "case", "catch", "char", "char16_t", "char32_t", 
       "class", "compl", "concept", "const", "constexpr", "const_cast", "continue", 
       "decltype", "default", "delete", "do", "double", "dynamic_cast", "else", "enum", "explicit",
@@ -21,7 +21,7 @@ std::unordered_set<std::string> Keywords({"alignas", "alignof", "and", "and_eq",
       "final", "override", "cout", "cin", "endl"});
 
 bool isCPPKeyword(std::string Name){
-  if(Keywords.find(Name) != Keywords.end()){
+  if(CPPKeywords.find(Name) != CPPKeywords.end()){
     return true;
   }
   return false;
