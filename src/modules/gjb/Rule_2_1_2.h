@@ -1,16 +1,15 @@
-#ifndef CRULET_GJB_RULE_1_1_9_H
-#define CRULET_GJB_RULE_1_1_9_H
+#ifndef CRULET_GJB_RULE_2_1_2_H
+#define CRULET_GJB_RULE_2_1_2_H
 
 #include "../../CruletChecker.h"
-#include <unordered_set>
 
 namespace clang {
 namespace crulet {
 namespace GJB {
 
-class Rule_1_1_9 : public CruletChecker {
+class Rule_2_1_2 : public CruletChecker {
 public:
-  Rule_1_1_9(CruletContext *Context, StringRef CheckerName, StringRef ReportMsg)
+  Rule_2_1_2(CruletContext *Context, StringRef CheckerName, StringRef ReportMsg)
     : CruletChecker(Context, CheckerName, ReportMsg) {}
 
   virtual void registerMatchers(ast_matchers::MatchFinder *Finder) override;

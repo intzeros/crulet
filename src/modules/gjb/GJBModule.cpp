@@ -7,11 +7,17 @@
 #include "Rule_1_1_8.h"
 #include "Rule_1_1_9.h"
 #include "Rule_1_1_10.h"
+#include "Rule_1_1_12.h"
 #include "Rule_1_1_15.h"
 #include "Rule_1_1_16.h"
 #include "Rule_1_1_17.h"
 #include "Rule_1_1_21.h"
 #include "Rule_1_1_22.h"
+#include "Rule_2_1_1.h"
+#include "Rule_2_1_2.h"
+#include "Rule_2_1_3.h"
+#include "Rule_2_1_4.h"
+#include "Rule_2_1_6.h"
 #include "Rule_3_1_1.h"
 #include "Rule_3_1_2.h"
 #include "Rule_3_1_3.h"
@@ -62,11 +68,18 @@ void GJBModule::registerCheckers(){
   this->registerChecker<Rule_1_1_8>("GJB-rule-1.1.8", "禁止在过程参数中使用省略号");
   this->registerChecker<Rule_1_1_9>("GJB-rule-1.1.9", "禁止重新定义使用C或C++的关键字");
   this->registerChecker<Rule_1_1_10>("GJB-rule-1.1.10", "禁止过程或函数中的参数表为空");
+  // this->registerChecker<Rule_1_1_12>("GJB-rule-1.1.12", "禁止定义不像函数的宏");
   this->registerChecker<Rule_1_1_15>("GJB-rule-1.1.15", "字符型变量必须明确定义是有符号还是无符号");
   this->registerChecker<Rule_1_1_16>("GJB-rule-1.1.16", "禁止对一个名字重新定义");
   this->registerChecker<Rule_1_1_17>("GJB-rule-1.1.17", "用typedef自定义的类型禁止被重新定义");
   this->registerChecker<Rule_1_1_21>("GJB-rule-1.1.21", "禁止结构体声明不完整");
   this->registerChecker<Rule_1_1_22>("GJB-rule-1.1.22", "禁止参数的声明形式上不一致");
+
+  this->registerChecker<Rule_2_1_1>("GJB-rule-2.1.1", "过程体必须用大括号括起来");
+  this->registerChecker<Rule_2_1_2>("GJB-rule-2.1.2", "循环体必须用大括号括起来");
+  this->registerChecker<Rule_2_1_3>("GJB-rule-2.1.3", "then/else中的语句必须用大括号括起来");
+  this->registerChecker<Rule_2_1_4>("GJB-rule-2.1.4", "逻辑表达式的连接必须使用括号");
+  this->registerChecker<Rule_2_1_6>("GJB-rule-2.1.6", "宏参数必须用括号括起来");
 
   this->registerChecker<Rule_3_1_1>("GJB-rule-3.1.1", "禁止条件判别成立时相应分支无执行语句");
   this->registerChecker<Rule_3_1_2>("GJB-rule-3.1.2", "在if...else if语句中必须使用else分支");
