@@ -13,6 +13,9 @@ void CruletDiagnosticConsumer::HandleDiagnostic(DiagnosticsEngine::Level DiagLev
     // Context->report("GJB-rule-1.1.7", "禁止过程参数只有类型没有标识符", DE, Info.getLocation(), DiagnosticIDs::Warning);
     llvm::errs() << "[GJB-rule-1.1.7] 禁止过程参数只有类型没有标识符\n\n";
   }
+  else if(Info.getID() == 1189u && Context->isCheckerEnabled("GJB-rule-2.1.1")){    // GJB-rule-2.1.1
+    llvm::errs() << "[GJB-rule-2.1.1] 过程体必须用大括号括起来\n\n";
+  }
 }
 
 } // namespace crulet
