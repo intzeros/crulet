@@ -18,6 +18,8 @@
 #include "Rule_2_1_3.h"
 #include "Rule_2_1_4.h"
 #include "Rule_2_1_6.h"
+#include "Rule_2_1_8.h"
+#include "Rule_2_1_10.h"
 #include "Rule_3_1_1.h"
 #include "Rule_3_1_2.h"
 #include "Rule_3_1_3.h"
@@ -80,6 +82,8 @@ void GJBModule::registerCheckers(){
   this->registerChecker<Rule_2_1_3>("GJB-rule-2.1.3", "then/else中的语句必须用大括号括起来");
   this->registerChecker<Rule_2_1_4>("GJB-rule-2.1.4", "逻辑表达式的连接必须使用括号");
   this->registerChecker<Rule_2_1_6>("GJB-rule-2.1.6", "宏参数必须用括号括起来");
+  this->registerChecker<Rule_2_1_8>("GJB-rule-2.1.8", "头文件名禁止使用“'”，“\\”和“/*”等字符");
+  this->registerChecker<Rule_2_1_10>("GJB-rule-2.1.10", "main必须定义为int main(void)或int main(int, char*[])的形式");
 
   this->registerChecker<Rule_3_1_1>("GJB-rule-3.1.1", "禁止条件判别成立时相应分支无执行语句");
   this->registerChecker<Rule_3_1_2>("GJB-rule-3.1.2", "在if...else if语句中必须使用else分支");
