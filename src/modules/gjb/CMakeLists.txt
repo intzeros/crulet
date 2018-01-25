@@ -10,16 +10,21 @@ add_clang_library(cruletGJBModule
   Rule_1_1_8.cpp
   Rule_1_1_9.cpp
   Rule_1_1_10.cpp
+  Rule_1_1_11.cpp
   Rule_1_1_12.cpp
+  Rule_1_1_13.cpp
+  Rule_1_1_14.cpp
   Rule_1_1_15.cpp
   Rule_1_1_16.cpp
   Rule_1_1_17.cpp
+  Rule_1_1_20.cpp
   Rule_1_1_21.cpp
   Rule_1_1_22.cpp
   Rule_2_1_1.cpp
   Rule_2_1_2.cpp
   Rule_2_1_3.cpp
   Rule_2_1_4.cpp
+  Rule_2_1_5.cpp
   Rule_2_1_6.cpp
   Rule_2_1_8.cpp
   Rule_2_1_9.cpp
