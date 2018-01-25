@@ -1,4 +1,4 @@
-#include <C:\VC\include\stdio.h>
+#include "/home/crulet/myfile.h"
 
 void Dummy(void){
     /*...*/

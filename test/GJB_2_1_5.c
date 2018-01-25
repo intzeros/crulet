@@ -1,5 +1,15 @@
+/*
+    ...
+*/
+
+#include <string.h>
+
+int i = 0;
+
+#include <stdio.h>
+
 void static_p(void)
 {
-#include <stdio.h>
+#include "myfile.h"
     /*...*/
 }
