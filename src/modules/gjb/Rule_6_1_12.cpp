@@ -1,9 +1,7 @@
 #include "Rule_6_1_12.h"
-#include "clang/AST/Expr.h"
 #include "clang/AST/ASTContext.h"
 #include "clang/ASTMatchers/ASTMatchers.h"
 #include "clang/ASTMatchers/ASTMatchFinder.h"
-#include "clang/Basic/Diagnostic.h"
 
 using namespace clang::ast_matchers;
 
@@ -21,15 +19,17 @@ void Rule_6_1_12::registerMatchers(MatchFinder *Finder) {
 }
 
 void Rule_6_1_12::run(const MatchFinder::MatchResult &Result) {
-  // if(const BinaryOperator *Op = Result.Nodes.getNodeAs<BinaryOperator>("bitwise_op")){
-  //   Expr* LHS = Op->getLHS();
-  //   const Type* TP = LHS->getType().getTypePtr();
+  if(const BinaryOperator *Op = Result.Nodes.getNodeAs<BinaryOperator>("bitwise_op")){
+    Expr* LHS = Op->getLHS();
+    Expr* RHS = Op->getRHS();
+    const Type* TP1 = LHS->getType().getTypePtr();
+    const Type* TP2 = RHS->getType().getTypePtr();
     
-  //   if(TP->isSignedIntegerType()){
-  //     DiagnosticsEngine &DE = Result.Context->getDiagnostics();
-  //     Context->report(this->CheckerName, this->ReportMsg, DE, LHS->getLocStart(), DiagnosticIDs::Warning);
-  //   }
-  // }
+    if(TP1->isSignedIntegerType() || TP2->isSignedIntegerType()){
+      DiagnosticsEngine &DE = Result.Context->getDiagnostics();
+      Context->report(this->CheckerName, this->ReportMsg, DE, Op->getOperatorLoc(), DiagnosticIDs::Warning);
+    }
+  }
 }
 
 } // namespace GJB

@@ -22,7 +22,7 @@ public:
       const auto *Info = MD->getMacroInfo();
       unsigned NumKeywords = 0;
       for(auto it = Info->tokens_begin(); it != Info->tokens_end(); ++it){
-        if(it->getIdentifierInfo()->isKeyword(PP->getLangOpts())){
+        if(it->isAnyIdentifier() && it->getIdentifierInfo()->isKeyword(PP->getLangOpts())){
           NumKeywords++;
         }
       }

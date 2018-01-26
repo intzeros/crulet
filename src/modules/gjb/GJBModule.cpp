@@ -44,6 +44,9 @@
 #include "Rule_6_1_5.h"
 #include "Rule_6_1_6.h"
 #include "Rule_6_1_7.h"
+#include "Rule_6_1_8.h"
+#include "Rule_6_1_9.h"
+#include "Rule_6_1_10.h"
 #include "Rule_6_1_11.h"
 #include "Rule_6_1_12.h"
 #include "Rule_6_1_15.h"
@@ -118,6 +121,9 @@ void GJBModule::registerCheckers(){
   this->registerChecker<Rule_6_1_5>("GJB-rule-6.1.5", "禁止给无符号变量赋负值");
   this->registerChecker<Rule_6_1_6>("GJB-rule-6.1.6", "有符号类型的位长度必须大于等于两位");
   // this->registerChecker<Rule_6_1_7>("GJB-rule-6.1.7", "位的定义必须是有符号整数或无符号整数");
+  this->registerChecker<Rule_6_1_8>("GJB-rule-6.1.8", "禁止给变量赋的值与变量的类型不一致");
+  this->registerChecker<Rule_6_1_9>("GJB-rule-6.1.9", "赋值类型必须匹配");
+  this->registerChecker<Rule_6_1_10>("GJB-rule-6.1.10", "数组下标必须是整型数");
   this->registerChecker<Rule_6_1_11>("GJB-rule-6.1.11", "禁止对常数值做逻辑非的运算");
   this->registerChecker<Rule_6_1_12>("GJB-rule-6.1.12", "禁止对有符号类型进行移位操作");
   this->registerChecker<Rule_6_1_15>("GJB-rule-6.1.15", "禁止在逻辑表达式中使用赋值操作符");

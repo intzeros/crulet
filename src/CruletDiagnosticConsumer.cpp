@@ -16,6 +16,9 @@ void CruletDiagnosticConsumer::HandleDiagnostic(DiagnosticsEngine::Level DiagLev
   else if(Info.getID() == 1189u && Context->isCheckerEnabled("GJB-rule-2.1.1")){    // GJB-rule-2.1.1
     llvm::errs() << "[GJB-rule-2.1.1] 过程体必须用大括号括起来\n\n";
   }
+  else if(Info.getID() == 1963u && Context->isCheckerEnabled("GJB-rule-2.1.1")){    // GJB-rule-6.1.10
+    llvm::errs() << "[GJB-rule-6.1.10] 数组下标必须是整型数\n\n";
+  }
 }
 
 } // namespace crulet

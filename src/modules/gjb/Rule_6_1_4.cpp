@@ -29,7 +29,6 @@ void Rule_6_1_4::run(const MatchFinder::MatchResult &Result) {
       if(APSIntResult >= TPLHSInfo.Width){
         DiagnosticsEngine &DE = Result.Context->getDiagnostics();
         DiagnosticBuilder DB = Context->report(this->CheckerName, this->ReportMsg, DE, Op->getExprLoc(), DiagnosticIDs::Warning);
-        // DB.AddSourceRange(clang::CharSourceRange::getCharRange(Op->getRHS()->getSourceRange()));
         const auto FixIt = clang::FixItHint::CreateReplacement(RHS->getSourceRange(), "< " + std::to_string(TPLHSInfo.Width));
         DB.AddFixItHint(FixIt);
       }
