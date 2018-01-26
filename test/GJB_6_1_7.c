@@ -1,5 +1,7 @@
+typedef unsigned char MYINT;
+
 struct static_p{
-    unsigned char x:1;
+    MYINT x:1;
 };
 
 void dummy(void){
