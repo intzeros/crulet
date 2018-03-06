@@ -49,6 +49,7 @@
 #include "Rule_6_1_10.h"
 #include "Rule_6_1_11.h"
 #include "Rule_6_1_12.h"
+#include "Rule_6_1_13.h"
 #include "Rule_6_1_15.h"
 #include "Rule_6_1_16.h"
 #include "Rule_6_1_17.h"
@@ -80,7 +81,7 @@ void GJBModule::registerCheckers(){
   this->registerChecker<Rule_1_1_9>("GJB-rule-1.1.9", "禁止重新定义使用C或C++的关键字");
   this->registerChecker<Rule_1_1_10>("GJB-rule-1.1.10", "禁止过程或函数中的参数表为空");
   this->registerChecker<Rule_1_1_11>("GJB-rule-1.1.11", "禁止在同一个宏中使用多个#或##");
-  // this->registerChecker<Rule_1_1_12>("GJB-rule-1.1.12", "禁止定义不像函数的宏");
+  this->registerChecker<Rule_1_1_12>("GJB-rule-1.1.12", "禁止定义不像函数的宏");
   this->registerChecker<Rule_1_1_13>("GJB-rule-1.1.13", "禁止在宏中包含不允许的项");
   this->registerChecker<Rule_1_1_14>("GJB-rule-1.1.14", "禁止重新定义保留字");
   this->registerChecker<Rule_1_1_15>("GJB-rule-1.1.15", "字符型变量必须明确定义是有符号还是无符号");
@@ -126,6 +127,7 @@ void GJBModule::registerCheckers(){
   this->registerChecker<Rule_6_1_10>("GJB-rule-6.1.10", "数组下标必须是整型数");
   this->registerChecker<Rule_6_1_11>("GJB-rule-6.1.11", "禁止对常数值做逻辑非的运算");
   this->registerChecker<Rule_6_1_12>("GJB-rule-6.1.12", "禁止对有符号类型进行移位操作");
+  this->registerChecker<Rule_6_1_13>("GJB-rule-6.1.13", "禁止对枚举类型的越限使用");
   this->registerChecker<Rule_6_1_15>("GJB-rule-6.1.15", "禁止在逻辑表达式中使用赋值操作符");
   this->registerChecker<Rule_6_1_16>("GJB-rule-6.1.16", "禁止赋值操作符与\"&&\"或\"||\"连用");
   this->registerChecker<Rule_6_1_17>("GJB-rule-6.1.17", "禁止位操作符带有布尔型的操作数");

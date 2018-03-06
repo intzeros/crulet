@@ -9,6 +9,9 @@ $ ./crulet test.c --
 
 # enable or disable checkers
 $ ./crulet -check="*,-GJB-rule-3.1.3" test.c --
+
+# for project with compile_commands.json
+$ ./run-crulet.py
 ```
 
 ### Building from Sources
