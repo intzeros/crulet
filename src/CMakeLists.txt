@@ -19,5 +19,5 @@ add_clang_library(cruletCore
 
 add_subdirectory(utils)
 add_subdirectory(modules)
-add_subdirectory(tool)
+add_subdirectory(tools)
 add_subdirectory(bugreporter)
