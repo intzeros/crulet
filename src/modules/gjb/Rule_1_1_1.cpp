@@ -18,6 +18,12 @@ void Rule_1_1_1::registerMatchers(MatchFinder *Finder) {
 
 void Rule_1_1_1::run(const MatchFinder::MatchResult &Result) {
   if(const NamedDecl *CurND = Result.Nodes.getNodeAs<NamedDecl>("namedDecl")){
+    SourceManager &SM = Result.Context->getSourceManager();
+    SourceLocation SL = CurND->getLocation();
+    if(!SL.isValid() || SM.isInSystemHeader(SL)){
+      return;
+    }
+
     TranslationUnitDecl *TUD = Result.Context->getTranslationUnitDecl();
     for(const auto D : TUD->decls()){
       if(const auto *FD = dyn_cast<FunctionDecl>(D)){
@@ -25,6 +31,7 @@ void Rule_1_1_1::run(const MatchFinder::MatchResult &Result) {
           if(!isa<FunctionDecl>(CurND)){
             DiagnosticsEngine &DE = Result.Context->getDiagnostics();
             Context->report(this->CheckerName, this->ReportMsg, DE, CurND->getLocation(), DiagnosticIDs::Warning);
+            Context->getJsonBugReporter()->addElement(this->CheckerName, this->ReportMsg, DE, SM, CurND->getLocation(), DiagnosticIDs::Warning);
           }
         }
       }

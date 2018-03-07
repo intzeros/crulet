@@ -71,5 +71,6 @@ add_clang_library(cruletGJBModule
   LINK_LIBS
   cruletCore
   cruletUtils
+  cruletBugReporter
  )
 
