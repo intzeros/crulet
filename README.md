@@ -11,7 +11,10 @@ $ ./crulet test.c --
 $ ./crulet -check="*,-GJB-rule-3.1.3" test.c --
 
 # for project with compile_commands.json
-$ ./run-crulet.py
+$ ./run-crulet.py -d report_dir
+
+# create HTML bug report files
+$ ./html-bug-report-writer.py -d report_dir
 ```
 
 ### Building from Sources
