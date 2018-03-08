@@ -31,7 +31,7 @@ void Rule_1_1_1::run(const MatchFinder::MatchResult &Result) {
           if(!isa<FunctionDecl>(CurND)){
             DiagnosticsEngine &DE = Result.Context->getDiagnostics();
             Context->report(this->CheckerName, this->ReportMsg, DE, CurND->getLocation(), DiagnosticIDs::Warning);
-            Context->getJsonBugReporter()->addElement(this->CheckerName, this->ReportMsg, DE, SM, CurND->getLocation(), DiagnosticIDs::Warning);
+            Context->getJsonBugReporter().report(this->CheckerName, this->ReportMsg, DE, SM, CurND->getLocation(), DiagnosticIDs::Warning);
           }
         }
       }

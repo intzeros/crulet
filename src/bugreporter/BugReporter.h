@@ -11,7 +11,7 @@ public:
   virtual ~BugReporter() {}
 
   virtual void report(std::string CheckerName, std::string Msg, 
-                       DiagnosticsEngine &DE, SourceLocation Loc, 
+                       DiagnosticsEngine &DE, SourceManager &SM, SourceLocation Loc, 
                        DiagnosticIDs::Level Level = DiagnosticIDs::Warning) {}
 };
 

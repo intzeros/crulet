@@ -104,9 +104,7 @@ int main(int argc, const char **argv){
   }
 
   if(OutputOpt != "none"){
-    Context.setJsonBugReporter(OutputOpt);
-  }else{
-    Context.setJsonBugReporter("report.json");
+    Context.getJsonBugReporter().setOutputFile(OutputOpt);
   }
 
   auto PathList = OptionsParser.getSourcePathList();

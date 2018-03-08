@@ -10,13 +10,12 @@ namespace crulet {
 
 class CruletContext{
 public:
-  CruletContext();
-  ~CruletContext();
+  CruletContext() {}
+  ~CruletContext() {}
 
   bool isCheckerEnabled(StringRef CheckerName);
   CruletOptions &getOptions();
-  void setJsonBugReporter(std::string filename);
-  JsonBugReporter* getJsonBugReporter();
+  JsonBugReporter &getJsonBugReporter();
 
   DiagnosticBuilder report(std::string CheckerName, std::string Msg, 
                            DiagnosticsEngine &DE, SourceLocation Loc, 
@@ -24,7 +23,7 @@ public:
 
 private:
   CruletOptions Options;
-  JsonBugReporter *JsonReporter;
+  JsonBugReporter JsonReporter;
 };
 
 

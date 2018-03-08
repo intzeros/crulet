@@ -10,15 +10,16 @@ namespace crulet {
 
 class JsonBugReporter : public BugReporter {
 public:
-  ~JsonBugReporter() {}
+  JsonBugReporter();
+  ~JsonBugReporter();
 
-  void create(std::string filename);
-  void close();
+  void setOutputFile(std::string filename);
 
-  void addElement(std::string CheckerName, std::string Msg, 
+  void report(std::string CheckerName, std::string Msg, 
                        DiagnosticsEngine &DE, SourceManager &SM, SourceLocation Loc, 
-                       DiagnosticIDs::Level Level = DiagnosticIDs::Warning);
+                       DiagnosticIDs::Level Level = DiagnosticIDs::Warning) override;
 private:
+  std::string filename;
   std::ofstream JsonOFS;
   nlohmann::json Json;
 };

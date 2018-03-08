@@ -65,7 +65,8 @@ def parse_db(db_path, args, project_base_dir, path_map):
         dir = os.path.join(args.d, json_report_dir, relvdir)
         if not os.path.exists(dir):
           os.makedirs(dir)
-        filename = os.path.join(dir, str(path_map[abspath]) + ".json")
+        # filename = os.path.join(dir, str(path_map[abspath]) + ".json")
+        filename = os.path.join(dir, os.path.basename(abspath) + ".json")
         command = command + " -d=" + filename
 
       print "\n" + command
