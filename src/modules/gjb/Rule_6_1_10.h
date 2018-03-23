@@ -9,8 +9,9 @@ namespace GJB {
 
 class Rule_6_1_10 : public CruletChecker {
 public:
-  Rule_6_1_10(CruletContext *Context, StringRef CheckerName, StringRef ReportMsg)
-    : CruletChecker(Context, CheckerName, ReportMsg) {}
+  Rule_6_1_10(CruletContext *Context, StringRef CheckerName, StringRef ReportMsg, 
+      DiagnosticIDs::Level DiagLevel = DiagnosticIDs::Warning)
+      : CruletChecker(Context, CheckerName, ReportMsg, DiagLevel) {}
 };
 
 } // namespace GJB

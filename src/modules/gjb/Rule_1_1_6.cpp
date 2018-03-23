@@ -12,16 +12,23 @@ namespace crulet {
 namespace GJB {
 
 void Rule_1_1_6::registerMatchers(MatchFinder *Finder) {
-  DeclarationMatcher Matcher = functionDecl(unless(isDefinition())).bind("functionDecl_nobody");
+  DeclarationMatcher Matcher = functionDecl(unless(isDefinition())).bind("gjb116_functionDecl_nobody");
   Finder->addMatcher(Matcher, this);
 }
 
 void Rule_1_1_6::run(const MatchFinder::MatchResult &Result) {
-  if(const FunctionDecl *FD = Result.Nodes.getNodeAs<FunctionDecl>("functionDecl_nobody")){
+  if(const FunctionDecl *FD = Result.Nodes.getNodeAs<FunctionDecl>("gjb116_functionDecl_nobody")){
+    SourceManager &SM = Result.Context->getSourceManager();
+    SourceLocation SL = FD->getLocation();
+    if(!SL.isValid() || SM.isInSystemHeader(SL)){
+      return;
+    }
+
     const FunctionDecl *OrgFD = FD->getDefinition();
     if(OrgFD && FD->param_size() == 0 && OrgFD->param_size() != 0){
       DiagnosticsEngine &DE = Result.Context->getDiagnostics();
-      Context->report(this->CheckerName, this->ReportMsg, DE, FD->getLocStart(), DiagnosticIDs::Warning);
+      Context->report(this->CheckerName, this->ReportMsg, DE, SL, this->DiagLevel);
+      Context->getJsonBugReporter().report(this->CheckerName, this->ReportMsg, SM, SL, this->DiagLevel);
     }
   }
 }

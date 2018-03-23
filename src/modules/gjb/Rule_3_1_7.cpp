@@ -12,12 +12,18 @@ namespace crulet {
 namespace GJB {
 
 void Rule_3_1_7::registerMatchers(MatchFinder *Finder) {
-  StatementMatcher Matcher = switchStmt().bind("switch");
+  StatementMatcher Matcher = switchStmt().bind("gjb317_switch");
   Finder->addMatcher(Matcher, this);
 }
 
 void Rule_3_1_7::run(const MatchFinder::MatchResult &Result) {
-  if(const SwitchStmt *SS = Result.Nodes.getNodeAs<SwitchStmt>("switch")){
+  if(const SwitchStmt *SS = Result.Nodes.getNodeAs<SwitchStmt>("gjb317_switch")){
+    SourceManager &SM = Result.Context->getSourceManager();
+    SourceLocation SL = SS->getSwitchLoc();
+    if(!SL.isValid() || SM.isInSystemHeader(SL)){
+      return;
+    }
+
     auto SSBody = SS->getBody();
     bool OK = true;
     auto PreStmtItr = SSBody->child_end();
@@ -38,7 +44,8 @@ void Rule_3_1_7::run(const MatchFinder::MatchResult &Result) {
 
     if(!OK){
       DiagnosticsEngine &DE = Result.Context->getDiagnostics();
-      Context->report(this->CheckerName, this->ReportMsg, DE, CaseLocation, DiagnosticIDs::Warning);
+      Context->report(this->CheckerName, this->ReportMsg, DE, CaseLocation, this->DiagLevel);
+      Context->getJsonBugReporter().report(this->CheckerName, this->ReportMsg, SM, CaseLocation, this->DiagLevel);
     }
   }
 }

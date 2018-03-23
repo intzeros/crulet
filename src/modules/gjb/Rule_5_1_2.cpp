@@ -12,14 +12,21 @@ namespace crulet {
 namespace GJB {
 
 void Rule_5_1_2::registerMatchers(MatchFinder *Finder) {
-  StatementMatcher Matcher = gotoStmt().bind("goto");
+  StatementMatcher Matcher = gotoStmt().bind("gjb512_goto");
   Finder->addMatcher(Matcher, this);
 }
 
 void Rule_5_1_2::run(const MatchFinder::MatchResult &Result) {
-  if(const GotoStmt *GS = Result.Nodes.getNodeAs<GotoStmt>("goto")){
+  if(const GotoStmt *GS = Result.Nodes.getNodeAs<GotoStmt>("gjb512_goto")){
+    SourceManager &SM = Result.Context->getSourceManager();
+    SourceLocation SL = GS->getGotoLoc();
+    if(!SL.isValid() || SM.isInSystemHeader(SL)){
+      return;
+    }
+    
     DiagnosticsEngine &DE = Result.Context->getDiagnostics();
-    Context->report(this->CheckerName, this->ReportMsg, DE, GS->getGotoLoc(), DiagnosticIDs::Warning);
+    Context->report(this->CheckerName, this->ReportMsg, DE, SL, this->DiagLevel);
+    Context->getJsonBugReporter().report(this->CheckerName, this->ReportMsg, SM, SL, this->DiagLevel);
   }
 }
 

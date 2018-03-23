@@ -132,10 +132,16 @@ void Rule_2_1_4::registerMatchers(MatchFinder *Finder) {
 
 void Rule_2_1_4::run(const MatchFinder::MatchResult &Result) {
   if(const auto *OP = Result.Nodes.getNodeAs<BinaryOperator>("gjb_214")){
-    DiagnosticsEngine &DE = Result.Context->getDiagnostics();
-    DiagnosticBuilder DB = Context->report(this->CheckerName, this->ReportMsg, DE, OP->getOperatorLoc(), DiagnosticIDs::Warning);
+    SourceManager &SM = Result.Context->getSourceManager();
+    SourceLocation SL = OP->getOperatorLoc();
+    if(!SL.isValid() || SM.isInSystemHeader(SL)){
+      return;
+    }
 
-    const auto &SM = Result.Context->getSourceManager();
+    DiagnosticsEngine &DE = Result.Context->getDiagnostics();
+    DiagnosticBuilder DB = Context->report(this->CheckerName, this->ReportMsg, DE, SL, this->DiagLevel);
+    Context->getJsonBugReporter().report(this->CheckerName, this->ReportMsg, SM, SL, this->DiagLevel);
+
     const auto &LangOpts = Result.Context->getLangOpts();
     SourceLocation EndLoc = Lexer::getLocForEndOfToken(OP->getLocEnd(), 0, SM, LangOpts);
     const auto FixIt1 = clang::FixItHint::CreateInsertion(OP->getLocStart(), "(");

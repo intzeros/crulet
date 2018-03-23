@@ -32,7 +32,9 @@ public:
         auto *Context = Checker->getCruletContext();
         StringRef ReportMsg = Checker->getReportMsg();
         StringRef CheckerName = Checker->getName();
-        Context->report(CheckerName, ReportMsg, DE, SL, DiagnosticIDs::Warning);
+        DiagnosticIDs::Level DiagLevel = Checker->getDiagLevel();
+        Context->report(CheckerName, ReportMsg, DE, SL, DiagLevel);
+        Context->getJsonBugReporter().report(CheckerName, ReportMsg, SM, SL, DiagLevel);
       }
     }
   }

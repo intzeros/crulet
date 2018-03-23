@@ -53,7 +53,8 @@ void Rule_2_1_5::run(const ast_matchers::MatchFinder::MatchResult &Result){
     for(auto &SL : IncludeSLVec){
       if(SM.isWrittenInSameFile(SSL, SL) && SM.isBeforeInTranslationUnit(SSL, SL)){
         DiagnosticsEngine &DE = Result.Context->getDiagnostics();
-        Context->report(this->CheckerName, this->ReportMsg, DE, SL, DiagnosticIDs::Warning);
+        Context->report(this->CheckerName, this->ReportMsg, DE, SL, this->DiagLevel);
+        Context->getJsonBugReporter().report(this->CheckerName, this->ReportMsg, SM, SL, this->DiagLevel);
         IsReported = true;
         break;
       }
@@ -66,7 +67,8 @@ void Rule_2_1_5::run(const ast_matchers::MatchFinder::MatchResult &Result){
     for(auto &SL : IncludeSLVec){
       if(SM.isWrittenInSameFile(SSL, SL) && SM.isBeforeInTranslationUnit(SSL, SL)){
         DiagnosticsEngine &DE = Result.Context->getDiagnostics();
-        Context->report(this->CheckerName, this->ReportMsg, DE, SL, DiagnosticIDs::Warning);
+        Context->report(this->CheckerName, this->ReportMsg, DE, SL, this->DiagLevel);
+        Context->getJsonBugReporter().report(this->CheckerName, this->ReportMsg, SM, SL, this->DiagLevel);
         IsReported = true;
         break;
       }

@@ -13,15 +13,22 @@ namespace crulet {
 namespace GJB {
 
 void Rule_4_1_3::registerMatchers(MatchFinder *Finder) {
-  StatementMatcher Matcher = implicitCastExpr().bind("implicitCastExpr");
+  StatementMatcher Matcher = implicitCastExpr().bind("gjb413_implicitCastExpr");
   Finder->addMatcher(Matcher, this);
 }
 
 void Rule_4_1_3::run(const MatchFinder::MatchResult &Result) {
-  if(const ImplicitCastExpr *ICE = Result.Nodes.getNodeAs<ImplicitCastExpr>("implicitCastExpr")){
+  if(const ImplicitCastExpr *ICE = Result.Nodes.getNodeAs<ImplicitCastExpr>("gjb413_implicitCastExpr")){
+    SourceManager &SM = Result.Context->getSourceManager();
+    SourceLocation SL = ICE->getExprLoc();
+    if(!SL.isValid() || SM.isInSystemHeader(SL)){
+      return;
+    }
+
     if(strcmp(ICE->getCastKindName(), "FunctionToPointerDecay") == 0){
       DiagnosticsEngine &DE = Result.Context->getDiagnostics();
-      Context->report(this->CheckerName, this->ReportMsg, DE, ICE->getLocStart(), DiagnosticIDs::Warning);
+      Context->report(this->CheckerName, this->ReportMsg, DE, SL, this->DiagLevel);
+      Context->getJsonBugReporter().report(this->CheckerName, this->ReportMsg, SM, SL, this->DiagLevel);
     }
   }
 }

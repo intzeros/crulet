@@ -12,14 +12,21 @@ namespace crulet {
 namespace GJB {
 
 void Rule_1_1_4::registerMatchers(MatchFinder *Finder) {
-  StatementMatcher Matcher = labelStmt(has(labelStmt())).bind("multi_labelStmt");
+  StatementMatcher Matcher = labelStmt(has(labelStmt())).bind("gjb114_multi_labelStmt");
   Finder->addMatcher(Matcher, this);
 }
 
 void Rule_1_1_4::run(const MatchFinder::MatchResult &Result) {
-  if(const LabelStmt *LS = Result.Nodes.getNodeAs<LabelStmt>("multi_labelStmt")){
+  if(const LabelStmt *LS = Result.Nodes.getNodeAs<LabelStmt>("gjb114_multi_labelStmt")){
+    SourceManager &SM = Result.Context->getSourceManager();
+    SourceLocation SL = LS->getIdentLoc();
+    if(!SL.isValid() || SM.isInSystemHeader(SL)){
+      return;
+    }
+
     DiagnosticsEngine &DE = Result.Context->getDiagnostics();
-    Context->report(this->CheckerName, this->ReportMsg, DE, LS->getIdentLoc(), DiagnosticIDs::Warning);
+    Context->report(this->CheckerName, this->ReportMsg, DE, SL, this->DiagLevel);
+    Context->getJsonBugReporter().report(this->CheckerName, this->ReportMsg, SM, SL, this->DiagLevel);
   }
 }
 

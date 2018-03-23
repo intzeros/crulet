@@ -26,9 +26,11 @@ public:
     auto *Context = Checker->getCruletContext();
     StringRef ReportMsg = Checker->getReportMsg();
     StringRef CheckerName = Checker->getName();
+    DiagnosticIDs::Level DiagLevel = Checker->getDiagLevel();
 
     if(FileName.size() > 0 && FileName[0] == '/'){
-      DiagnosticBuilder DB = Context->report(CheckerName, ReportMsg, DE, HashLoc, DiagnosticIDs::Warning);
+      DiagnosticBuilder DB = Context->report(CheckerName, ReportMsg, DE, HashLoc, DiagLevel);
+      Context->getJsonBugReporter().report(CheckerName, ReportMsg, SM, HashLoc, DiagLevel);
       DB.AddSourceRange(FilenameRange);
     }
   }

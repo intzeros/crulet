@@ -12,16 +12,23 @@ namespace crulet {
 namespace GJB {
 
 void Rule_5_1_1::registerMatchers(MatchFinder *Finder) {
-  StatementMatcher Matcher = callExpr().bind("call_expr");
+  StatementMatcher Matcher = callExpr().bind("gjb511_callExpr");
   Finder->addMatcher(Matcher, this);
 }
 
 void Rule_5_1_1::run(const MatchFinder::MatchResult &Result) {
-  if(const CallExpr *CE = Result.Nodes.getNodeAs<CallExpr>("call_expr")){
+  if(const CallExpr *CE = Result.Nodes.getNodeAs<CallExpr>("gjb511_callExpr")){
+    SourceManager &SM = Result.Context->getSourceManager();
+    SourceLocation SL = CE->getExprLoc();
+    if(!SL.isValid() || SM.isInSystemHeader(SL)){
+      return;
+    }
+
     if(CE->getDirectCallee()){
       if(CE->getDirectCallee()->getNameInfo().getAsString() == "longjump"){
         DiagnosticsEngine &DE = Result.Context->getDiagnostics();
-        Context->report(this->CheckerName, this->ReportMsg, DE, CE->getLocStart(), DiagnosticIDs::Warning);
+        Context->report(this->CheckerName, this->ReportMsg, DE, SL, this->DiagLevel);
+        Context->getJsonBugReporter().report(this->CheckerName, this->ReportMsg, SM, SL, this->DiagLevel);
       }
     }
   }

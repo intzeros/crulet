@@ -14,18 +14,25 @@ namespace GJB {
 void Rule_6_1_3::registerMatchers(MatchFinder *Finder) {
   StatementMatcher Matcher = binaryOperator(anyOf(
     hasOperatorName("<<"), hasOperatorName(">>"), hasOperatorName("<<="), hasOperatorName(">>="))
-  ).bind("shift_op");
+  ).bind("gjb613_shift_op");
   Finder->addMatcher(Matcher, this);
 }
 
 void Rule_6_1_3::run(const MatchFinder::MatchResult &Result) {
-  if(const BinaryOperator *Op = Result.Nodes.getNodeAs<BinaryOperator>("shift_op")){
+  if(const BinaryOperator *Op = Result.Nodes.getNodeAs<BinaryOperator>("gjb613_shift_op")){
+    SourceManager &SM = Result.Context->getSourceManager();
+    SourceLocation SL = Op->getOperatorLoc();
+    if(!SL.isValid() || SM.isInSystemHeader(SL)){
+      return;
+    }
+
     Expr* LHS = Op->getLHS();
     const Type* TP = LHS->getType().getTypePtr();
     
     if(TP->isSignedIntegerType()){
       DiagnosticsEngine &DE = Result.Context->getDiagnostics();
-      Context->report(this->CheckerName, this->ReportMsg, DE, LHS->getLocStart(), DiagnosticIDs::Warning);
+      Context->report(this->CheckerName, this->ReportMsg, DE, LHS->getLocStart(), this->DiagLevel);
+      Context->getJsonBugReporter().report(this->CheckerName, this->ReportMsg, SM, LHS->getLocStart(), this->DiagLevel);
     }
   }
 }

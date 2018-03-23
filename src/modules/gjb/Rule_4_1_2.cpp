@@ -12,12 +12,18 @@ namespace crulet {
 namespace GJB {
 
 void Rule_4_1_2::registerMatchers(MatchFinder *Finder) {
-  DeclarationMatcher Matcher = valueDecl(anyOf(varDecl(), fieldDecl())).bind("vardecl_fielddecl");
+  DeclarationMatcher Matcher = valueDecl(anyOf(varDecl(), fieldDecl())).bind("gjb412_vardecl_fielddecl");
   Finder->addMatcher(Matcher, this);
 }
 
 void Rule_4_1_2::run(const MatchFinder::MatchResult &Result) {
-  if(const ValueDecl *VD = Result.Nodes.getNodeAs<ValueDecl>("vardecl_fielddecl")){
+  if(const ValueDecl *VD = Result.Nodes.getNodeAs<ValueDecl>("gjb412_vardecl_fielddecl")){
+    SourceManager &SM = Result.Context->getSourceManager();
+    SourceLocation SL = VD->getLocation();
+    if(!SL.isValid() || SM.isInSystemHeader(SL)){
+      return;
+    }
+
     if(VD->getType()->isPointerType() == false){
       return;
     }
@@ -36,7 +42,8 @@ void Rule_4_1_2::run(const MatchFinder::MatchResult &Result) {
         PointerLevel++;
         if(PointerLevel > 2){
           DiagnosticsEngine &DE = Result.Context->getDiagnostics();
-          Context->report(this->CheckerName, this->ReportMsg, DE, VD->getLocation(), DiagnosticIDs::Warning);
+          Context->report(this->CheckerName, this->ReportMsg, DE, SL, this->DiagLevel);
+          Context->getJsonBugReporter().report(this->CheckerName, this->ReportMsg, SM, SL, this->DiagLevel);
           break;
         }
       }else if(VDTypeString[i] == '('){

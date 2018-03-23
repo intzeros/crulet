@@ -12,17 +12,24 @@ namespace crulet {
 namespace GJB {
 
 void Rule_6_1_18::registerMatchers(MatchFinder *Finder) {
-  StatementMatcher Matcher = binaryOperator(hasOperatorName("&")).bind("gjb_46118");
+  StatementMatcher Matcher = binaryOperator(hasOperatorName("&")).bind("gjb6118");
   Finder->addMatcher(Matcher, this);
 }
 
 void Rule_6_1_18::run(const MatchFinder::MatchResult &Result) {
-  if(const BinaryOperator *Op = Result.Nodes.getNodeAs<BinaryOperator>("gjb_46118")){
+  if(const BinaryOperator *Op = Result.Nodes.getNodeAs<BinaryOperator>("gjb6118")){
+    SourceManager &SM = Result.Context->getSourceManager();
+    SourceLocation SL = Op->getOperatorLoc();
+    if(!SL.isValid() || SM.isInSystemHeader(SL)){
+      return;
+    }
+
     Expr* LHS = Op->getLHS();
     Expr* RHS = Op->getRHS();
     if(LHS->isKnownToHaveBooleanValue() || RHS->isKnownToHaveBooleanValue()){
       DiagnosticsEngine &DE = Result.Context->getDiagnostics();
-      DiagnosticBuilder DB = Context->report(this->CheckerName, this->ReportMsg, DE, Op->getOperatorLoc(), DiagnosticIDs::Warning);
+      DiagnosticBuilder DB = Context->report(this->CheckerName, this->ReportMsg, DE, SL, this->DiagLevel);
+      Context->getJsonBugReporter().report(this->CheckerName, this->ReportMsg, SM, SL, this->DiagLevel);
 
       const auto Start = Op->getOperatorLoc();
       const auto End = Start.getLocWithOffset(+1);

@@ -12,16 +12,24 @@ namespace crulet {
 namespace GJB {
 
 void Rule_14_1_3::registerMatchers(MatchFinder *Finder) {
-  StatementMatcher Matcher = switchStmt().bind("switch");
+  StatementMatcher Matcher = switchStmt().bind("gjb1413_switch");
   Finder->addMatcher(Matcher, this);
 }
 
 void Rule_14_1_3::run(const MatchFinder::MatchResult &Result) {
-  if(const SwitchStmt *SS = Result.Nodes.getNodeAs<SwitchStmt>("switch")){
+  if(const SwitchStmt *SS = Result.Nodes.getNodeAs<SwitchStmt>("gjb1413_switch")){
+    SourceManager &SM = Result.Context->getSourceManager();
+    SourceLocation SL = SS->getSwitchLoc();
+    if(!SL.isValid() || SM.isInSystemHeader(SL)){
+      return;
+    }
+
     const Expr* Cond = SS->getCond();
     if(Cond && Cond->isKnownToHaveBooleanValue()){
       DiagnosticsEngine &DE = Result.Context->getDiagnostics();
-      DiagnosticBuilder DB = Context->report(this->CheckerName, this->ReportMsg, DE, SS->getSwitchLoc(), DiagnosticIDs::Warning);
+      DiagnosticBuilder DB = Context->report(this->CheckerName, this->ReportMsg, DE, SL, this->DiagLevel);
+      Context->getJsonBugReporter().report(this->CheckerName, this->ReportMsg, SM, SL, this->DiagLevel);
+      
       const auto SourceRange = clang::CharSourceRange::getTokenRange(Cond->getLocStart(), Cond->getLocEnd());
       DB.AddSourceRange(SourceRange);
     }

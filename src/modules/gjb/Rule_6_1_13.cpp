@@ -17,9 +17,16 @@ void Rule_6_1_13::registerMatchers(MatchFinder *Finder) {
 
 void Rule_6_1_13::run(const MatchFinder::MatchResult &Result) {
   if(const DeclRefExpr *DRE = Result.Nodes.getNodeAs<DeclRefExpr>("gjb_6113")){
+    SourceManager &SM = Result.Context->getSourceManager();
+    SourceLocation SL = DRE->getExprLoc();
+    if(!SL.isValid() || SM.isInSystemHeader(SL)){
+      return;
+    }
+
     if(check_utils::isEnumConstant(DRE)){
       DiagnosticsEngine &DE = Result.Context->getDiagnostics();
-      Context->report(this->CheckerName, this->ReportMsg, DE, DRE->getLocation(), DiagnosticIDs::Warning);
+      Context->report(this->CheckerName, this->ReportMsg, DE, SL, this->DiagLevel);
+      Context->getJsonBugReporter().report(this->CheckerName, this->ReportMsg, SM, SL, this->DiagLevel);
     }
   }
 }

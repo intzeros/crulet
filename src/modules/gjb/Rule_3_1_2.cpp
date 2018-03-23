@@ -12,14 +12,21 @@ namespace crulet {
 namespace GJB {
 
 void Rule_3_1_2::registerMatchers(MatchFinder *Finder) {
-  StatementMatcher Matcher = ifStmt(unless(hasElse(stmt()))).bind("onlyif");
+  StatementMatcher Matcher = ifStmt(unless(hasElse(stmt()))).bind("gjb312_onlyif");
   Finder->addMatcher(Matcher, this);
 }
 
 void Rule_3_1_2::run(const MatchFinder::MatchResult &Result) {
-  if(const IfStmt *IS = Result.Nodes.getNodeAs<IfStmt>("onlyif")){
+  if(const IfStmt *IF = Result.Nodes.getNodeAs<IfStmt>("gjb312_onlyif")){
+    SourceManager &SM = Result.Context->getSourceManager();
+    SourceLocation SL = IF->getIfLoc();
+    if(!SL.isValid() || SM.isInSystemHeader(SL)){
+      return;
+    }
+
     DiagnosticsEngine &DE = Result.Context->getDiagnostics();
-    Context->report(this->CheckerName, this->ReportMsg, DE, IS->getIfLoc(), DiagnosticIDs::Warning);
+    Context->report(this->CheckerName, this->ReportMsg, DE, SL, this->DiagLevel);
+    Context->getJsonBugReporter().report(this->CheckerName, this->ReportMsg, SM, SL, this->DiagLevel);
   }
 }
 

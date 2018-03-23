@@ -16,7 +16,7 @@ public:
   void setOutputFile(std::string filename);
 
   void report(std::string CheckerName, std::string Msg, 
-                       DiagnosticsEngine &DE, SourceManager &SM, SourceLocation Loc, 
+                       SourceManager &SM, SourceLocation Loc, 
                        DiagnosticIDs::Level Level = DiagnosticIDs::Warning) override;
 private:
   std::string filename;

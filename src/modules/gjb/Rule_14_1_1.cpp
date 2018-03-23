@@ -12,12 +12,18 @@ namespace crulet {
 namespace GJB {
 
 void Rule_14_1_1::registerMatchers(MatchFinder *Finder) {
-  StatementMatcher Matcher = binaryOperator(hasOperatorName("==")).bind("equalComp");
+  StatementMatcher Matcher = binaryOperator(hasOperatorName("==")).bind("gjb1411_equalComp");
   Finder->addMatcher(Matcher, this);
 }
 
 void Rule_14_1_1::run(const MatchFinder::MatchResult &Result) {
-  if(const BinaryOperator *Op = Result.Nodes.getNodeAs<BinaryOperator>("equalComp")){
+  if(const BinaryOperator *Op = Result.Nodes.getNodeAs<BinaryOperator>("gjb1411_equalComp")){
+    SourceManager &SM = Result.Context->getSourceManager();
+    SourceLocation SL = Op->getOperatorLoc();
+    if(!SL.isValid() || SM.isInSystemHeader(SL)){
+      return;
+    }
+    
     Expr* LHS = Op->getLHS();
     Expr* RHS = Op->getRHS();
     if(LHS && RHS){
@@ -25,7 +31,8 @@ void Rule_14_1_1::run(const MatchFinder::MatchResult &Result) {
       const Type *RHSType = RHS->getType().getTypePtr();
       if((LHSType && LHSType->isRealFloatingType()) || (RHSType && RHSType->isRealFloatingType())){
         DiagnosticsEngine &DE = Result.Context->getDiagnostics();
-        Context->report(this->CheckerName, this->ReportMsg, DE, Op->getOperatorLoc(), DiagnosticIDs::Warning);
+        Context->report(this->CheckerName, this->ReportMsg, DE, SL, this->DiagLevel);
+        Context->getJsonBugReporter().report(this->CheckerName, this->ReportMsg, SM, SL, this->DiagLevel);
       }
     }
   }

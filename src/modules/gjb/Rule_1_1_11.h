@@ -9,8 +9,9 @@ namespace GJB {
 
 class Rule_1_1_11 : public CruletChecker {
 public:
-  Rule_1_1_11(CruletContext *Context, StringRef CheckerName, StringRef ReportMsg)
-    : CruletChecker(Context, CheckerName, ReportMsg) {}
+  Rule_1_1_11(CruletContext *Context, StringRef CheckerName, StringRef ReportMsg, 
+      DiagnosticIDs::Level DiagLevel = DiagnosticIDs::Warning)
+      : CruletChecker(Context, CheckerName, ReportMsg, DiagLevel) {}
 
   virtual void registerPPCallbacks(CompilerInstance &CI) override;
 };

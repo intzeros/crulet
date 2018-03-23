@@ -27,8 +27,10 @@ void JsonBugReporter::setOutputFile(std::string filename){
 }
 
 void JsonBugReporter::report(std::string CheckerName, std::string Msg, 
-                             DiagnosticsEngine &DE, SourceManager &SM, SourceLocation Loc, 
+                             SourceManager &SM, SourceLocation Loc, 
                              DiagnosticIDs::Level Level){
+  if(filename == "") return;
+  
   nlohmann::json JObj;
   JObj["type"] = CheckerName;
   JObj["description"] = Msg;

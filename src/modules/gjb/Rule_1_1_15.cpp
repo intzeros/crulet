@@ -18,9 +18,16 @@ void Rule_1_1_15::registerMatchers(MatchFinder *Finder) {
 
 void Rule_1_1_15::run(const MatchFinder::MatchResult &Result) {
   if(const ValueDecl *VD = Result.Nodes.getNodeAs<ValueDecl>("valueDecl_char")){
+    SourceManager &SM = Result.Context->getSourceManager();
+    SourceLocation SL = VD->getLocStart();
+    if(!SL.isValid() || SM.isInSystemHeader(SL)){
+      return;
+    }
+
     if(VD->getType().getAsString() == "char"){
       DiagnosticsEngine &DE = Result.Context->getDiagnostics();
-      Context->report(this->CheckerName, this->ReportMsg, DE, VD->getLocStart(), DiagnosticIDs::Warning);
+      Context->report(this->CheckerName, this->ReportMsg, DE, SL, this->DiagLevel);
+      Context->getJsonBugReporter().report(this->CheckerName, this->ReportMsg, SM, SL, this->DiagLevel);
     }
   }
 }

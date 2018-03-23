@@ -18,11 +18,18 @@ void Rule_6_1_17::registerMatchers(MatchFinder *Finder) {
 
 void Rule_6_1_17::run(const MatchFinder::MatchResult &Result) {
   if(const BinaryOperator *Op = Result.Nodes.getNodeAs<BinaryOperator>("gjb_46117")){
+    SourceManager &SM = Result.Context->getSourceManager();
+    SourceLocation SL = Op->getOperatorLoc();
+    if(!SL.isValid() || SM.isInSystemHeader(SL)){
+      return;
+    }
+    
     Expr* LHS = Op->getLHS();
     Expr* RHS = Op->getRHS();
     if(LHS->isKnownToHaveBooleanValue() || RHS->isKnownToHaveBooleanValue()){
       DiagnosticsEngine &DE = Result.Context->getDiagnostics();
-      DiagnosticBuilder DB = Context->report(this->CheckerName, this->ReportMsg, DE, Op->getOperatorLoc(), DiagnosticIDs::Warning);
+      DiagnosticBuilder DB = Context->report(this->CheckerName, this->ReportMsg, DE, SL, this->DiagLevel);
+      Context->getJsonBugReporter().report(this->CheckerName, this->ReportMsg, SM, SL, this->DiagLevel);
 
       const auto Start = Op->getOperatorLoc();
       const auto End = Start.getLocWithOffset(+1);

@@ -2,6 +2,7 @@
 #define LLVM_CLANG_TOOLS_EXTRA_CRULET_MODULE_H
 
 #include "clang/ASTMatchers/ASTMatchFinder.h"
+#include "clang/Basic/Diagnostic.h"
 #include "CruletContext.h"
 #include "CruletChecker.h"
 #include <map>
@@ -23,17 +24,19 @@ public:
   void addCheckerActions(CompilerInstance &CI, ast_matchers::MatchFinder *Finder);
 
   template <typename CheckerType>
-  void registerChecker(StringRef CheckerName, StringRef ReportMsg){
+  void registerChecker(StringRef CheckerName, StringRef ReportMsg, 
+                        DiagnosticIDs::Level DiagLevel = DiagnosticIDs::Warning){
     if(Context->isCheckerEnabled(CheckerName)){
-      createChecker<CheckerType>(CheckerName, ReportMsg);
+      createChecker<CheckerType>(CheckerName, ReportMsg, DiagLevel);
     }
   }
   
 protected:
   template <typename CheckerType>
-  CruletChecker* createChecker(StringRef CheckerName, StringRef ReportMsg){
+  CruletChecker* createChecker(StringRef CheckerName, StringRef ReportMsg, 
+                                DiagnosticIDs::Level DiagLevel = DiagnosticIDs::Warning){
     if(CheckerMap.find(CheckerName) == CheckerMap.end()){
-      CheckerMap[CheckerName] = new CheckerType(Context, CheckerName, ReportMsg);
+      CheckerMap[CheckerName] = new CheckerType(Context, CheckerName, ReportMsg, DiagLevel);
     }
     return CheckerMap[CheckerName];
   }

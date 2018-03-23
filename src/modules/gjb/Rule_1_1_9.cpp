@@ -12,15 +12,26 @@ namespace crulet {
 namespace GJB {
 
 void Rule_1_1_9::registerMatchers(MatchFinder *Finder) {
-  DeclarationMatcher Matcher = namedDecl().bind("namedDecl");
+  DeclarationMatcher Matcher = namedDecl(anyOf(
+                                          labelDecl(), 
+                                          declaratorDecl(), 
+                                          typedefDecl(), enumDecl(), recordDecl())
+                                ).bind("gjb119_namedDecl");
   Finder->addMatcher(Matcher, this);
 }
 
 void Rule_1_1_9::run(const MatchFinder::MatchResult &Result) {
-  if(const NamedDecl *ND = Result.Nodes.getNodeAs<NamedDecl>("namedDecl")){
+  if(const NamedDecl *ND = Result.Nodes.getNodeAs<NamedDecl>("gjb119_namedDecl")){
+    SourceManager &SM = Result.Context->getSourceManager();
+    SourceLocation SL = ND->getLocation();
+    if(!SL.isValid() || SM.isInSystemHeader(SL)){
+      return;
+    }
+
     if(check_utils::isCPPKeyword(ND->getName())){
       DiagnosticsEngine &DE = Result.Context->getDiagnostics();
-      Context->report(this->CheckerName, this->ReportMsg, DE, ND->getLocation(), DiagnosticIDs::Warning);
+      Context->report(this->CheckerName, this->ReportMsg, DE, SL, this->DiagLevel);
+      Context->getJsonBugReporter().report(this->CheckerName, this->ReportMsg, SM, SL, this->DiagLevel);
     }
   }
 }

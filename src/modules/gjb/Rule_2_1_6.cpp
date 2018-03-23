@@ -17,6 +17,7 @@ public:
       : PP(PP), Checker(Checker) {}
 
   void MacroDefined(const Token &MacroNameTok, const MacroDirective *MD) override {
+    SourceManager &SM = PP->getSourceManager();
     const auto *Info = MD->getMacroInfo();
     
     if(Info->isFunctionLike() && !Info->param_empty()){
@@ -29,6 +30,7 @@ public:
       auto *Context = Checker->getCruletContext();
       StringRef ReportMsg = Checker->getReportMsg();
       StringRef CheckerName = Checker->getName();
+      DiagnosticIDs::Level DiagLevel = Checker->getDiagLevel();
 
       for (auto it = Info->tokens_begin(); it != Info->tokens_end(); ++it) {
         if(it->isAnyIdentifier()){
@@ -38,10 +40,12 @@ public:
               auto pre = it - 1;
               auto next = it + 1;
               if(pre->getKind() != tok::l_paren || next->getKind() != tok::r_paren){
-                Context->report(CheckerName, ReportMsg, DE, it->getLocation(), DiagnosticIDs::Warning);
+                Context->report(CheckerName, ReportMsg, DE, it->getLocation(), DiagLevel);
+                Context->getJsonBugReporter().report(CheckerName, ReportMsg, SM, it->getLocation(), DiagLevel);
               }
             }else{
-              Context->report(CheckerName, ReportMsg, DE, it->getLocation(), DiagnosticIDs::Warning);
+              Context->report(CheckerName, ReportMsg, DE, it->getLocation(), DiagLevel);
+              Context->getJsonBugReporter().report(CheckerName, ReportMsg, SM, it->getLocation(), DiagLevel);
             }
           }
         }

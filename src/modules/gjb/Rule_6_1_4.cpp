@@ -14,12 +14,18 @@ namespace GJB {
 void Rule_6_1_4::registerMatchers(MatchFinder *Finder) {
   StatementMatcher Matcher = binaryOperator(anyOf(
     hasOperatorName("<<"), hasOperatorName(">>"), hasOperatorName("<<="), hasOperatorName(">>="))
-  ).bind("shift_op");
+  ).bind("gjb614_shift_op");
   Finder->addMatcher(Matcher, this);
 }
 
 void Rule_6_1_4::run(const MatchFinder::MatchResult &Result) {
-  if(const BinaryOperator *Op = Result.Nodes.getNodeAs<BinaryOperator>("shift_op")){
+  if(const BinaryOperator *Op = Result.Nodes.getNodeAs<BinaryOperator>("gjb614_shift_op")){
+    SourceManager &SM = Result.Context->getSourceManager();
+    SourceLocation SL = Op->getOperatorLoc();
+    if(!SL.isValid() || SM.isInSystemHeader(SL)){
+      return;
+    }
+
     Expr* LHS = Op->getLHS();
     Expr* RHS = Op->getRHS();
 
@@ -28,7 +34,9 @@ void Rule_6_1_4::run(const MatchFinder::MatchResult &Result) {
       TypeInfo TPLHSInfo = Result.Context->getTypeInfo(LHS->getType());
       if(APSIntResult >= TPLHSInfo.Width){
         DiagnosticsEngine &DE = Result.Context->getDiagnostics();
-        DiagnosticBuilder DB = Context->report(this->CheckerName, this->ReportMsg, DE, Op->getExprLoc(), DiagnosticIDs::Warning);
+        DiagnosticBuilder DB = Context->report(this->CheckerName, this->ReportMsg, DE, SL, this->DiagLevel);
+        Context->getJsonBugReporter().report(this->CheckerName, this->ReportMsg, SM, SL, this->DiagLevel);
+        
         const auto FixIt = clang::FixItHint::CreateReplacement(RHS->getSourceRange(), "< " + std::to_string(TPLHSInfo.Width));
         DB.AddFixItHint(FixIt);
       }

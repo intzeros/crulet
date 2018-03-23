@@ -12,17 +12,24 @@ namespace crulet {
 namespace GJB {
 
 void Rule_3_1_1::registerMatchers(MatchFinder *Finder) {
-  StatementMatcher Matcher = ifStmt().bind("if");
+  StatementMatcher Matcher = ifStmt().bind("gjb311_if");
   Finder->addMatcher(Matcher, this);
 }
 
 void Rule_3_1_1::run(const MatchFinder::MatchResult &Result) {
-  if(const IfStmt *IF = Result.Nodes.getNodeAs<IfStmt>("if")){
+  if(const IfStmt *IF = Result.Nodes.getNodeAs<IfStmt>("gjb311_if")){
+    SourceManager &SM = Result.Context->getSourceManager();
+    SourceLocation SL = IF->getIfLoc();
+    if(!SL.isValid() || SM.isInSystemHeader(SL)){
+      return;
+    }
+
     const Stmt* Then = IF->getThen();
 
     if(Then && isa<NullStmt>(Then)){
       DiagnosticsEngine &DE = Result.Context->getDiagnostics();
-      Context->report(this->CheckerName, this->ReportMsg, DE, Then->getLocStart(), DiagnosticIDs::Warning);
+      Context->report(this->CheckerName, this->ReportMsg, DE, Then->getLocStart(), this->DiagLevel);
+      Context->getJsonBugReporter().report(this->CheckerName, this->ReportMsg, SM, Then->getLocStart(), this->DiagLevel);
     }else if(Then && isa<CompoundStmt>(Then)){
       auto ThenCS = dyn_cast<CompoundStmt>(Then);
       bool IsEmpty = true;
@@ -35,7 +42,8 @@ void Rule_3_1_1::run(const MatchFinder::MatchResult &Result) {
 
       if(IsEmpty){
         DiagnosticsEngine &DE = Result.Context->getDiagnostics();
-        Context->report(this->CheckerName, this->ReportMsg, DE, IF->getIfLoc(), DiagnosticIDs::Warning);
+        Context->report(this->CheckerName, this->ReportMsg, DE, IF->getIfLoc(), this->DiagLevel);
+        Context->getJsonBugReporter().report(this->CheckerName, this->ReportMsg, SM, IF->getIfLoc(), this->DiagLevel);
       }
     }
   }

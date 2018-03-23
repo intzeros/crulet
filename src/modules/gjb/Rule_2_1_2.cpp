@@ -12,29 +12,50 @@ namespace crulet {
 namespace GJB {
 
 void Rule_2_1_2::registerMatchers(MatchFinder *Finder) {
-  Finder->addMatcher(forStmt().bind("for"), this);
-  Finder->addMatcher(whileStmt().bind("while"), this);
-  Finder->addMatcher(doStmt().bind("do"), this);
+  Finder->addMatcher(forStmt().bind("gjb212_for"), this);
+  Finder->addMatcher(whileStmt().bind("gjb212_while"), this);
+  Finder->addMatcher(doStmt().bind("gjb212_do"), this);
 }
 
 void Rule_2_1_2::run(const MatchFinder::MatchResult &Result) {
-  if(const auto *S = Result.Nodes.getNodeAs<ForStmt>("for")){
-    const auto *Body = S->getBody();
-    if(Body && !isa<CompoundStmt>(Body)){
-      DiagnosticsEngine &DE = Result.Context->getDiagnostics();
-      Context->report(this->CheckerName, this->ReportMsg, DE, S->getRParenLoc(), DiagnosticIDs::Warning);
+  if(const auto *S = Result.Nodes.getNodeAs<ForStmt>("gjb212_for")){
+    SourceManager &SM = Result.Context->getSourceManager();
+    SourceLocation SL = S->getRParenLoc();
+    if(!SL.isValid() || SM.isInSystemHeader(SL)){
+      return;
     }
-  }else if(const auto *S = Result.Nodes.getNodeAs<WhileStmt>("while")){
+
     const auto *Body = S->getBody();
     if(Body && !isa<CompoundStmt>(Body)){
       DiagnosticsEngine &DE = Result.Context->getDiagnostics();
-      Context->report(this->CheckerName, this->ReportMsg, DE, S->getLocStart(), DiagnosticIDs::Warning);
+      Context->report(this->CheckerName, this->ReportMsg, DE, SL, this->DiagLevel);
+      Context->getJsonBugReporter().report(this->CheckerName, this->ReportMsg, SM, SL, this->DiagLevel);
     }
-  }else if(const auto *S = Result.Nodes.getNodeAs<DoStmt>("do")){
+  }else if(const auto *S = Result.Nodes.getNodeAs<WhileStmt>("gjb212_while")){
+    SourceManager &SM = Result.Context->getSourceManager();
+    SourceLocation SL = S->getLocStart();
+    if(!SL.isValid() || SM.isInSystemHeader(SL)){
+      return;
+    }
+
     const auto *Body = S->getBody();
     if(Body && !isa<CompoundStmt>(Body)){
       DiagnosticsEngine &DE = Result.Context->getDiagnostics();
-      Context->report(this->CheckerName, this->ReportMsg, DE, S->getLocStart(), DiagnosticIDs::Warning);
+      Context->report(this->CheckerName, this->ReportMsg, DE, SL, this->DiagLevel);
+      Context->getJsonBugReporter().report(this->CheckerName, this->ReportMsg, SM, SL, this->DiagLevel);
+    }
+  }else if(const auto *S = Result.Nodes.getNodeAs<DoStmt>("gjb212_do")){
+    SourceManager &SM = Result.Context->getSourceManager();
+    SourceLocation SL = S->getLocStart();
+    if(!SL.isValid() || SM.isInSystemHeader(SL)){
+      return;
+    }
+
+    const auto *Body = S->getBody();
+    if(Body && !isa<CompoundStmt>(Body)){
+      DiagnosticsEngine &DE = Result.Context->getDiagnostics();
+      Context->report(this->CheckerName, this->ReportMsg, DE, SL, this->DiagLevel);
+      Context->getJsonBugReporter().report(this->CheckerName, this->ReportMsg, SM, SL, this->DiagLevel);
     }
   }
 }

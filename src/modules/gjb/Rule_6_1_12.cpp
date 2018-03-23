@@ -14,12 +14,18 @@ void Rule_6_1_12::registerMatchers(MatchFinder *Finder) {
     hasOperatorName("<<"), hasOperatorName(">>"), hasOperatorName("<<="), hasOperatorName(">>=")
     , hasOperatorName("|"), hasOperatorName("|="), hasOperatorName("&"), hasOperatorName("&=")
     , hasOperatorName("^"), hasOperatorName("^="), hasOperatorName("~"))
-  ).bind("bitwise_op");
+  ).bind("gjb6112_bitwise_op");
   Finder->addMatcher(Matcher, this);
 }
 
 void Rule_6_1_12::run(const MatchFinder::MatchResult &Result) {
-  if(const BinaryOperator *Op = Result.Nodes.getNodeAs<BinaryOperator>("bitwise_op")){
+  if(const BinaryOperator *Op = Result.Nodes.getNodeAs<BinaryOperator>("gjb6112_bitwise_op")){
+    SourceManager &SM = Result.Context->getSourceManager();
+    SourceLocation SL = Op->getOperatorLoc();
+    if(!SL.isValid() || SM.isInSystemHeader(SL)){
+      return;
+    }
+
     Expr* LHS = Op->getLHS();
     Expr* RHS = Op->getRHS();
     const Type* TP1 = LHS->getType().getTypePtr();
@@ -27,7 +33,8 @@ void Rule_6_1_12::run(const MatchFinder::MatchResult &Result) {
     
     if(TP1->isSignedIntegerType() || TP2->isSignedIntegerType()){
       DiagnosticsEngine &DE = Result.Context->getDiagnostics();
-      Context->report(this->CheckerName, this->ReportMsg, DE, Op->getOperatorLoc(), DiagnosticIDs::Warning);
+      Context->report(this->CheckerName, this->ReportMsg, DE, SL, this->DiagLevel);
+      Context->getJsonBugReporter().report(this->CheckerName, this->ReportMsg, SM, SL, this->DiagLevel);
     }
   }
 }

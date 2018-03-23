@@ -9,8 +9,9 @@ namespace GJB {
 
 class Rule_4_1_2 : public CruletChecker {
 public:
-  Rule_4_1_2(CruletContext *Context, StringRef CheckerName, StringRef ReportMsg)
-    : CruletChecker(Context, CheckerName, ReportMsg) {}
+  Rule_4_1_2(CruletContext *Context, StringRef CheckerName, StringRef ReportMsg, 
+      DiagnosticIDs::Level DiagLevel = DiagnosticIDs::Warning)
+      : CruletChecker(Context, CheckerName, ReportMsg, DiagLevel) {}
 
   virtual void registerMatchers(ast_matchers::MatchFinder *Finder) override;
   virtual void run(const ast_matchers::MatchFinder::MatchResult &Result) override;

@@ -13,20 +13,28 @@ namespace GJB {
 
 void Rule_6_1_1::registerMatchers(MatchFinder *Finder) {
   StatementMatcher Matcher = stmt(anyOf(
-    ifStmt(hasCondition(binaryOperator(hasOperatorName("=")).bind("gjb4611"))),
-    ifStmt(hasCondition(expr(hasDescendant(binaryOperator(hasOperatorName("=")).bind("gjb4611"))))),
-    forStmt(hasCondition(binaryOperator(hasOperatorName("=")).bind("gjb4611"))),
-    forStmt(hasCondition(expr(hasDescendant(binaryOperator(hasOperatorName("=")).bind("gjb4611"))))),
-    whileStmt(hasCondition(binaryOperator(hasOperatorName("=")).bind("gjb4611"))),
-    whileStmt(hasCondition(expr(hasDescendant(binaryOperator(hasOperatorName("=")).bind("gjb4611")))))
+    ifStmt(hasCondition(ignoringParenImpCasts(binaryOperator(hasOperatorName("=")).bind("gjb611")))),
+    ifStmt(hasCondition(expr(hasDescendant(binaryOperator(hasOperatorName("=")).bind("gjb611"))))),
+    forStmt(hasCondition(ignoringParenImpCasts(binaryOperator(hasOperatorName("=")).bind("gjb611")))),
+    forStmt(hasCondition(expr(hasDescendant(binaryOperator(hasOperatorName("=")).bind("gjb611"))))),
+    whileStmt(hasCondition(ignoringParenImpCasts(binaryOperator(hasOperatorName("=")).bind("gjb611")))),
+    whileStmt(hasCondition(expr(hasDescendant(binaryOperator(hasOperatorName("=")).bind("gjb611"))))),
+    conditionalOperator(hasCondition(ignoringParenImpCasts(binaryOperator(hasOperatorName("=")).bind("gjb611"))))
   ));
   Finder->addMatcher(Matcher, this);
 }
 
 void Rule_6_1_1::run(const MatchFinder::MatchResult &Result) {
-  if(const BinaryOperator *Op = Result.Nodes.getNodeAs<BinaryOperator>("gjb4611")){
+  if(const BinaryOperator *Op = Result.Nodes.getNodeAs<BinaryOperator>("gjb611")){
+    SourceManager &SM = Result.Context->getSourceManager();
+    SourceLocation SL = Op->getOperatorLoc();
+    if(!SL.isValid() || SM.isInSystemHeader(SL)){
+      return;
+    }
+
     DiagnosticsEngine &DE = Result.Context->getDiagnostics();
-    Context->report(this->CheckerName, this->ReportMsg, DE, Op->getOperatorLoc(), DiagnosticIDs::Warning);
+    Context->report(this->CheckerName, this->ReportMsg, DE, SL, this->DiagLevel);
+    Context->getJsonBugReporter().report(this->CheckerName, this->ReportMsg, SM, SL, this->DiagLevel);
   }
 }
 
