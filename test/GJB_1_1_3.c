@@ -5,9 +5,9 @@ struct s_p{
     };
 };
 
-void static_p(void){
+void static_p(int xs){
     struct s_p sb;
-    sb.xs = 1;
+    // sb.xs = 1;
     /*...*/
 
     int x;
