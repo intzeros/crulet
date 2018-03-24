@@ -39,12 +39,12 @@ void Rule_1_1_16::run(const MatchFinder::MatchResult &Result) {
       }
     }
 
-    if(VarNameSet.find(Name) != VarNameSet.end()){
+    if(VarNameMap.find(Name) != VarNameMap.end()){
       DiagnosticsEngine &DE = Result.Context->getDiagnostics();
       Context->report(this->CheckerName, this->ReportMsg, DE, SL, this->DiagLevel);
-      Context->getJsonBugReporter().report(this->CheckerName, this->ReportMsg, SM, SL, this->DiagLevel);
+      Context->getJsonBugReporter().report(this->CheckerName, this->ReportMsg, SM, SL, VarNameMap[Name], this->DiagLevel);
     }else{
-      VarNameSet.insert(Name);
+      VarNameMap[Name] = SL;
     }
   }
 }

@@ -34,7 +34,7 @@ void Rule_1_1_22::run(const MatchFinder::MatchResult &Result) {
         }
       }
 
-      if(Count1 != FD->param_size() || Count2 != FD->param_size()){
+      if(Count1 != FD->param_size() && Count2 != FD->param_size()){
         DiagnosticsEngine &DE = Result.Context->getDiagnostics();
         Context->report(this->CheckerName, this->ReportMsg, DE, SL, this->DiagLevel);
         Context->getJsonBugReporter().report(this->CheckerName, this->ReportMsg, SM, SL, this->DiagLevel);

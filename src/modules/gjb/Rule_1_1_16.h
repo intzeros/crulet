@@ -2,7 +2,7 @@
 #define CRULET_GJB_RULE_1_1_16_H
 
 #include "../../CruletChecker.h"
-#include <unordered_set>
+#include <unordered_map>
 
 namespace clang {
 namespace crulet {
@@ -18,7 +18,7 @@ public:
   virtual void run(const ast_matchers::MatchFinder::MatchResult &Result) override;
 
 private:
-  std::unordered_set<std::string> VarNameSet;
+  std::unordered_map<std::string, SourceLocation> VarNameMap;
 };
 
 } // namespace GJB

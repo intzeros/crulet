@@ -20,7 +20,9 @@ public:
                           const FileEntry *File, StringRef SearchPath, 
                           StringRef RelativePath, const Module *Imported) override {
     SourceManager &SM = PP->getSourceManager();
-    if(!SM.isInMainFile(HashLoc)) return;
+    if(!SM.isInMainFile(HashLoc)){
+      return;
+    }
 
     Checker->addIncludeSourceLocation(HashLoc);
   }
@@ -38,17 +40,19 @@ void Rule_2_1_5::registerPPCallbacks(CompilerInstance &CI) {
 }
 
 void Rule_2_1_5::registerMatchers(ast_matchers::MatchFinder *Finder){
-  Finder->addMatcher(stmt().bind("stmt"), this);
-  Finder->addMatcher(decl().bind("decl"), this);
+  Finder->addMatcher(stmt().bind("gjb215_stmt"), this);
+  Finder->addMatcher(decl().bind("gjb215_decl"), this);
 }
 
 void Rule_2_1_5::run(const ast_matchers::MatchFinder::MatchResult &Result){
   if(IsReported) return;
 
-  if(const auto S = Result.Nodes.getNodeAs<Stmt>("stmt")){
+  if(const auto S = Result.Nodes.getNodeAs<Stmt>("gjb215_stmt")){
     SourceLocation SSL = S->getLocStart();
     SourceManager &SM = Result.Context->getSourceManager();
-    if(!SM.isInMainFile(SSL)) return;
+    if(!SSL.isValid() || SM.isInSystemHeader(SSL)){
+      return;
+    }
 
     for(auto &SL : IncludeSLVec){
       if(SM.isWrittenInSameFile(SSL, SL) && SM.isBeforeInTranslationUnit(SSL, SL)){
@@ -59,10 +63,12 @@ void Rule_2_1_5::run(const ast_matchers::MatchFinder::MatchResult &Result){
         break;
       }
     }
-  }else if(const auto D = Result.Nodes.getNodeAs<Decl>("decl")){
+  }else if(const auto D = Result.Nodes.getNodeAs<Decl>("gjb215_decl")){
     SourceLocation SSL = D->getLocStart();
     SourceManager &SM = Result.Context->getSourceManager();
-    if(!SM.isInMainFile(SSL)) return;
+    if(!SSL.isValid() || SM.isInSystemHeader(SSL)){
+      return;
+    }
 
     for(auto &SL : IncludeSLVec){
       if(SM.isWrittenInSameFile(SSL, SL) && SM.isBeforeInTranslationUnit(SSL, SL)){

@@ -18,8 +18,12 @@ public:
 
   void MacroDefined(const Token &MacroNameTok, const MacroDirective *MD) override {
     SourceManager &SM = PP->getSourceManager();
+    SourceLocation SL = MD->getLocation();
+    if(!SL.isValid() || SM.isInSystemHeader(SL)){
+      return;
+    }
+
     const auto *Info = MD->getMacroInfo();
-    
     if(Info->isFunctionLike() && !Info->param_empty()){
       std::unordered_set<std::string> ParamSet;
       for(auto it = Info->param_begin(); it != Info->param_end(); ++it){
@@ -32,7 +36,8 @@ public:
       StringRef CheckerName = Checker->getName();
       DiagnosticIDs::Level DiagLevel = Checker->getDiagLevel();
 
-      for (auto it = Info->tokens_begin(); it != Info->tokens_end(); ++it) {
+      bool HasReported = false;
+      for (auto it = Info->tokens_begin(); !HasReported && it != Info->tokens_end(); ++it) {
         if(it->isAnyIdentifier()){
           std::string Name = it->getIdentifierInfo()->getName();
           if(ParamSet.find(Name) != ParamSet.end()){
@@ -43,10 +48,12 @@ public:
                 Context->report(CheckerName, ReportMsg, DE, it->getLocation(), DiagLevel);
                 Context->getJsonBugReporter().report(CheckerName, ReportMsg, SM, it->getLocation(), DiagLevel);
               }
+              HasReported = true;
             }else{
               Context->report(CheckerName, ReportMsg, DE, it->getLocation(), DiagLevel);
               Context->getJsonBugReporter().report(CheckerName, ReportMsg, SM, it->getLocation(), DiagLevel);
             }
+            HasReported = true;
           }
         }
       }

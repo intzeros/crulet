@@ -20,7 +20,9 @@ public:
                           const FileEntry *File, StringRef SearchPath, 
                           StringRef RelativePath, const Module *Imported) override {
     SourceManager &SM = PP->getSourceManager();
-    if(!SM.isInMainFile(HashLoc)) return;
+    if(!HashLoc.isValid() || SM.isInSystemHeader(HashLoc)){
+      return;
+    }
 
     DiagnosticsEngine &DE = PP->getDiagnostics();
     auto *Context = Checker->getCruletContext();
