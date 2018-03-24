@@ -8,14 +8,21 @@
 namespace clang {
 namespace crulet {
 
+class JsonBugReporter;
+
 class CruletContext{
 public:
-  CruletContext() {}
-  ~CruletContext() {}
+  CruletContext();
+  ~CruletContext();
 
   bool isCheckerEnabled(StringRef CheckerName);
   CruletOptions &getOptions();
   JsonBugReporter &getJsonBugReporter();
+
+  void setBuildDirectory(std::string BuildDirectory);
+  std::string getBuildDirectory();
+  void setCurrentFile(std::string FileName);
+  std::string getCurrentFile();
 
   DiagnosticBuilder report(std::string CheckerName, std::string Msg, 
                            DiagnosticsEngine &DE, SourceLocation Loc, 
@@ -23,12 +30,12 @@ public:
 
 private:
   CruletOptions Options;
-  JsonBugReporter JsonReporter;
+  JsonBugReporter *JsonReporter;
+  std::string BuildDirectory;
+  std::string CurrentFile;
 };
-
 
 } // namespace crulet
 } // namespace clang
-
 
 #endif

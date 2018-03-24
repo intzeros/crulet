@@ -12,14 +12,14 @@ namespace crulet {
 namespace GJB {
 
 void Rule_1_1_15::registerMatchers(MatchFinder *Finder) {
-  DeclarationMatcher Matcher = valueDecl(hasType(isAnyCharacter())).bind("valueDecl_char");
+  DeclarationMatcher Matcher = valueDecl(hasType(isAnyCharacter())).bind("gjb1115_valueDecl_char");
   Finder->addMatcher(Matcher, this);
 }
 
 void Rule_1_1_15::run(const MatchFinder::MatchResult &Result) {
-  if(const ValueDecl *VD = Result.Nodes.getNodeAs<ValueDecl>("valueDecl_char")){
+  if(const ValueDecl *VD = Result.Nodes.getNodeAs<ValueDecl>("gjb1115_valueDecl_char")){
     SourceManager &SM = Result.Context->getSourceManager();
-    SourceLocation SL = VD->getLocStart();
+    SourceLocation SL = VD->getLocation();
     if(!SL.isValid() || SM.isInSystemHeader(SL)){
       return;
     }

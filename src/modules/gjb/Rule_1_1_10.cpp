@@ -24,8 +24,12 @@ void Rule_1_1_10::run(const MatchFinder::MatchResult &Result) {
       return;
     }
 
+    if(FD->isImplicit()){
+      return;
+    }
+
     if(FD->param_size() == 0){
-      std::string Name = FD->getType().getAsString();
+      std::string Name = FD->getType().getCanonicalType().getAsString();
       if(Name.find(')') - Name.find('(') == 1){
         DiagnosticsEngine &DE = Result.Context->getDiagnostics();
         Context->report(this->CheckerName, this->ReportMsg, DE, SL, this->DiagLevel);

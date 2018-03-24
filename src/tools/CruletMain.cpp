@@ -107,11 +107,24 @@ int main(int argc, const char **argv){
     Context.getJsonBugReporter().setOutputFile(OutputOpt);
   }
 
+  StringRef FileName = "none";
   auto PathList = OptionsParser.getSourcePathList();
   if(PathList.empty()){
     llvm::errs() << "Error: no input files.\n\n";
     llvm::cl::PrintHelpMessage(false, true);
     return 1;
+  }else{
+    FileName = PathList.front();
+    SmallString<256> FilePath(FileName);
+    llvm::sys::fs::make_absolute(FilePath);
+    FileName = StringRef(FilePath);
+
+    CompilationDatabase &CompilDB = OptionsParser.getCompilations();
+    std::vector<CompileCommand> CommandVec= CompilDB.getCompileCommands(FileName);
+    if(CommandVec.size() > 0){
+      Context.setBuildDirectory(CommandVec[0].Directory);
+      Context.setCurrentFile(FileName);
+    }
   }
 
   ClangTool Tool(OptionsParser.getCompilations(),

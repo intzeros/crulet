@@ -35,7 +35,7 @@ void Rule_1_1_1::run(const MatchFinder::MatchResult &Result) {
           if(!isa<FunctionDecl>(CurND)){
             DiagnosticsEngine &DE = Result.Context->getDiagnostics();
             Context->report(this->CheckerName, this->ReportMsg, DE, SL, this->DiagLevel);
-            Context->getJsonBugReporter().report(this->CheckerName, this->ReportMsg, SM, SL, this->DiagLevel);
+            Context->getJsonBugReporter().report(this->CheckerName, this->ReportMsg, SM, SL, D->getLocation(), this->DiagLevel);
           }
         }
       }

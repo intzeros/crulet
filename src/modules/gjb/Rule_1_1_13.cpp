@@ -27,7 +27,7 @@ public:
         }
       }
 
-      if(NumKeywords == Info->getNumTokens()){
+      if(Info->getNumTokens() != 0 && NumKeywords == Info->getNumTokens()){
         DiagnosticsEngine &DE = PP->getDiagnostics();
         auto *Context = Checker->getCruletContext();
         StringRef ReportMsg = Checker->getReportMsg();

@@ -3,6 +3,16 @@
 namespace clang {
 namespace crulet {
 
+CruletContext::CruletContext() {
+  JsonReporter = new JsonBugReporter(this);
+}
+
+CruletContext::~CruletContext() {
+  if(JsonReporter != nullptr){
+    delete JsonReporter;
+  }
+}
+
 bool CruletContext::isCheckerEnabled(StringRef CheckerName){
   return Options.isCheckerEnabled(CheckerName);
 }
@@ -12,7 +22,23 @@ CruletOptions &CruletContext::getOptions() {
 }
 
 JsonBugReporter &CruletContext::getJsonBugReporter() {
-  return JsonReporter;
+  return *JsonReporter;
+}
+
+void CruletContext::setBuildDirectory(std::string BuildDirectory){
+  this->BuildDirectory = BuildDirectory;
+}
+
+std::string CruletContext::getBuildDirectory(){
+  return BuildDirectory;
+}
+
+void CruletContext::setCurrentFile(std::string FileName){
+  this->CurrentFile = FileName;
+}
+
+std::string CruletContext::getCurrentFile(){
+  return CurrentFile;
 }
 
 DiagnosticBuilder CruletContext::report(std::string CheckerName, std::string Msg, 
