@@ -40,7 +40,7 @@ def create_css_files(report_root):
 # get css relative path
 def get_css_path(cur_path, report_root):
   parts = cur_path.split('/')
-  n = len(parts) - 3
+  n = len(parts) - len(report_root.split('/')) - 2
   path = ""
   while n > 0:
     path = "../" + path
@@ -138,7 +138,7 @@ def create_html_index(project_root, report_root):
       errs_counts[item["type"]] = errs_counts[item["type"]] + 1
 
   for k, v in errs_counts.items():
-    fout.write('''<tr><td>''' + k + '''</td><td>''' + str(v) + '''</td><td>Y</td></tr>\n''')
+    fout.write('''<tr><td>''' + k + '''</td><td>''' + str(v) + '''</td><td><input type="checkbox" onclick="chose(this)" name="dispaly" value="1" checked="checked"/></td></tr>\n''')
   
   fout.write('''</table>\n''')
   fout.write('''<h2>Reports</h2>\n<table class="index">\n<tr><th>Bug Type</th><th>Description</th><th>File</th><th>Line</th><th>Link</th></tr>\n''')
@@ -192,9 +192,15 @@ def insert_buginfo_2html(html_file, bug_info, bug_index):
     line_num = str(bug_info["location"]["line"])
     column_num = str(bug_info["location"]["column"])
     offset = bug_info["location"]["column"] - 2
-    node.insert_before(BeautifulSoup('''<tr><td></td><td class="bug_info"><div style="margin-left:''' + str(offset) + '''ch;">''' + '''<div class="bug_info_text"><span class="bug_index">''' 
-            + str(bug_index) + '''</span>''' + bug_info["type"] + "(" + line_num + ":" + column_num + "): " + bug_info["description"]
-            + '''</div></div></td></tr>''', "html.parser"))
+    if bug_info["location"].get("relativeLoc") == None:
+      node.insert_before(BeautifulSoup('''<tr><td></td><td class="bug_info"><div style="margin-left:''' + str(offset) + '''ch;">''' + '''<div class="bug_info_text"><span class="bug_index">''' 
+              + str(bug_index) + '''</span>''' + bug_info["type"] + "(" + line_num + ":" + column_num + "): " + bug_info["description"]
+              + '''</div></div></td></tr>''', "html.parser"))
+    else:
+      node.insert_before(BeautifulSoup('''<tr><td></td><td class="bug_info"><div style="margin-left:''' + str(offset) + '''ch;">''' + '''<div class="bug_info_text"><span class="bug_index">''' 
+              + str(bug_index) + '''</span>''' + bug_info["type"] + "(" + line_num + ":" + column_num + "): " + bug_info["description"]
+              + " (see: " + bug_info["location"]["relativeLoc"]["file"] + ":" + str(bug_info["location"]["relativeLoc"]["line"]) + ":" + str(bug_info["location"]["relativeLoc"]["column"]) + ")"
+              + '''</div></div></td></tr>''', "html.parser"))
 
   with open(html_file, "w") as fout:
     # fout.write(soup.prettify())
