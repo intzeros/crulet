@@ -15,10 +15,10 @@ typedef struct Node{
 
 typedef int * INTPTR;
 
-struct s { 
+struct S { 
     int *s1; /* compliant */ 
-    int *s2; /* compliant */ 
-    int *s3; /* compliant */ 
+    int **s2; /* compliant */ 
+    int ***s3; /* not compliant */ 
 };
 
 struct S* ps1;  /* compliant */

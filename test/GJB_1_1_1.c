@@ -1,3 +1,5 @@
+void foo(unsigned int p_1);
+
 void foo(unsigned int p_1){
     unsigned int x = p_1;
 }
