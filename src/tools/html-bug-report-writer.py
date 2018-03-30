@@ -137,7 +137,16 @@ def create_html_index(project_root, report_root):
         errs_counts[item["type"]] = 0
       errs_counts[item["type"]] = errs_counts[item["type"]] + 1
 
-  for k, v in errs_counts.items():
+  err_items = errs_counts.items()
+  err_items.sort()
+
+  total_num = 0
+  for k, v in err_items:
+    total_num = total_num + v
+    
+  fout.write('''<p>Total: ''' + str(total_num) + '''</p>''')
+
+  for k, v in err_items:
     fout.write('''<tr><td>''' + k + '''</td><td>''' + str(v) + '''</td><td><input type="checkbox" onclick="chose(this)" name="dispaly" value="1" checked="checked"/></td></tr>\n''')
   
   fout.write('''</table>\n''')

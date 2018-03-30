@@ -22,6 +22,9 @@ void CruletDiagnosticConsumer::HandleDiagnostic(DiagnosticsEngine::Level DiagLev
   else if(Info.getID() == 795u && Context->isCheckerEnabled("GJB-1.1.18")){    // GJB-1.1.18
     llvm::errs() << "[GJB-1.1.18] 禁止在同一个文件中有#if而没有#endif\n\n";
   }
+  else if(Info.getID() == 3503u && Context->isCheckerEnabled("GJB-7.1.1")){    // GJB-7.1.1
+    llvm::errs() << "[GJB-7.1.1] 实参与形参的个数必须一致\n\n";
+  }
 }
 
 } // namespace crulet

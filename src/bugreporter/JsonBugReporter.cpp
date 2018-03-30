@@ -66,6 +66,7 @@ void JsonBugReporter::report(std::string CheckerName, std::string Msg,
                              SourceManager &SM, SourceLocation Loc, 
                              DiagnosticIDs::Level Level){
   if(filename == "") return;
+  if(!Loc.isValid()) return;
   
   nlohmann::json JObj;
   JObj["type"] = CheckerName;
@@ -93,6 +94,7 @@ void JsonBugReporter::report(std::string CheckerName, std::string Msg,
                              SourceManager &SM, SourceLocation Loc, SourceLocation RelativeLoc,
                              DiagnosticIDs::Level Level){
   if(filename == "") return;
+  if(!Loc.isValid() || !RelativeLoc.isValid()) return;
   
   nlohmann::json JObj;
   JObj["type"] = CheckerName;

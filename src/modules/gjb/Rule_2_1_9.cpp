@@ -25,8 +25,7 @@ void Rule_2_1_9::run(const MatchFinder::MatchResult &Result) {
 
     unsigned Length = SL->getLength();
     StringRef Str = SL->getString();
-
-    if(Length != 0 && Str[Length-1] != '\0'){
+    if(Length > 0 && Str[Length-1] != '\0'){
       DiagnosticsEngine &DE = Result.Context->getDiagnostics();
       Context->report(this->CheckerName, this->ReportMsg, DE, SL->getLocEnd(), this->DiagLevel);
       Context->getJsonBugReporter().report(this->CheckerName, this->ReportMsg, SM, SL->getLocEnd(), this->DiagLevel);

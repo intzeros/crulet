@@ -36,7 +36,10 @@ bool CruletOptions::isCheckerEnabled(std::string CheckerName){
     return false;
   }else if(EnabledCheckerMap.find("*") != EnabledCheckerMap.end()){
     return true;
+  }else if(EnabledCheckerMap.find(CheckerName.substr(0, CheckerName.find('.')) + "*") != EnabledCheckerMap.end()){
+    return true;
   }
+
   return false;
 }
 

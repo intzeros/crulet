@@ -24,7 +24,7 @@ void Rule_3_1_7::run(const MatchFinder::MatchResult &Result) {
       return;
     }
 
-    auto SSBody = SS->getBody();
+    const Stmt* SSBody = SS->getBody();
     bool OK = true;
     auto PreStmtItr = SSBody->child_end();
     SourceLocation CaseLocation;

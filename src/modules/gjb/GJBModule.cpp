@@ -58,6 +58,9 @@
 #include "Rule_6_1_16.h"
 #include "Rule_6_1_17.h"
 #include "Rule_6_1_18.h"
+#include "Rule_7_1_1.h"
+#include "Rule_7_1_2.h"
+#include "Rule_7_1_3.h"
 #include "Rule_8_1_1.h"
 #include "Rule_11_1_1.h"
 #include "Rule_11_1_2.h"
@@ -106,7 +109,7 @@ void GJBModule::registerCheckers(){
   this->registerChecker<Rule_2_1_5>("GJB-2.1.5", "禁止在头文件前有可执行代码");
   this->registerChecker<Rule_2_1_6>("GJB-2.1.6", "宏参数必须用括号括起来");
   this->registerChecker<Rule_2_1_8>("GJB-2.1.8", "头文件名禁止使用“'”，“\\”和“/*”等字符");
-  this->registerChecker<Rule_2_1_9>("GJB-2.1.9", "禁止字符串中单独使用“\\”，字符串的终止必须使用“\\0”");
+  // this->registerChecker<Rule_2_1 _9>("GJB-2.1.9", "禁止字符串中单独使用“\\”，字符串的终止必须使用“\\0”");
   this->registerChecker<Rule_2_1_10>("GJB-2.1.10", "main必须定义为int main(void)或int main(int, char*[])的形式");
 
   this->registerChecker<Rule_3_1_1>("GJB-3.1.1", "禁止条件判别成立时相应分支无执行语句");
@@ -140,6 +143,10 @@ void GJBModule::registerCheckers(){
   this->registerChecker<Rule_6_1_16>("GJB-6.1.16", "禁止赋值操作符与\"&&\"或\"||\"连用");
   this->registerChecker<Rule_6_1_17>("GJB-6.1.17", "禁止位操作符带有布尔型的操作数");
   this->registerChecker<Rule_6_1_18>("GJB-6.1.18", "禁止位操作符作用于布尔值");
+
+  this->registerChecker<Rule_7_1_1>("GJB-7.1.1", "实参与形参的个数必须一致");
+  this->registerChecker<Rule_7_1_2>("GJB-7.1.2", "主过程所在文件中禁止有未被该文件中任何过程调用的子过程");
+  this->registerChecker<Rule_7_1_3>("GJB-7.1.3", "static类型的过程所在文件中必须被调用");
 
   this->registerChecker<Rule_8_1_1>("GJB-8.1.1", "禁止单独使用小写字母\"l\"或大写字母\"O\"作为变量名");
 
