@@ -17,6 +17,12 @@ $ ./run-crulet.py -d report_dir
 $ ./html-bug-report-writer.py -d report_dir
 ```
 
+### Bug Report
+
+HTML report demo:
+
+![](https://github.com/lszero/crulet/blob/master/img/demo1.png)
+
 ### Building from Sources
 
 1. [Obtain LLVM and Clang](http://clang.llvm.org/get_started.html).
