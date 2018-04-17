@@ -21,7 +21,7 @@ $ ./html-bug-report-writer.py -d report_dir
 
 HTML report demo:
 
-<img src="https://github.com/lszero/crulet/blob/master/img/demo1.png" height = "300" align=center />
+<img src="https://github.com/lszero/crulet/blob/master/img/demo1.png" height = "200" align=center />
 
 ### Building from Sources
 
