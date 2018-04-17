@@ -77,6 +77,7 @@ add_clang_library(cruletGJBModule
   Rule_14_1_3.cpp
   Rule_15_1_1.cpp
   Rule_15_1_2.cpp
+  Rule_15_1_3.cpp
 
   LINK_LIBS
   cruletCore
