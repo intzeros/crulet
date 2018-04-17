@@ -1,5 +1,4 @@
 #include "Rule_7_1_2.h"
-#include "clang/AST/Expr.h"
 #include "clang/AST/ASTContext.h"
 #include "clang/ASTMatchers/ASTMatchers.h"
 #include "clang/ASTMatchers/ASTMatchFinder.h"
@@ -24,7 +23,18 @@ void Rule_7_1_2::run(const MatchFinder::MatchResult &Result) {
       return;
     }
 
-    if(!FD->isMain() && SM.isInMainFile(SL) && !FD->isUsed()){
+    TranslationUnitDecl *TUD = Result.Context->getTranslationUnitDecl();
+    bool isInMainFuncFile = false;
+    for(const auto D : TUD->decls()){
+      if(const auto *FD = dyn_cast<FunctionDecl>(D)){
+        if(FD->isMain()){
+          isInMainFuncFile = true;
+          break;
+        }
+      }
+    }
+
+    if(isInMainFuncFile && !FD->isMain() && !FD->isUsed()){
       DiagnosticsEngine &DE = Result.Context->getDiagnostics();
       Context->report(this->CheckerName, this->ReportMsg, DE, SL, this->DiagLevel);
       Context->getJsonBugReporter().report(this->CheckerName, this->ReportMsg, SM, SL, this->DiagLevel);
