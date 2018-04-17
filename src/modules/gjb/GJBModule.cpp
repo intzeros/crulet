@@ -73,6 +73,7 @@
 #include "Rule_14_1_2.h"
 #include "Rule_14_1_3.h"
 #include "Rule_15_1_1.h"
+#include "Rule_15_1_2.h"
 
 using namespace clang;
 
@@ -167,6 +168,7 @@ void GJBModule::registerCheckers(){
   this->registerChecker<Rule_14_1_3>("GJB-14.1.3", "switch语句中的表达式禁止是逻辑表达式");
   
   this->registerChecker<Rule_15_1_1>("GJB-15.1.1", "禁止枚举类型中的元素名与已有的变量名同名");
+  this->registerChecker<Rule_15_1_2>("GJB-15.1.2", "禁止局部变量与全局变量同名");
 }
 
 } // namespace GJB
