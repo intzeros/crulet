@@ -43,6 +43,7 @@
 #include "Rule_5_1_1.h"
 #include "Rule_5_1_2.h"
 #include "Rule_6_1_1.h"
+#include "Rule_6_1_2.h"
 #include "Rule_6_1_3.h"
 #include "Rule_6_1_4.h"
 #include "Rule_6_1_5.h"
@@ -71,6 +72,7 @@
 #include "Rule_14_1_1.h"
 #include "Rule_14_1_2.h"
 #include "Rule_14_1_3.h"
+#include "Rule_15_1_1.h"
 
 using namespace clang;
 
@@ -94,7 +96,7 @@ void GJBModule::registerCheckers(){
   this->registerChecker<Rule_1_1_13>("GJB-1.1.13", "禁止在宏中包含不允许的项");
   this->registerChecker<Rule_1_1_14>("GJB-1.1.14", "禁止重新定义保留字");
   this->registerChecker<Rule_1_1_15>("GJB-1.1.15", "字符型变量必须明确定义是有符号还是无符号");
-  this->registerChecker<Rule_1_1_16>("GJB-1.1.16", "禁止对一个名字重新定义");
+  // this->registerChecker<Rule_1_1_16>("GJB-1.1.16", "禁止对一个名字重新定义");
   this->registerChecker<Rule_1_1_17>("GJB-1.1.17", "用typedef自定义的类型禁止被重新定义");
   this->registerChecker<Rule_1_1_18>("GJB-1.1.18", "禁止在同一个文件中有#if而没有#endif");
   this->registerChecker<Rule_1_1_19>("GJB-1.1.19", "禁止数组没有边界限定");
@@ -122,12 +124,13 @@ void GJBModule::registerCheckers(){
   this->registerChecker<Rule_3_1_8>("GJB-3.1.8", "禁止switch的case语句中无任何可执行的语句");
 
   this->registerChecker<Rule_4_1_2>("GJB-4.1.2", "禁止指针的指针超过两级");
-  this->registerChecker<Rule_4_1_3>("GJB-4.1.3", "禁止将过程声明为指针类型");
+  // this->registerChecker<Rule_4_1_3>("GJB-4.1.3", "禁止将过程声明为指针类型");
 
   this->registerChecker<Rule_5_1_1>("GJB-5.1.1", "禁止直接从过程中跳出");
   this->registerChecker<Rule_5_1_2>("GJB-5.1.2", "禁止使用goto语句");
 
   this->registerChecker<Rule_6_1_1>("GJB-6.1.1", "禁止在非赋值表达式中出现赋值操作符");
+  this->registerChecker<Rule_6_1_2>("GJB-6.1.2", "数组的使用必须保证不会出现越界");
   this->registerChecker<Rule_6_1_3>("GJB-6.1.3", "禁止对有符号类型进行移位操作");
   this->registerChecker<Rule_6_1_4>("GJB-6.1.4", "对变量进行移位运算必须保证不会产生溢出");
   this->registerChecker<Rule_6_1_5>("GJB-6.1.5", "禁止给无符号变量赋负值");
@@ -162,6 +165,8 @@ void GJBModule::registerCheckers(){
   this->registerChecker<Rule_14_1_1>("GJB-14.1.1", "禁止对实数类型的量做是否相等的比较");
   this->registerChecker<Rule_14_1_2>("GJB-14.1.2", "禁止逻辑判别的表达式不是逻辑表达式");
   this->registerChecker<Rule_14_1_3>("GJB-14.1.3", "switch语句中的表达式禁止是逻辑表达式");
+  
+  this->registerChecker<Rule_15_1_1>("GJB-15.1.1", "禁止枚举类型中的元素名与已有的变量名同名");
 }
 
 } // namespace GJB

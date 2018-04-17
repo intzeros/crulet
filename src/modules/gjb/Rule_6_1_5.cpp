@@ -25,7 +25,7 @@ void Rule_6_1_5::run(const MatchFinder::MatchResult &Result) {
     }
 
     Expr* LHS = Op->getLHS();
-    Expr* RHS = Op->getRHS();
+    Expr* RHS = Op->getRHS()->IgnoreImpCasts();
 
     llvm::APSInt APSIntResult;
     if(LHS->getType().getTypePtr()->isUnsignedIntegerType() && RHS->EvaluateAsInt(APSIntResult, *Result.Context)){
