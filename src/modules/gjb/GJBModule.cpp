@@ -63,6 +63,7 @@
 #include "Rule_7_1_2.h"
 #include "Rule_7_1_3.h"
 #include "Rule_8_1_1.h"
+#include "Rule_9_1_1.h"
 #include "Rule_11_1_1.h"
 #include "Rule_11_1_2.h"
 #include "Rule_12_1_1.h"
@@ -155,6 +156,8 @@ void GJBModule::registerCheckers(){
   this->registerChecker<Rule_7_1_3>("GJB-7.1.3", "static类型的过程所在文件中必须被调用");
 
   this->registerChecker<Rule_8_1_1>("GJB-8.1.1", "禁止单独使用小写字母\"l\"或大写字母\"O\"作为变量名");
+  
+  this->registerChecker<Rule_9_1_1>("GJB-9.1.1", "函数必须有返回语句");
 
   this->registerChecker<Rule_11_1_1>("GJB-11.1.1", "禁止使用不合适的循环变量类型");
   this->registerChecker<Rule_11_1_2>("GJB-11.1.2", "循环变量必须是局部声明的");
