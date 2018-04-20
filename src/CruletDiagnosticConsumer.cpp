@@ -25,6 +25,9 @@ void CruletDiagnosticConsumer::HandleDiagnostic(DiagnosticsEngine::Level DiagLev
   else if(Info.getID() == 3503u && Context->isCheckerEnabled("GJB-7.1.1")){    // GJB-7.1.1
     llvm::errs() << "[GJB-7.1.1] 实参与形参的个数必须一致\n\n";
   }
+  else if(Info.getID() == 3836u && Context->isCheckerEnabled("GJB-9.1.2")){    // GJB-9.1.2
+    llvm::errs() << "[GJB-9.1.2] 禁止void类型的过程中的return语句带有返回值\n\n";
+  }
 }
 
 } // namespace crulet
