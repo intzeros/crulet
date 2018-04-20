@@ -31,6 +31,9 @@ void CruletDiagnosticConsumer::HandleDiagnostic(DiagnosticsEngine::Level DiagLev
   else if(Info.getID() == 3838u && Context->isCheckerEnabled("GJB-9.1.3")){    // GJB-9.1.3
     llvm::errs() << "[GJB-9.1.3] 有返回值的函数中return必须带有返回值\n\n";
   }
+  else if(Info.getID() == 3530u && Context->isCheckerEnabled("GJB-7.1.7")){    // GJB-7.1.7
+    llvm::errs() << "[GJB-7.1.7] 禁止void类型的过程用在表达式中使用\n\n";
+  }
 }
 
 } // namespace crulet

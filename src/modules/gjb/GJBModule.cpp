@@ -62,6 +62,9 @@
 #include "Rule_7_1_1.h"
 #include "Rule_7_1_2.h"
 #include "Rule_7_1_3.h"
+#include "Rule_7_1_7.h"
+#include "Rule_7_1_8.h"
+#include "Rule_7_1_9.h"
 #include "Rule_8_1_1.h"
 #include "Rule_9_1_1.h"
 #include "Rule_9_1_2.h"
@@ -157,6 +160,9 @@ void GJBModule::registerCheckers(){
   this->registerChecker<Rule_7_1_1>("GJB-7.1.1", "实参与形参的个数必须一致");
   this->registerChecker<Rule_7_1_2>("GJB-7.1.2", "主过程所在文件中禁止有未被该文件中任何过程调用的子过程");
   this->registerChecker<Rule_7_1_3>("GJB-7.1.3", "static类型的过程所在文件中必须被调用");
+  this->registerChecker<Rule_7_1_7>("GJB-7.1.7", "禁止void类型的过程用在表达式中使用");
+  this->registerChecker<Rule_7_1_8>("GJB-7.1.8", "禁止void类型的变量作为参数进行传递");
+  this->registerChecker<Rule_7_1_9>("GJB-7.1.9", "禁止实参和形参类型不一致");
 
   this->registerChecker<Rule_8_1_1>("GJB-8.1.1", "禁止单独使用小写字母\"l\"或大写字母\"O\"作为变量名");
   
