@@ -66,6 +66,7 @@
 #include "Rule_9_1_1.h"
 #include "Rule_9_1_2.h"
 #include "Rule_9_1_3.h"
+#include "Rule_9_1_4.h"
 #include "Rule_11_1_1.h"
 #include "Rule_11_1_2.h"
 #include "Rule_12_1_1.h"
@@ -162,6 +163,7 @@ void GJBModule::registerCheckers(){
   this->registerChecker<Rule_9_1_1>("GJB-9.1.1", "函数必须有返回语句");
   this->registerChecker<Rule_9_1_2>("GJB-9.1.2", "禁止void类型的过程中的return语句带有返回值");
   this->registerChecker<Rule_9_1_3>("GJB-9.1.3", "有返回值的函数中return必须带有返回值");
+  this->registerChecker<Rule_9_1_4>("GJB-9.1.4", "函数返回类型必须一致");
 
   this->registerChecker<Rule_11_1_1>("GJB-11.1.1", "禁止使用不合适的循环变量类型");
   this->registerChecker<Rule_11_1_2>("GJB-11.1.2", "循环变量必须是局部声明的");

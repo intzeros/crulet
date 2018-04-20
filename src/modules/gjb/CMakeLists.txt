@@ -22,7 +22,7 @@ add_clang_library(cruletGJBModule
   Rule_1_1_18.cpp
   Rule_1_1_19.cpp
   Rule_1_1_20.cpp
-  Rule_1_1_21.cpp
+  Rule_1_1_21.cpp 
   Rule_1_1_22.cpp
   Rule_2_1_1.cpp
   Rule_2_1_2.cpp
@@ -69,6 +69,7 @@ add_clang_library(cruletGJBModule
   Rule_9_1_1.cpp
   Rule_9_1_2.cpp
   Rule_9_1_3.cpp
+  Rule_9_1_4.cpp
   Rule_11_1_1.cpp
   Rule_11_1_2.cpp
   Rule_12_1_1.cpp
