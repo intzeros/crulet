@@ -93,7 +93,7 @@ namespace GJB {
 void GJBModule::registerCheckers(){
   this->registerChecker<Rule_1_1_1>("GJB-1.1.1", "过程名禁止被重用");
   this->registerChecker<Rule_1_1_2>("GJB-1.1.2", "标号名禁止被重用");
-  // this->registerChecker<Rule_1_1_3>("GJB-1.1.3", "禁止在结构体定义中含有空域");
+  this->registerChecker<Rule_1_1_3>("GJB-1.1.3", "禁止在结构体定义中含有空域");
   this->registerChecker<Rule_1_1_4>("GJB-1.1.4", "禁止声明多重标号");
   this->registerChecker<Rule_1_1_5>("GJB-1.1.5", "参数必须使用类型声明");
   this->registerChecker<Rule_1_1_6>("GJB-1.1.6", "在过程声明中必须对参数说明");
@@ -102,7 +102,7 @@ void GJBModule::registerCheckers(){
   this->registerChecker<Rule_1_1_9>("GJB-1.1.9", "禁止重新定义使用C或C++的关键字");
   this->registerChecker<Rule_1_1_10>("GJB-1.1.10", "禁止过程或函数中的参数表为空");
   this->registerChecker<Rule_1_1_11>("GJB-1.1.11", "禁止在同一个宏中使用多个#或##");
-  // this->registerChecker<Rule_1_1_12>("GJB-1.1.12", "禁止定义不像函数的宏");
+  this->registerChecker<Rule_1_1_12>("GJB-1.1.12", "禁止定义不像函数的宏");
   this->registerChecker<Rule_1_1_13>("GJB-1.1.13", "禁止在宏中包含不允许的项");
   this->registerChecker<Rule_1_1_14>("GJB-1.1.14", "禁止重新定义保留字");
   this->registerChecker<Rule_1_1_15>("GJB-1.1.15", "字符型变量必须明确定义是有符号还是无符号");

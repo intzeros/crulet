@@ -1,5 +1,4 @@
 #include "Rule_1_1_10.h"
-#include "clang/AST/Expr.h"
 #include "clang/AST/ASTContext.h"
 #include "clang/ASTMatchers/ASTMatchers.h"
 #include "clang/ASTMatchers/ASTMatchFinder.h"

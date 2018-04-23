@@ -67,7 +67,7 @@ void JsonBugReporter::report(std::string CheckerName, std::string Msg,
                              DiagnosticIDs::Level Level){
   if(filename == "") return;
   if(!Loc.isValid()) return;
-  
+
   nlohmann::json JObj;
   JObj["type"] = CheckerName;
   JObj["description"] = Msg;
@@ -77,7 +77,9 @@ void JsonBugReporter::report(std::string CheckerName, std::string Msg,
   }
 
   FullSourceLoc FSL(Loc, SM);
+  FSL = FSL.getFileLoc(); // to remove SpellingLoc in some cases
   std::string FileName = getFilePath(Context->getBuildDirectory(), FSL.getFileEntry()->getName().str());
+  
   // const DirectoryEntry *DireEntry = FSL->getFileEntry()->getDir();
   // FileManager &FM = SM.getFileManager();
   // std::string BuildDir = FM.getCanonicalName(DireEntry);

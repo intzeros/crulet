@@ -18,24 +18,27 @@ public:
   void MacroDefined(const Token &MacroNameTok, const MacroDirective *MD) override {
     SourceLocation SL = MacroNameTok.getLocation(); 
     SourceManager &SM = PP->getSourceManager();
-    if(SM.isInMainFile(SL) && !SM.isInSystemHeader(SL)){
-      const auto *Info = MD->getMacroInfo();
-      unsigned NumKeywords = 0;
-      for(auto it = Info->tokens_begin(); it != Info->tokens_end(); ++it){
-        if(it->isAnyIdentifier() && it->getIdentifierInfo()->isKeyword(PP->getLangOpts())){
-          NumKeywords++;
-        }
+    if(!SL.isValid() || SM.isInSystemHeader(SL)){
+      return;
+    }
+
+    const auto *Info = MD->getMacroInfo();
+    unsigned NumKeywords = 0;
+    for(auto it = Info->tokens_begin(); it != Info->tokens_end(); ++it){
+      auto *IdentInfo = it->getIdentifierInfo();
+      if(IdentInfo && IdentInfo->isKeyword(PP->getLangOpts())){
+        NumKeywords++;
       }
-      
-      if(Info->getNumTokens() != 0 && NumKeywords == Info->getNumTokens()){
-        DiagnosticsEngine &DE = PP->getDiagnostics();
-        auto *Context = Checker->getCruletContext();
-        StringRef ReportMsg = Checker->getReportMsg();
-        StringRef CheckerName = Checker->getName();
-        DiagnosticIDs::Level DiagLevel = Checker->getDiagLevel();
-        Context->report(CheckerName, ReportMsg, DE, SL, DiagLevel);
-        Context->getJsonBugReporter().report(CheckerName, ReportMsg, SM, SL, DiagLevel);
-      }
+    }
+
+    if(Info->getNumTokens() != 0 && NumKeywords == Info->getNumTokens()){
+      DiagnosticsEngine &DE = PP->getDiagnostics();
+      auto *Context = Checker->getCruletContext();
+      StringRef ReportMsg = Checker->getReportMsg();
+      StringRef CheckerName = Checker->getName();
+      DiagnosticIDs::Level DiagLevel = Checker->getDiagLevel();
+      Context->report(CheckerName, ReportMsg, DE, SL, DiagLevel);
+      Context->getJsonBugReporter().report(CheckerName, ReportMsg, SM, SL, DiagLevel);
     }
   }
 

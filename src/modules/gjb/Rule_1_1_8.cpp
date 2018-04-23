@@ -1,5 +1,4 @@
 #include "Rule_1_1_8.h"
-#include "clang/AST/Expr.h"
 #include "clang/AST/ASTContext.h"
 #include "clang/ASTMatchers/ASTMatchers.h"
 #include "clang/ASTMatchers/ASTMatchFinder.h"
@@ -12,7 +11,7 @@ namespace crulet {
 namespace GJB {
 
 void Rule_1_1_8::registerMatchers(MatchFinder *Finder) {
-  DeclarationMatcher Matcher = functionDecl().bind("gjb118_functionDecl");
+  DeclarationMatcher Matcher = functionDecl(isDefinition()).bind("gjb118_functionDecl");
   Finder->addMatcher(Matcher, this);
 }
 

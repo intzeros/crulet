@@ -1,5 +1,4 @@
 #include "Rule_1_1_2.h"
-#include "clang/AST/Expr.h"
 #include "clang/AST/ASTContext.h"
 #include "clang/ASTMatchers/ASTMatchers.h"
 #include "clang/ASTMatchers/ASTMatchFinder.h"
@@ -14,10 +13,15 @@ namespace GJB {
 void Rule_1_1_2::registerMatchers(MatchFinder *Finder) {
   StatementMatcher Matcher1 = labelStmt().bind("gjb112_labelStmt");
   DeclarationMatcher Matcher2 = namedDecl(anyOf(
+                                          functionDecl(isDefinition()),
+                                          fieldDecl(),
+                                          varDecl(isDefinition()),
+                                          enumConstantDecl(),
                                           labelDecl(), 
-                                          declaratorDecl(), 
-                                          typedefDecl(), enumDecl(), recordDecl())
-                                ).bind("gjb112_namedDecl");
+                                          typedefDecl(),
+                                          enumDecl(isDefinition()), 
+                                          recordDecl(isDefinition())
+                                        )).bind("gjb112_namedDecl");
   Finder->addMatcher(Matcher1, this);
   Finder->addMatcher(Matcher2, this);
 }
@@ -35,12 +39,16 @@ void Rule_1_1_2::run(const MatchFinder::MatchResult &Result) {
       return;
     }
 
-    if(LabelSet.find(LabelName) != LabelSet.end() || NameSet.find(LabelName) != NameSet.end()){
+    if(LabelMap.find(LabelName) != LabelMap.end()){
       DiagnosticsEngine &DE = Result.Context->getDiagnostics();
       Context->report(this->CheckerName, this->ReportMsg, DE, SL, this->DiagLevel);
-      Context->getJsonBugReporter().report(this->CheckerName, this->ReportMsg, SM, SL, this->DiagLevel);
+      Context->getJsonBugReporter().report(this->CheckerName, this->ReportMsg, SM, SL, LabelMap[LabelName], this->DiagLevel);
+    }else if(NameMap.find(LabelName) != NameMap.end()){
+      DiagnosticsEngine &DE = Result.Context->getDiagnostics();
+      Context->report(this->CheckerName, this->ReportMsg, DE, SL, this->DiagLevel);
+      Context->getJsonBugReporter().report(this->CheckerName, this->ReportMsg, SM, SL, NameMap[LabelName], this->DiagLevel);
     }else{
-      LabelSet.insert(LabelName);
+      LabelMap[LabelName] = SL;
     }
   }else if(const NamedDecl *CurND = Result.Nodes.getNodeAs<NamedDecl>("gjb112_namedDecl")){
     SourceManager &SM = Result.Context->getSourceManager();
@@ -54,12 +62,12 @@ void Rule_1_1_2::run(const MatchFinder::MatchResult &Result) {
       return;
     }
 
-    if(LabelSet.find(Name) != LabelSet.end()){
+    if(LabelMap.find(Name) != LabelMap.end()){
       DiagnosticsEngine &DE = Result.Context->getDiagnostics();
       Context->report(this->CheckerName, this->ReportMsg, DE, SL, this->DiagLevel);
-      Context->getJsonBugReporter().report(this->CheckerName, this->ReportMsg, SM, SL, this->DiagLevel);
+      Context->getJsonBugReporter().report(this->CheckerName, this->ReportMsg, SM, SL, LabelMap[Name], this->DiagLevel);
     }else{
-      NameSet.insert(Name);
+      NameMap[Name] = SL;
     }
   }
 }

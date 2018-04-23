@@ -13,10 +13,15 @@ namespace GJB {
 
 void Rule_1_1_9::registerMatchers(MatchFinder *Finder) {
   DeclarationMatcher Matcher = namedDecl(anyOf(
+                                          functionDecl(isDefinition()),
+                                          fieldDecl(),
+                                          varDecl(isDefinition()),
+                                          enumConstantDecl(),
                                           labelDecl(), 
-                                          declaratorDecl(), 
-                                          typedefDecl(), enumDecl(), recordDecl())
-                                ).bind("gjb119_namedDecl");
+                                          typedefDecl(),
+                                          enumDecl(isDefinition()), 
+                                          recordDecl(isDefinition())
+                                        )).bind("gjb119_namedDecl");
   Finder->addMatcher(Matcher, this);
 }
 
