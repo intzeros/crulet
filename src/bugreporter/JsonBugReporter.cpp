@@ -107,13 +107,15 @@ void JsonBugReporter::report(std::string CheckerName, std::string Msg,
   }
 
   FullSourceLoc FSL(Loc, SM);
+  FSL = FSL.getFileLoc(); // to remove SpellingLoc in some cases
   std::string FileName = getFilePath(Context->getBuildDirectory(), FSL.getFileEntry()->getName().str());
   JObj["location"]["file"] = FileName;
   JObj["location"]["line"] = FSL.getLineNumber();
   JObj["location"]["column"] = FSL.getColumnNumber();
 
   FullSourceLoc RelativeFSL(RelativeLoc, SM);
-  JObj["location"]["relativeLoc"]["file"] = RelativeFSL.getFileEntry()->getName().str();
+  // JObj["location"]["relativeLoc"]["file"] = RelativeFSL.getFileEntry()->getName().str();
+  JObj["location"]["relativeLoc"]["file"] = getFilePath(Context->getBuildDirectory(), RelativeFSL.getFileEntry()->getName().str());
   JObj["location"]["relativeLoc"]["line"] = RelativeFSL.getLineNumber();
   JObj["location"]["relativeLoc"]["column"] = RelativeFSL.getColumnNumber();
 

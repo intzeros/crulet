@@ -18,7 +18,7 @@ public:
   virtual void run(const ast_matchers::MatchFinder::MatchResult &Result) override;
 
 private:
-  std::unordered_map<std::string, SourceLocation> VarNameMap;
+  std::unordered_map<std::string, const NamedDecl*> VarNameMap;
 };
 
 } // namespace GJB

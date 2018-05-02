@@ -12,10 +12,15 @@ namespace GJB {
 
 void Rule_1_1_16::registerMatchers(MatchFinder *Finder) {
   DeclarationMatcher Matcher = namedDecl(anyOf(
+                                          functionDecl(isDefinition()),
+                                          fieldDecl(),
+                                          varDecl(isDefinition()),
+                                          enumConstantDecl(),
                                           labelDecl(), 
-                                          declaratorDecl(), 
-                                          typedefDecl(), enumDecl(), recordDecl())
-                                ).bind("gjb1116_namedDecl");
+                                          typedefDecl(),
+                                          enumDecl(isDefinition()), 
+                                          recordDecl(isDefinition())
+                                        )).bind("gjb1116_namedDecl");
   Finder->addMatcher(Matcher, this);
 }
 
@@ -32,18 +37,12 @@ void Rule_1_1_16::run(const MatchFinder::MatchResult &Result) {
       return;
     }
 
-    if(const auto *FD = dyn_cast<FunctionDecl>(ND)){
-      if(!FD->isThisDeclarationADefinition()) {
-        return;
-      }
-    }
-
     if(VarNameMap.find(Name) != VarNameMap.end()){
       DiagnosticsEngine &DE = Result.Context->getDiagnostics();
       Context->report(this->CheckerName, this->ReportMsg, DE, SL, this->DiagLevel);
-      Context->getJsonBugReporter().report(this->CheckerName, this->ReportMsg, SM, SL, VarNameMap[Name], this->DiagLevel);
+      Context->getJsonBugReporter().report(this->CheckerName, this->ReportMsg, SM, SL, VarNameMap[Name]->getLocation(), this->DiagLevel);
     }else{
-      VarNameMap[Name] = SL;
+      VarNameMap[Name] = ND;
     }
   }
 }

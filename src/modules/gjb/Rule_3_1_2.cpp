@@ -1,5 +1,4 @@
 #include "Rule_3_1_2.h"
-#include "clang/AST/Expr.h"
 #include "clang/AST/ASTContext.h"
 #include "clang/ASTMatchers/ASTMatchers.h"
 #include "clang/ASTMatchers/ASTMatchFinder.h"
@@ -12,12 +11,13 @@ namespace crulet {
 namespace GJB {
 
 void Rule_3_1_2::registerMatchers(MatchFinder *Finder) {
-  StatementMatcher Matcher = ifStmt(unless(hasElse(stmt()))).bind("gjb312_onlyif");
+  // StatementMatcher Matcher = ifStmt(unless(hasElse(stmt()))).bind("gjb312_onlyif");
+  StatementMatcher Matcher = ifStmt(has(ifStmt(unless(hasElse(stmt()))))).bind("gjb312");
   Finder->addMatcher(Matcher, this);
 }
 
 void Rule_3_1_2::run(const MatchFinder::MatchResult &Result) {
-  if(const IfStmt *IF = Result.Nodes.getNodeAs<IfStmt>("gjb312_onlyif")){
+  if(const IfStmt *IF = Result.Nodes.getNodeAs<IfStmt>("gjb312")){
     SourceManager &SM = Result.Context->getSourceManager();
     SourceLocation SL = IF->getIfLoc();
     if(!SL.isValid() || SM.isInSystemHeader(SL)){

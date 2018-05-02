@@ -7,5 +7,12 @@ int static_p(int p_1){
     for(k = 0; k < 10; k = k+1){
         j--;
     }
+
+    while(j < 10) j++;
+
+    do
+      j++;
+    while(j < 10);
+
     return j;
 }

@@ -121,7 +121,7 @@ void GJBModule::registerCheckers(){
   this->registerChecker<Rule_2_1_5>("GJB-2.1.5", "禁止在头文件前有可执行代码");
   this->registerChecker<Rule_2_1_6>("GJB-2.1.6", "宏参数必须用括号括起来");
   this->registerChecker<Rule_2_1_8>("GJB-2.1.8", "头文件名禁止使用“'”，“\\”和“/*”等字符");
-  // this->registerChecker<Rule_2_1 _9>("GJB-2.1.9", "禁止字符串中单独使用“\\”，字符串的终止必须使用“\\0”");
+  // this->registerChecker<Rule_2_1_9>("GJB-2.1.9", "禁止字符串中单独使用“\\”，字符串的终止必须使用“\\0”");
   this->registerChecker<Rule_2_1_10>("GJB-2.1.10", "main必须定义为int main(void)或int main(int, char*[])的形式");
 
   this->registerChecker<Rule_3_1_1>("GJB-3.1.1", "禁止条件判别成立时相应分支无执行语句");
