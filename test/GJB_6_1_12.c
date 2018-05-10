@@ -15,4 +15,9 @@ void static_p(void){
 
     bool flag = false;
     flag = !flag;
+
+    int options = 1;
+    if(!(options & 2 & 3 & 4)){
+
+    }
 }

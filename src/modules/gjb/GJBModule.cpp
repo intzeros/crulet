@@ -134,7 +134,7 @@ void GJBModule::registerCheckers(){
   this->registerChecker<Rule_3_1_8>("GJB-3.1.8", "禁止switch的case语句中无任何可执行的语句");
 
   this->registerChecker<Rule_4_1_2>("GJB-4.1.2", "禁止指针的指针超过两级");
-  // this->registerChecker<Rule_4_1_3>("GJB-4.1.3", "禁止将过程声明为指针类型");
+  this->registerChecker<Rule_4_1_3>("GJB-4.1.3", "禁止将过程声明为指针类型");
 
   this->registerChecker<Rule_5_1_1>("GJB-5.1.1", "禁止直接从过程中跳出");
   this->registerChecker<Rule_5_1_2>("GJB-5.1.2", "禁止使用goto语句");
@@ -147,7 +147,7 @@ void GJBModule::registerCheckers(){
   this->registerChecker<Rule_6_1_6>("GJB-6.1.6", "有符号类型的位长度必须大于等于两位");
   // this->registerChecker<Rule_6_1_7>("GJB-6.1.7", "位的定义必须是有符号整数或无符号整数");
   this->registerChecker<Rule_6_1_8>("GJB-6.1.8", "禁止给变量赋的值与变量的类型不一致");
-  this->registerChecker<Rule_6_1_9>("GJB-6.1.9", "赋值类型必须匹配");
+  // this->registerChecker<Rule_6_1_9>("GJB-6.1.9", "赋值类型必须匹配");  // 跟 GJB-6.1.8 重复
   this->registerChecker<Rule_6_1_10>("GJB-6.1.10", "数组下标必须是整型数");
   this->registerChecker<Rule_6_1_11>("GJB-6.1.11", "禁止对常数值做逻辑非的运算");
   this->registerChecker<Rule_6_1_12>("GJB-6.1.12", "禁止对有符号类型进行移位操作");

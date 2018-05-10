@@ -1,5 +1,4 @@
 #include "Rule_4_1_2.h"
-#include "clang/AST/Expr.h"
 #include "clang/AST/ASTContext.h"
 #include "clang/ASTMatchers/ASTMatchers.h"
 #include "clang/ASTMatchers/ASTMatchFinder.h"
@@ -12,7 +11,10 @@ namespace crulet {
 namespace GJB {
 
 void Rule_4_1_2::registerMatchers(MatchFinder *Finder) {
-  DeclarationMatcher Matcher = valueDecl(anyOf(varDecl(), fieldDecl())).bind("gjb412_vardecl_fielddecl");
+  DeclarationMatcher Matcher = valueDecl(anyOf(
+                                          varDecl(), 
+                                          fieldDecl()
+                                        )).bind("gjb412_vardecl_fielddecl");
   Finder->addMatcher(Matcher, this);
 }
 
@@ -35,7 +37,7 @@ void Rule_4_1_2::run(const MatchFinder::MatchResult &Result) {
     }else return;
 
     std::string VDTypeString = VD->getType().getCanonicalType().getAsString();
-    int PointerLevel = 0u;
+    unsigned int PointerLevel = 0u;
 
     for(unsigned int i = 0; i < VDTypeString.size(); i++){
       if(VDTypeString[i] == '*'){

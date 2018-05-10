@@ -1,5 +1,4 @@
 #include "Rule_4_1_3.h"
-#include "clang/AST/Expr.h"
 #include "clang/AST/ASTContext.h"
 #include "clang/ASTMatchers/ASTMatchers.h"
 #include "clang/ASTMatchers/ASTMatchFinder.h"
@@ -13,22 +12,28 @@ namespace crulet {
 namespace GJB {
 
 void Rule_4_1_3::registerMatchers(MatchFinder *Finder) {
-  StatementMatcher Matcher = implicitCastExpr().bind("gjb413_implicitCastExpr");
+  StatementMatcher Matcher = binaryOperator(hasOperatorName("=")).bind("gjb413");
   Finder->addMatcher(Matcher, this);
 }
 
 void Rule_4_1_3::run(const MatchFinder::MatchResult &Result) {
-  if(const ImplicitCastExpr *ICE = Result.Nodes.getNodeAs<ImplicitCastExpr>("gjb413_implicitCastExpr")){
+  if(const BinaryOperator *Op = Result.Nodes.getNodeAs<BinaryOperator>("gjb413")){
     SourceManager &SM = Result.Context->getSourceManager();
-    SourceLocation SL = ICE->getExprLoc();
+    SourceLocation SL = Op->getOperatorLoc();
     if(!SL.isValid() || SM.isInSystemHeader(SL)){
       return;
     }
 
-    if(strcmp(ICE->getCastKindName(), "FunctionToPointerDecay") == 0){
+    auto RHS = Op->getRHS();
+    if(!RHS){
+      return;
+    }
+
+    const Type* TP = RHS->getType().getTypePtr();
+    if(TP->isFunctionPointerType()){
       DiagnosticsEngine &DE = Result.Context->getDiagnostics();
-      Context->report(this->CheckerName, this->ReportMsg, DE, SL, this->DiagLevel);
-      Context->getJsonBugReporter().report(this->CheckerName, this->ReportMsg, SM, SL, this->DiagLevel);
+      Context->report(this->CheckerName, this->ReportMsg, DE, RHS->getExprLoc(), this->DiagLevel);
+      Context->getJsonBugReporter().report(this->CheckerName, this->ReportMsg, SM, RHS->getExprLoc(), this->DiagLevel);
     }
   }
 }
