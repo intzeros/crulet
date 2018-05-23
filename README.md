@@ -8,7 +8,7 @@ $ ./crulet -help
 $ ./crulet test.c --
 
 # enable or disable checkers
-$ ./crulet -check="*,-GJB-rule-3.1.3" test.c --
+$ ./crulet -check="*,-GJB-3.1.3" test.c --
 
 # for project with compile_commands.json
 $ ./run-crulet.py -d report_dir
